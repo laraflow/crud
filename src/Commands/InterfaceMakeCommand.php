@@ -2,12 +2,12 @@
 
 namespace Laraflow\Crud\Commands;
 
+use Illuminate\Support\Str;
 use Laraflow\Crud\Abstracts\GeneratorCommand;
 use Laraflow\Crud\Exceptions\GeneratorException;
 use Laraflow\Crud\Support\Config\GenerateConfigReader;
 use Laraflow\Crud\Support\Stub;
 use Laraflow\Crud\Traits\ModuleCommandTrait;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -101,13 +101,13 @@ class InterfaceMakeCommand extends GeneratorCommand
 
             $repository = $this->option('repository');
 
-            if (!$repository) {
+            if (! $repository) {
                 $repository = (Str::contains($this->getClass(), 'Repository', true))
                     ? $this->getClass()
                     : $this->getClass().'Repository';
             }
 
-            if (!Str::contains($repository, 'Exception')) {
+            if (! Str::contains($repository, 'Exception')) {
                 $repository .= 'Exception';
             }
 

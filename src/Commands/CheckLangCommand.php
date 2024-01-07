@@ -78,7 +78,7 @@ class CheckLangCommand extends Command
 
         $directories = $this->getDirectories($module);
 
-        if (!$directories) {
+        if (! $directories) {
             return;
         }
 

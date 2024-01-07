@@ -2,11 +2,11 @@
 
 namespace Laraflow\Crud\Abstracts;
 
+use Illuminate\Console\Command;
+use InvalidArgumentException;
 use Laraflow\Crud\Exceptions\FileAlreadyExistException;
 use Laraflow\Crud\Exceptions\GeneratorException;
 use Laraflow\Crud\Generators\FileGenerator;
-use Illuminate\Console\Command;
-use InvalidArgumentException;
 
 abstract class GeneratorCommand extends Command
 {
@@ -39,7 +39,7 @@ abstract class GeneratorCommand extends Command
 
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
 
-        if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
+        if (! $this->laravel['files']->isDirectory($dir = dirname($path))) {
             $this->laravel['files']->makeDirectory($dir, 0777, true);
         }
 
@@ -81,17 +81,17 @@ abstract class GeneratorCommand extends Command
      */
     public function getDefaultNamespace($type = null): string
     {
-        if (!$type) {
+        if (! $type) {
             if (property_exists($this, 'type')) {
                 $type = $this->type;
             }
         }
 
-        if (!$type) {
+        if (! $type) {
             throw new GeneratorException('Stub type argument or property is not configured.');
         }
 
-        if (!config("fintech.generators.paths.generator.{$type}")) {
+        if (! config("fintech.generators.paths.generator.{$type}")) {
             throw new InvalidArgumentException("Generator is missing [{$type}] config, check generators.php file.");
         }
 

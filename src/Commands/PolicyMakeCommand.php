@@ -2,11 +2,11 @@
 
 namespace Laraflow\Crud\Commands;
 
+use Illuminate\Support\Str;
 use Laraflow\Crud\Abstracts\GeneratorCommand;
 use Laraflow\Crud\Support\Config\GenerateConfigReader;
 use Laraflow\Crud\Support\Stub;
 use Laraflow\Crud\Traits\ModuleCommandTrait;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 
 class PolicyMakeCommand extends GeneratorCommand

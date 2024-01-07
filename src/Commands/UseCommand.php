@@ -31,7 +31,7 @@ class UseCommand extends Command
 
             $modules = scandir(config('fintech.generators.paths.modules', 'packages'));
 
-            if (!in_array($module, $modules)) {
+            if (! in_array($module, $modules)) {
                 throw new \InvalidArgumentException("No Package found named [{$module}].");
             }
 

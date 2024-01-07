@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 use Laraflow\Crud\Http\Controllers\CrudGenerateController;
 
@@ -19,4 +18,3 @@ Route::prefix('crud')->name('crud.')->group(function () {
         ->name('generate');
     Route::post('generate', [CrudGenerateController::class, 'attempt']);
 });
-

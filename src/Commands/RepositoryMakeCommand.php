@@ -2,12 +2,12 @@
 
 namespace Laraflow\Crud\Commands;
 
+use Illuminate\Support\Str;
 use Laraflow\Crud\Abstracts\GeneratorCommand;
 use Laraflow\Crud\Exceptions\GeneratorException;
 use Laraflow\Crud\Support\Config\GenerateConfigReader;
 use Laraflow\Crud\Support\Stub;
 use Laraflow\Crud\Traits\ModuleCommandTrait;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -80,7 +80,7 @@ class RepositoryMakeCommand extends GeneratorCommand
         $replacements = [
             'CLASS_NAMESPACE' => $this->getClassNamespace($this->getModuleName()),
             'CLASS' => $this->getClass(),
-            'JSON_FIELD' => Str::snake(Str::replace('Repository', '', $this->getClass()) . '_data'),
+            'JSON_FIELD' => Str::snake(Str::replace('Repository', '', $this->getClass()).'_data'),
             'LOWER_MODULE' => Str::lower($this->getModuleName()),
             'MODULE' => $this->getModuleName(),
             'NAMESPACE' => config('fintech.generators.namespace'),
@@ -102,13 +102,16 @@ class RepositoryMakeCommand extends GeneratorCommand
         if (strpos($this->getClassNamespace($this->getModuleName()), 'Eloquent')) {
             return 'Fintech\Core\Repositories\EloquentRepository';
         }
+
         return 'Fintech\Core\Repositories\MongodbRepository';
     }
+
     private function getBaseModel()
     {
         if (strpos($this->getClassNamespace($this->getModuleName()), 'Eloquent')) {
             return 'Illuminate\Database\Eloquent\Model';
         }
+
         return 'MongoDB\Laravel\Eloquent\Model';
     }
 
@@ -117,6 +120,7 @@ class RepositoryMakeCommand extends GeneratorCommand
         if (strpos($this->getClassNamespace($this->getModuleName()), 'Eloquent')) {
             return 'Eloquent';
         }
+
         return 'Mongodb';
     }
 

@@ -2,13 +2,13 @@
 
 namespace Laraflow\Crud\Commands;
 
+use Illuminate\Support\Str;
 use Laraflow\Crud\Abstracts\GeneratorCommand;
 use Laraflow\Crud\Support\Config\GenerateConfigReader;
 use Laraflow\Crud\Support\Migrations\NameParser;
 use Laraflow\Crud\Support\Migrations\SchemaParser;
 use Laraflow\Crud\Support\Stub;
 use Laraflow\Crud\Traits\ModuleCommandTrait;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 

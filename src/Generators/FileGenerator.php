@@ -2,9 +2,9 @@
 
 namespace Laraflow\Crud\Generators;
 
+use Illuminate\Filesystem\Filesystem;
 use Laraflow\Crud\Exceptions\FileAlreadyExistException;
 use Laraflow\Crud\Generator;
-use Illuminate\Filesystem\Filesystem;
 
 class FileGenerator extends Generator
 {
@@ -128,7 +128,7 @@ class FileGenerator extends Generator
     public function generate()
     {
         $path = $this->getPath();
-        if (!$this->filesystem->exists($path)) {
+        if (! $this->filesystem->exists($path)) {
             return $this->filesystem->put($path, $this->getContents());
         }
         if ($this->overwriteFile === true) {

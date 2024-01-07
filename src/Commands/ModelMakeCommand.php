@@ -2,11 +2,11 @@
 
 namespace Laraflow\Crud\Commands;
 
+use Illuminate\Support\Str;
 use Laraflow\Crud\Abstracts\GeneratorCommand;
 use Laraflow\Crud\Support\Config\GenerateConfigReader;
 use Laraflow\Crud\Support\Stub;
 use Laraflow\Crud\Traits\ModuleCommandTrait;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -178,7 +178,7 @@ class ModelMakeCommand extends GeneratorCommand
         return (new Stub('/model.stub', [
             'NAME' => $this->getModelName(),
             'ROUTE_NAME' => Str::plural(Str::lower(Str::kebab($this->getModelName()))),
-            'JSON_NAME' => Str::lower(Str::snake($this->getModelName())) . '_data',
+            'JSON_NAME' => Str::lower(Str::snake($this->getModelName())).'_data',
             'TABLE' => Str::plural($this->getModelName()),
             'FILLABLE' => $this->getFillable(),
             'NAMESPACE' => $this->getClassNamespace($this->getModuleName()),
@@ -220,7 +220,7 @@ class ModelMakeCommand extends GeneratorCommand
     {
         $fillable = $this->option('fillable');
 
-        if (!is_null($fillable)) {
+        if (! is_null($fillable)) {
             $arrays = explode(',', $fillable);
 
             return json_encode($arrays);
