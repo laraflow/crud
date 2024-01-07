@@ -10,7 +10,7 @@ return [
     | This setting enable the API will be available or not
     */
     'enabled' => env('PACKAGE_Skeleton_ENABLED', true),
-    
+
     /*
     |--------------------------------------------------------------------------
     | Skeleton Group Root Prefix
