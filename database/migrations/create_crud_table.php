@@ -11,7 +11,7 @@ return new class extends Migration
 //        Schema::create('crud_table', function (Blueprint $table) {
 //            $table->id();
 //
-//            // add fields
+//            add fields
 //
 //            $table->timestamps();
 //        });

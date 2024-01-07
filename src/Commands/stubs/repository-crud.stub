@@ -1,0 +1,61 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use $BASE_REPO_NS$;
+use $NAMESPACE$\$MODULE$\Interfaces\$CLASS$ as Interfaces$CLASS$;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection;
+use $BASE_MODEL$;
+use InvalidArgumentException;
+
+/**
+ * Class $CLASS$
+ * @package $CLASS_NAMESPACE$
+ */
+class $CLASS$ extends $BASE_REPO$ implements Interfaces$CLASS$
+{
+    public function __construct()
+    {
+       $model = app(config('fintech.$LOWER_MODULE$.$CONFIG_MODEL$_model', \$NAMESPACE$\$MODULE$\Models\$MODEL$::class));
+
+       if (!$model instanceof Model) {
+           throw new InvalidArgumentException("$REPO_TYPE$ repository require model class to be `$BASE_MODEL$` instance.");
+       }
+
+       $this->model = $model;
+    }
+
+    /**
+     * return a list or pagination of items from
+     * filtered options
+     *
+     * @return Paginator|Collection
+     */
+    public function list(array $filters = [])
+    {
+        $query = $this->model->newQuery();
+
+        //Searching
+        if (! empty($filters['search'])) {
+            if (is_numeric($filters['search'])) {
+                $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
+            } else {
+                $query->where('name', 'like', "%{$filters['search']}%");
+                $query->orWhere('$JSON_FIELD$', 'like', "%{$filters['search']}%");
+            }
+        }
+
+        //Display Trashed
+        if (isset($filters['trashed']) && $filters['trashed'] === true) {
+            $query->onlyTrashed();
+        }
+
+        //Handle Sorting
+        $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['dir'] ?? 'asc');
+
+        //Execute Output
+        return $this->executeQuery($query, $filters);
+
+    }
+}

@@ -1,0 +1,12 @@
+<?php
+
+namespace $NAMESPACE$;
+
+/**
+ * Interface $INTERFACE$
+ * @package $NAMESPACE$
+ */
+interface $INTERFACE$
+{
+
+}

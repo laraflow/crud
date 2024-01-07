@@ -16,11 +16,8 @@ class CrudServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/crud.php', 'fintech.crud'
+            __DIR__ . '/../config/crud.php', 'crud'
         );
-
-        $this->app->register(RouteServiceProvider::class);
-        $this->app->register(RepositoryServiceProvider::class);
     }
 
     /**
@@ -28,23 +25,15 @@ class CrudServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->publishes([
-            __DIR__.'/../config/crud.php' => config_path('fintech/crud.php'),
-        ]);
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'crud');
 
-        $this->loadTranslationsFrom(__DIR__.'/../lang', 'crud');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 
-        $this->publishes([
-            __DIR__.'/../lang' => $this->app->langPath('vendor/crud'),
-        ]);
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'crud');
 
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'crud');
-
-        $this->publishes([
-            __DIR__.'/../resources/views' => resource_path('views/vendor/crud'),
-        ]);
+        $this->loadPublishOptions();
 
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -52,5 +41,24 @@ class CrudServiceProvider extends ServiceProvider
                 CrudCommand::class,
             ]);
         }
+    }
+
+    private function loadPublishOptions(): void
+    {
+        $this->publishes([
+            __DIR__ . '/../resources/views' => resource_path('views/vendor/crud'),
+        ], 'crud-view');
+
+        $this->publishes([
+            __DIR__ . '/../lang' => $this->app->langPath('vendor/crud'),
+        ], 'crud-lang');
+
+        $this->publishes([
+            __DIR__ . '/../config/crud.php' => config_path('crud.php'),
+        ], 'crud-config');
+
+        $this->publishes([
+            __DIR__ . '/../public' => public_path('vendor/crud'),
+        ], 'crud-asset');
     }
 }

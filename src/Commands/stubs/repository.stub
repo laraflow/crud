@@ -1,0 +1,11 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+/**
+ * Class $CLASS$
+ * @package $CLASS_NAMESPACE$
+ */
+class $CLASS$
+{
+}

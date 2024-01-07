@@ -1,0 +1,67 @@
+<?php
+
+namespace $NAMESPACE$;
+
+
+use $REPO_NAMESPACE$;
+
+/**
+ * Class $CLASS$
+ * @package $NAMESPACE$
+ *
+ */
+class $CLASS$
+{
+    /**
+     * $CLASS$ constructor.
+     * @param $REPO$ $$REPO_VARIABLE$
+     */
+    public function __construct($REPO$ $$REPO_VARIABLE$) {
+        $this->$REPO_VARIABLE$ = $$REPO_VARIABLE$;
+    }
+
+    /**
+     * @param array $filters
+     * @return mixed
+     */
+    public function list(array $filters = [])
+    {
+        return $this->$REPO_VARIABLE$->list($filters);
+
+    }
+
+    public function create(array $inputs = [])
+    {
+        return $this->$REPO_VARIABLE$->create($inputs);
+    }
+
+    public function find($id, $onlyTrashed = false)
+    {
+        return $this->$REPO_VARIABLE$->find($id, $onlyTrashed);
+    }
+
+    public function update($id, array $inputs = [])
+    {
+        return $this->$REPO_VARIABLE$->update($id, $inputs);
+    }
+
+    public function destroy($id)
+    {
+        return $this->$REPO_VARIABLE$->delete($id);
+    }
+
+    public function restore($id)
+    {
+        return $this->$REPO_VARIABLE$->restore($id);
+    }
+
+    public function export(array $filters)
+    {
+        return $this->$REPO_VARIABLE$->list($filters);
+    }
+
+    public function import(array $filters)
+    {
+        return $this->$REPO_VARIABLE$->create($filters);
+    }
+}
