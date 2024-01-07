@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "laraflow/crud",
+    "description": "This is my package crud",
     "keywords": [
-        ":vendor_name",
+        "laraflow",
         "laravel",
-        ":package_slug"
+        "crud"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/laraflow/crud",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Mohammad Hafijul Islam",
+            "email": "hafijul233@gmail.com",
             "role": "Developer"
         }
     ],
@@ -35,12 +35,12 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/"
+            "Laraflow\\Crud\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/"
+            "Laraflow\\Crud\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -60,10 +60,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Laraflow\\Crud\\CrudServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "Crud": "Laraflow\\Crud\\Facades\\Crud"
             }
         }
     },
