@@ -15,34 +15,27 @@ You can install the package via composer:
 composer require laraflow/api-crud
 ```
 
-You can publish the config file with:
+After that run this command to configure project.
 
 ```bash
-php artisan vendor:publish --tag="api-crud-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-You can also publish the language file using
-
-```bash
-php artisan vendor:publish --tag="api-crud-lang"
-```
-
-Optionally, you can publish the Stubs files using to customize
-generated controller,model,resources and requests.
-
-```bash
-php artisan vendor:publish --tag="api-crud-stubs"
+php artisan laraflow:install
 ```
 
 ## Usage
 
+To create a complete API CRUD stub files use this command
+
+```bash
+php artisan laraflow:make-crud [ResourceName]
+```
+
+Optionally, If you want to create inside subdirectory.
+
+```bash
+php artisan laraflow:make-crud [Directory1/Directorry2/ResourceName]
+```
+
+Note: Root Namespace will to added from configuration.
 
 ## Testing
 
