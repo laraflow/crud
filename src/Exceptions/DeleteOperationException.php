@@ -13,5 +13,4 @@ class DeleteOperationException extends Exception
     use ModelExceptionTrait;
 
     protected $type = 'delete';
-
 }
