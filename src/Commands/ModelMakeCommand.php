@@ -5,7 +5,6 @@ namespace Laraflow\ApiCrud\Commands;
 use Illuminate\Support\Str;
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
 use Laraflow\ApiCrud\Exceptions\GeneratorException;
-use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Stub;
 use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,7 +26,7 @@ class ModelMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $argumentName = 'model';
+    protected $argumentName = 'name';
 
     /**
      * The console command name.
@@ -64,7 +63,7 @@ class ModelMakeCommand extends GeneratorCommand
     {
         if ($this->option('migration') === true) {
             $migrationName = 'create_'.$this->createMigrationName().'_table';
-            $this->call('module:make-migration', ['name' => $migrationName, 'module' => $this->argument('module')]);
+            $this->call('laraflow:make-migration', ['name' => $migrationName, 'module' => $this->argument('module')]);
         }
     }
 
@@ -99,7 +98,7 @@ class ModelMakeCommand extends GeneratorCommand
         if ($this->option('controller') === true) {
             $controllerName = "{$this->getModelName()}Controller";
 
-            $this->call('module:make-controller', array_filter([
+            $this->call('laraflow:make-controller', array_filter([
                 'controller' => $controllerName,
                 'module' => $this->argument('module'),
             ]));
@@ -111,7 +110,7 @@ class ModelMakeCommand extends GeneratorCommand
      */
     private function getModelName()
     {
-        return Str::studly($this->argument('model'));
+        return Str::studly($this->argument('name'));
     }
 
     /**
@@ -124,7 +123,7 @@ class ModelMakeCommand extends GeneratorCommand
         if ($this->option('seed') === true) {
             $seedName = "{$this->getModelName()}Seeder";
 
-            $this->call('module:make-seed', array_filter([
+            $this->call('laraflow:make-seed', array_filter([
                 'name' => $seedName,
                 'module' => $this->argument('module'),
             ]));
@@ -141,7 +140,7 @@ class ModelMakeCommand extends GeneratorCommand
         if ($this->option('request') === true) {
             $requestName = "{$this->getModelName()}Request";
 
-            $this->call('module:make-request', array_filter([
+            $this->call('laraflow:make-request', array_filter([
                 'name' => $requestName,
                 'module' => $this->argument('module'),
             ]));
@@ -156,7 +155,7 @@ class ModelMakeCommand extends GeneratorCommand
     protected function getArguments()
     {
         return [
-            ['model', InputArgument::REQUIRED, 'The name of model will be created.'],
+            ['name', InputArgument::REQUIRED, 'The name of model will be created.'],
             ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
         ];
     }
@@ -214,5 +213,13 @@ class ModelMakeCommand extends GeneratorCommand
         }
 
         return '[]';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getFileName()
+    {
+        return Str::studly($this->argument('name')) . ".php";
     }
 }

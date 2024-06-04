@@ -277,7 +277,7 @@ class ModuleGenerator extends Generator
                 return E_ERROR;
             }
         }
-        $this->component->info("Creating module: [$name]");
+        $this->component->info("Creating laraflow: [$name]");
 
         $this->generateFolders();
 
@@ -451,7 +451,7 @@ class ModuleGenerator extends Generator
     public function generateResources()
     {
         if (GenerateConfigReader::read('seeder')->generate() === true) {
-            $this->console->call('module:make-seed', [
+            $this->console->call('laraflow:make-seed', [
                 'name' => $this->getName(),
                 'module' => $this->getName(),
                 '--master' => true,
@@ -459,19 +459,19 @@ class ModuleGenerator extends Generator
         }
 
         if (GenerateConfigReader::read('provider')->generate() === true) {
-            $this->console->call('module:make-provider', [
+            $this->console->call('laraflow:make-provider', [
                 'name' => $this->getName().'ServiceProvider',
                 'module' => $this->getName(),
                 '--master' => true,
             ]);
-            $this->console->call('module:route-provider', [
+            $this->console->call('laraflow:route-provider', [
                 'module' => $this->getName(),
             ]);
         }
 
         if (GenerateConfigReader::read('controller')->generate() === true) {
             $options = $this->type == 'api' ? ['--api' => true] : [];
-            $this->console->call('module:make-controller', [
+            $this->console->call('laraflow:make-controller', [
                 'controller' => $this->getName().'Controller',
                 'module' => $this->getName(),
             ] + $options);
