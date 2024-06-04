@@ -5,7 +5,6 @@ namespace Laraflow\ApiCrud\Commands;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
-use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Migrations\NameParser;
 use Laraflow\ApiCrud\Support\Migrations\SchemaParser;
 use Laraflow\ApiCrud\Support\Stub;

@@ -57,12 +57,12 @@ class CrudMakeCommand extends Command
             $this->updateRouteFile();
 
 
-            $this->components->twoColumnDetail("API Crud Stubs File(s) Created.", '<fg=green;options=bold>DONE</>');
+            $this->components->twoColumnDetail('API Crud Stubs File(s) Created.', '<fg=green;options=bold>DONE</>');
 
             return self::SUCCESS;
 
         } catch (Throwable $exception) {
-//            $this->components->twoColumnDetail($exception->getMessage(), '<fg=red;options=bold>ERROR</>');
+            //            $this->components->twoColumnDetail($exception->getMessage(), '<fg=red;options=bold>ERROR</>');
             $this->error($exception);
         }
 

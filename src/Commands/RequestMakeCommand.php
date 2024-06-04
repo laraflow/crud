@@ -1,6 +1,7 @@
 <?php
 
 namespace Laraflow\ApiCrud\Commands;
+
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
 use Laraflow\ApiCrud\Exceptions\GeneratorException;
 use Laraflow\ApiCrud\Support\Stub;
