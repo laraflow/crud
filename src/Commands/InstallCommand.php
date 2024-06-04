@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Laraflow\ApiCrud\Commands;
 
 use Illuminate\Console\Command;
 
 class InstallCommand extends Command
 {
-    public $signature = 'skeleton:install';
+    public $signature = 'api-crud:install';
 
     public $description = 'My command';
 
