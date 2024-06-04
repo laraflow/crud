@@ -46,7 +46,6 @@ class ControllerMakeCommand extends GeneratorCommand
     /**
      * Get controller name.
      *
-     * @return string
      *
      * @throws GeneratorException
      */
@@ -75,8 +74,6 @@ class ControllerMakeCommand extends GeneratorCommand
     }
 
     /**
-     * @return string
-     *
      * @throws GeneratorException
      */
     protected function getTemplateContents(): string

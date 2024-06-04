@@ -3,14 +3,14 @@
 namespace Laraflow\ApiCrud\Commands;
 
 use Fintech\Core\Facades\Core;
-use Laraflow\ApiCrud\Exceptions\GeneratorException;
-use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
-use Laraflow\ApiCrud\Support\Config\GeneratorPath;
-use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Laraflow\ApiCrud\Exceptions\GeneratorException;
+use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
+use Laraflow\ApiCrud\Support\Config\GeneratorPath;
+use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Throwable;
 
@@ -69,6 +69,7 @@ class CrudMakeCommand extends Command
         } catch (Throwable $exception) {
             $this->error($exception);
         }
+
         return self::FAILURE;
     }
 
@@ -76,16 +77,16 @@ class CrudMakeCommand extends Command
     {
         foreach (['Index', 'Store', 'Update', 'Import'] as $prefix) {
 
-            $resourcePath = $this->getResourceName() . 'Request';
+            $resourcePath = $this->getResourceName().'Request';
 
             $dir = dirname($resourcePath);
 
-            $dir = ($dir == '.') ? '' : $dir . '/';
+            $dir = ($dir == '.') ? '' : $dir.'/';
 
             $resource = basename($resourcePath);
 
             $options = [
-                'name' => $dir . $prefix . $resource,
+                'name' => $dir.$prefix.$resource,
                 'module' => $this->getModuleName(),
             ];
 
@@ -111,12 +112,12 @@ class CrudMakeCommand extends Command
     private function createResources()
     {
         Artisan::call('laraflow:make-resource', [
-            'name' => $this->getResourceName() . 'Resource',
+            'name' => $this->getResourceName().'Resource',
             'module' => $this->getModuleName(),
         ]);
 
         Artisan::call('laraflow:make-resource', [
-            'name' => $this->getResourceName() . 'Collection',
+            'name' => $this->getResourceName().'Collection',
             'module' => $this->getModuleName(),
             '--collection',
         ]);
@@ -145,10 +146,10 @@ class CrudMakeCommand extends Command
         ]);
 
         Artisan::call('laraflow:make-service', [
-            'name' => $this->getResourceName() . 'Service',
+            'name' => $this->getResourceName().'Service',
             'module' => $this->getModuleName(),
             '--crud' => true,
-            '--repository' => $this->getResourceName() . 'Repository',
+            '--repository' => $this->getResourceName().'Repository',
         ]);
 
         Artisan::call('laraflow:make-seed', [
@@ -163,20 +164,20 @@ class CrudMakeCommand extends Command
     private function createRepositories()
     {
         Artisan::call('laraflow:make-interface', [
-            'name' => $this->getResourceName() . 'Repository',
+            'name' => $this->getResourceName().'Repository',
             'module' => $this->getModuleName(),
             '--crud' => true,
         ]);
 
         Artisan::call('laraflow:make-repository', [
-            'name' => 'Eloquent/' . $this->getResourceName() . 'Repository',
+            'name' => 'Eloquent/'.$this->getResourceName().'Repository',
             'module' => $this->getModuleName(),
             '--model' => $this->getResourceName(),
             '--crud' => true,
         ]);
 
         Artisan::call('laraflow:make-repository', [
-            'name' => 'Mongodb/' . $this->getResourceName() . 'Repository',
+            'name' => 'Mongodb/'.$this->getResourceName().'Repository',
             'module' => $this->getModuleName(),
             '--model' => $this->getResourceName(),
             '--crud' => true,
@@ -189,10 +190,10 @@ class CrudMakeCommand extends Command
     private function updateRouteFile()
     {
         $filePath = $this->getModulePath('RestApi')
-            . GenerateConfigReader::read('routes')->getPath()
-            . '/' . Str::lower($this->getModuleName()) . '.php';
+            .GenerateConfigReader::read('routes')->getPath()
+            .'/'.Str::lower($this->getModuleName()).'.php';
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             throw new InvalidArgumentException("Route file location doesn't exist");
         }
 
@@ -204,13 +205,13 @@ class CrudMakeCommand extends Command
 
         $controller = GeneratorPath::convertPathToNamespace(
             $this->getModuleNS('RestApi')
-            . GenerateConfigReader::read('controller')->getNamespace()
-            . '\\' . $this->getModuleName()
-            . '\\' . $this->getResourceName()
-            . 'Controller::class'
+            .GenerateConfigReader::read('controller')->getNamespace()
+            .'\\'.$this->getModuleName()
+            .'\\'.$this->getResourceName()
+            .'Controller::class'
         );
 
-        $pathParam = '{' . Str::snake(basename($this->getResourceName())) . '}';
+        $pathParam = '{'.Str::snake(basename($this->getResourceName())).'}';
         $template = <<<HTML
 Route::apiResource('$resourceName', $controller);
     Route::post('$resourceName/$pathParam/restore', [$controller, 'restore'])->name('$resourceName.restore');
@@ -226,10 +227,10 @@ HTML;
     private function createConfigOption()
     {
 
-        $filePath = $this->getModulePath() . GenerateConfigReader::read('config')->getPath()
-            . DIRECTORY_SEPARATOR . strtolower($this->getModuleName()) . '.php';
+        $filePath = $this->getModulePath().GenerateConfigReader::read('config')->getPath()
+            .DIRECTORY_SEPARATOR.strtolower($this->getModuleName()).'.php';
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             throw new InvalidArgumentException("`{$filePath}` is invalid config file path");
         }
 
@@ -240,21 +241,21 @@ HTML;
         $lowerName = Str::lower(Str::snake($singleName));
 
         $model = GeneratorPath::convertPathToNamespace(
-            $this->getModuleNS() .
-            GenerateConfigReader::read('model')->getNamespace() .
-            '\\' . $singleName . '::class'
+            $this->getModuleNS().
+            GenerateConfigReader::read('model')->getNamespace().
+            '\\'.$singleName.'::class'
         );
 
         $interfacePath = GeneratorPath::convertPathToNamespace(
-            $this->getModuleNS() .
-            GenerateConfigReader::read('interface')->getNamespace() .
-            '\\' . $singleName . 'Repository::class'
+            $this->getModuleNS().
+            GenerateConfigReader::read('interface')->getNamespace().
+            '\\'.$singleName.'Repository::class'
         );
 
         $repositoryPath = GeneratorPath::convertPathToNamespace(
-            $this->getModuleNS() .
-            GenerateConfigReader::read('repository')->getNamespace() .
-            '\\Eloquent\\' . $this->getResourceName() . 'Repository::class'
+            $this->getModuleNS().
+            GenerateConfigReader::read('repository')->getNamespace().
+            '\\Eloquent\\'.$this->getResourceName().'Repository::class'
         );
 
         $modelOptionTemplate = <<<HTML
@@ -276,10 +277,9 @@ HTML;
         //** Repository Binding Config Point Do not Remove **//
 HTML;
 
-
         $replacements = [
             '//** Model Config Point Do not Remove **//' => $modelOptionTemplate,
-            '//** Repository Binding Config Point Do not Remove **//' => $repoOptionTemplate
+            '//** Repository Binding Config Point Do not Remove **//' => $repoOptionTemplate,
         ];
 
         $fileContent = str_replace(array_keys($replacements), array_values($replacements), $fileContent);
@@ -289,10 +289,10 @@ HTML;
 
     private function updateModelEntryClasses()
     {
-        $filePath = $this->getModulePath() . 'src/' . $this->getModuleName() . '.php';
+        $filePath = $this->getModulePath().'src/'.$this->getModuleName().'.php';
 
-        if (!file_exists($filePath)) {
-            throw new InvalidArgumentException("Module Entry Class(" . $this->getModuleName() . ") file doesn't exist");
+        if (! file_exists($filePath)) {
+            throw new InvalidArgumentException('Module Entry Class('.$this->getModuleName().") file doesn't exist");
         }
 
         $fileContent = file_get_contents($filePath);
@@ -300,9 +300,9 @@ HTML;
         $methodName = Str::camel(basename($this->getResourceName()));
 
         $service = GeneratorPath::convertPathToNamespace(
-            $this->getModuleNS() .
+            $this->getModuleNS().
             GenerateConfigReader::read('service')->getNamespace()
-            . '\\' . $this->getResourceName() . 'Service'
+            .'\\'.$this->getResourceName().'Service'
         );
 
         $template = <<<HTML
@@ -327,10 +327,10 @@ HTML;
 
     private function updateModelEntryFacades()
     {
-        $filePath = $this->getModulePath() . 'src/Facades/' . $this->getModuleName() . '.php';
+        $filePath = $this->getModulePath().'src/Facades/'.$this->getModuleName().'.php';
 
-        if (!file_exists($filePath)) {
-            throw new InvalidArgumentException("Module Entry Facades Class(" . $this->getModuleName() . ") file doesn't exist");
+        if (! file_exists($filePath)) {
+            throw new InvalidArgumentException('Module Entry Facades Class('.$this->getModuleName().") file doesn't exist");
         }
 
         $fileContent = file_get_contents($filePath);
@@ -338,9 +338,9 @@ HTML;
         $methodName = Str::camel(basename($this->getResourceName()));
 
         $service = GeneratorPath::convertPathToNamespace(
-            $this->getModuleNS() .
+            $this->getModuleNS().
             GenerateConfigReader::read('service')->getNamespace()
-            . '\\' . $this->getResourceName() . 'Service'
+            .'\\'.$this->getResourceName().'Service'
         );
 
         $template = <<<HTML
@@ -365,5 +365,4 @@ HTML;
             ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
         ];
     }
-
 }
