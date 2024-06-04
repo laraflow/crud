@@ -48,13 +48,14 @@ class CrudMakeCommand extends Command
 
 //            $this->createRequests();
 
-            $this->createResources();
+//            $this->createResources();
 //
+            $this->createModelFiles();
+
 //            $this->createController();
 //
 //            $this->updateRouteFile();
 //
-//            $this->createModelFiles();
 
             $this->components->twoColumnDetail("API Crud Stubs File(s) Created.", '<fg=green;options=bold>DONE</>');
 
@@ -104,21 +105,21 @@ class CrudMakeCommand extends Command
 
     private function createResources()
     {
-        Artisan::call('laraflow:make-resource', [
-            'name' => $this->getResourceName(),
+        $this->call('laraflow:make-resource', [
+            'name' => $this->getResourceName(). 'Resource',
             'module' => $this->getModuleName(),
         ]);
 
-        Artisan::call('laraflow:make-resource', [
-            'name' => $this->getResourceName(),
+        $this->call('laraflow:make-resource', [
+            'name' => $this->getResourceName(). 'Collection',
             'module' => $this->getModuleName(),
-            '--collection',
+            '--collection' => true,
         ]);
     }
 
     private function createController()
     {
-        Artisan::call('laraflow:make-controller', [
+        $this->call('laraflow:make-controller', [
             'controller' => $this->getResourceName(),
             'module' => $this->getModuleName(),
             '--crud' => true,
@@ -128,17 +129,17 @@ class CrudMakeCommand extends Command
     private function createModelFiles()
     {
 
-        Artisan::call('laraflow:make-model', [
+        $this->call('laraflow:make-model', [
             'model' => $this->getResourceName(),
             'module' => $this->getModuleName(),
         ]);
 
-        Artisan::call('laraflow:make-seed', [
+        $this->call('laraflow:make-seed', [
             'name' => $this->getResourceName(),
             'module' => $this->getModuleName(),
         ]);
 
-        Artisan::call('laraflow:make-migration', [
+        $this->call('laraflow:make-migration', [
             'name' => $this->getResourceName(),
             'module' => $this->getModuleName(),
         ]);

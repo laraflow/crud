@@ -21,6 +21,7 @@ return [
     */
     'route_path' => 'routes/api.php',
 
+
     /*
     |--------------------------------------------------------------------------
     | Root Namespace
@@ -55,45 +56,40 @@ return [
             'generate' => false,
             'namespace' => null,
         ],
-        'routes' => [
-            'path' => 'routes',
-            'generate' => false,
-            'namespace' => null,
-        ],
         'seeder' => [
-            'path' => 'src/Seeders',
+            'path' => 'database/seeders',
             'generate' => true,
-            'namespace' => 'Seeders',
+            'namespace' => 'Database\Seeders',
         ],
         'factory' => [
-            'path' => 'src/Factories',
+            'path' => 'database/Factories',
             'generate' => false,
-            'namespace' => 'Factories',
+            'namespace' => 'Database\Factories',
         ],
         'model' => [
-            'path' => 'src/Models',
+            'path' => 'Models',
             'generate' => true,
             'namespace' => 'Models',
         ],
         'controller' => [
-            'path' => 'src/Http/Controllers',
+            'path' => 'Http/Controllers',
             'generate' => true,
             'namespace' => 'Http\Controllers',
         ],
         'request' => [
-            'path' => 'src/Http/Requests',
+            'path' => 'Http/Requests',
             'generate' => true,
             'namespace' => 'Http\Requests',
         ],
         'resource' => [
-            'path' => 'src/Http/Resources',
+            'path' => 'Http/Resources',
             'generate' => true,
             'namespace' => 'Http\Resources',
         ],
         'policies' => [
-            'path' => 'src/Policies',
+            'path' => 'Policies',
             'generate' => false,
-            'namespace' => 'Listeners',
+            'namespace' => 'Policies',
         ],
         'unit-test' => [
             'path' => 'tests/Unit',

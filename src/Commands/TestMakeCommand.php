@@ -87,12 +87,4 @@ class TestMakeCommand extends GeneratorCommand
 
         return $path.$testPath->getPath().'/'.$this->getFileName().'.php';
     }
-
-    /**
-     * @return string
-     */
-    private function getFileName()
-    {
-        return Str::studly($this->argument('name'));
-    }
 }

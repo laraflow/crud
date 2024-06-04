@@ -46,8 +46,6 @@ abstract class GeneratorCommand extends Command
 
             return self::FAILURE;
         }
-
-        return self::FAILURE;
     }
 
     /**
@@ -137,7 +135,7 @@ abstract class GeneratorCommand extends Command
     /**
      * @return string
      */
-    private function getFileName()
+    protected function getFileName()
     {
         $type = Str::studly($this->type);
 
