@@ -220,6 +220,6 @@ class ModelMakeCommand extends GeneratorCommand
      */
     protected function getFileName()
     {
-        return Str::studly($this->argument('name')) . ".php";
+        return Str::studly($this->argument('name')).'.php';
     }
 }

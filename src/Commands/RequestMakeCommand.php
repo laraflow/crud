@@ -74,12 +74,12 @@ class RequestMakeCommand extends GeneratorCommand
      */
     protected function getTemplateContents(): string
     {
-        return ((new Stub('/request.stub', [
+        return (new Stub('/request.stub', [
             'NAMESPACE' => $this->getClassNamespace(),
             'CLASS' => $this->getClass(),
             'RULES' => $this->getRules(),
             'PAGINATE_TRAIT' => $this->getPaginateTrait(),
-        ]))->render());
+        ]))->render();
     }
 
     /**
