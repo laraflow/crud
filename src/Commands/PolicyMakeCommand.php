@@ -32,7 +32,7 @@ class PolicyMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'package:make-policy';
+    protected $name = 'laraflow:make-policy';
 
     /**
      * The console command description.
@@ -57,7 +57,7 @@ class PolicyMakeCommand extends GeneratorCommand
     /**
      * @return mixed
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
@@ -70,7 +70,7 @@ class PolicyMakeCommand extends GeneratorCommand
     /**
      * @return mixed
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $path = $this->getModulePath($this->getModuleName());
 

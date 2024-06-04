@@ -36,7 +36,7 @@ class MigrationMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'package:make-migration';
+    protected $name = 'laraflow:make-migration';
 
     /**
      * The console command description.
@@ -95,7 +95,7 @@ class MigrationMakeCommand extends GeneratorCommand
      *
      * @throws InvalidArgumentException
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         $parser = new NameParser($this->argument('name'));
 
@@ -132,7 +132,7 @@ class MigrationMakeCommand extends GeneratorCommand
         ]);
     }
 
-    public function getClass()
+    public function getClass(): string
     {
         return $this->getClassName();
     }
@@ -158,7 +158,7 @@ class MigrationMakeCommand extends GeneratorCommand
     /**
      * @return mixed
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $path = $this->getModulePath($this->getModuleName());
 

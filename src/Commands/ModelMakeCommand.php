@@ -34,7 +34,7 @@ class ModelMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'package:make-model';
+    protected $name = 'laraflow:make-model';
 
     /**
      * The console command description.
@@ -182,7 +182,7 @@ class ModelMakeCommand extends GeneratorCommand
      *
      * @throws GeneratorException
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         return (new Stub('/model.stub', [
             'NAME' => $this->getModelName(),
@@ -221,7 +221,7 @@ class ModelMakeCommand extends GeneratorCommand
      *
      * @throws GeneratorException
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $path = $this->getModulePath($this->getModuleName());
 

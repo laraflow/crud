@@ -26,7 +26,7 @@ class CrudMakeCommand extends Command
      *
      * @var string
      */
-    protected $name = 'package:make-crud';
+    protected $name = 'laraflow:make-crud';
 
     /**
      * The console command description.
@@ -97,7 +97,7 @@ class CrudMakeCommand extends Command
                 $options['--crud'] = true;
             }
 
-            Artisan::call('package:make-request', $options);
+            Artisan::call('laraflow:make-request', $options);
         }
     }
 
@@ -110,12 +110,12 @@ class CrudMakeCommand extends Command
 
     private function createResources()
     {
-        Artisan::call('package:make-resource', [
+        Artisan::call('laraflow:make-resource', [
             'name' => $this->getResourceName() . 'Resource',
             'module' => $this->getModuleName(),
         ]);
 
-        Artisan::call('package:make-resource', [
+        Artisan::call('laraflow:make-resource', [
             'name' => $this->getResourceName() . 'Collection',
             'module' => $this->getModuleName(),
             '--collection',
@@ -124,7 +124,7 @@ class CrudMakeCommand extends Command
 
     private function createController()
     {
-        Artisan::call('package:make-controller', [
+        Artisan::call('laraflow:make-controller', [
             'controller' => $this->getResourceName(),
             'module' => $this->getModuleName(),
             '--crud' => true,
@@ -139,19 +139,19 @@ class CrudMakeCommand extends Command
     private function createStubFiles()
     {
 
-        Artisan::call('package:make-model', [
+        Artisan::call('laraflow:make-model', [
             'model' => $this->getResourceName(),
             'module' => $this->getModuleName(),
         ]);
 
-        Artisan::call('package:make-service', [
+        Artisan::call('laraflow:make-service', [
             'name' => $this->getResourceName() . 'Service',
             'module' => $this->getModuleName(),
             '--crud' => true,
             '--repository' => $this->getResourceName() . 'Repository',
         ]);
 
-        Artisan::call('package:make-seed', [
+        Artisan::call('laraflow:make-seed', [
             'name' => $this->getResourceName(),
             'module' => $this->getModuleName(),
         ]);
@@ -162,20 +162,20 @@ class CrudMakeCommand extends Command
 
     private function createRepositories()
     {
-        Artisan::call('package:make-interface', [
+        Artisan::call('laraflow:make-interface', [
             'name' => $this->getResourceName() . 'Repository',
             'module' => $this->getModuleName(),
             '--crud' => true,
         ]);
 
-        Artisan::call('package:make-repository', [
+        Artisan::call('laraflow:make-repository', [
             'name' => 'Eloquent/' . $this->getResourceName() . 'Repository',
             'module' => $this->getModuleName(),
             '--model' => $this->getResourceName(),
             '--crud' => true,
         ]);
 
-        Artisan::call('package:make-repository', [
+        Artisan::call('laraflow:make-repository', [
             'name' => 'Mongodb/' . $this->getResourceName() . 'Repository',
             'module' => $this->getModuleName(),
             '--model' => $this->getResourceName(),

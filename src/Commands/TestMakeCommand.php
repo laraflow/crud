@@ -23,7 +23,7 @@ class TestMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'name';
 
-    protected $name = 'package:make-test';
+    protected $name = 'laraflow:make-test';
 
     protected $description = 'Create a new test class for the specified package.';
 
@@ -55,7 +55,7 @@ class TestMakeCommand extends GeneratorCommand
     /**
      * @return mixed
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
         $stub = '/unit-test.stub';
@@ -73,7 +73,7 @@ class TestMakeCommand extends GeneratorCommand
     /**
      * @return mixed
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $path = $this->getModulePath($this->getModuleName());
 

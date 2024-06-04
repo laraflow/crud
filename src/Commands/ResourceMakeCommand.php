@@ -34,7 +34,7 @@ class ResourceMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'package:make-resource';
+    protected $name = 'laraflow:make-resource';
 
     /**
      * The console command description.
@@ -68,7 +68,7 @@ class ResourceMakeCommand extends GeneratorCommand
      *
      * @throws GeneratorException
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         return (new Stub($this->getStubName(), [
             'NAMESPACE' => $this->getClassNamespace('RestApi') . '\\' . $this->getModuleName(),
@@ -97,7 +97,7 @@ class ResourceMakeCommand extends GeneratorCommand
      *
      * @throws GeneratorException
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $resourcePath = GenerateConfigReader::read('resource');
 

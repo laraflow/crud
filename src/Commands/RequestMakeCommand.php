@@ -34,7 +34,7 @@ class RequestMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'package:make-request';
+    protected $name = 'laraflow:make-request';
 
     /**
      * The console command description.
@@ -74,7 +74,7 @@ class RequestMakeCommand extends GeneratorCommand
      *
      * @throws GeneratorException
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         return (new Stub('/request.stub', [
             'NAMESPACE' => $this->getClassNamespace('RestApi'). '\\' . $this->getModuleName(),
@@ -123,7 +123,7 @@ HTML;
      *
      * @throws GeneratorException
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $requestPath = GenerateConfigReader::read('request');
 

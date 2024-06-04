@@ -34,7 +34,7 @@ class ControllerMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'package:make-controller';
+    protected $name = 'laraflow:make-controller';
 
     /**
      * The console command description.
@@ -50,7 +50,7 @@ class ControllerMakeCommand extends GeneratorCommand
      *
      * @throws GeneratorException
      */
-    public function getDestinationFilePath()
+    public function getDestinationFilePath(): string
     {
         $controllerPath = GenerateConfigReader::read($this->type);
 
@@ -79,7 +79,7 @@ class ControllerMakeCommand extends GeneratorCommand
      *
      * @throws GeneratorException
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         $replacements = [
             'CLASS_NAMESPACE' => $this->getClassNamespace('RestApi'). '\\' . $this->getModuleName(),

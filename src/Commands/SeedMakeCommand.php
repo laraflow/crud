@@ -34,7 +34,7 @@ class SeedMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'package:make-seed';
+    protected $name = 'laraflow:make-seed';
 
     /**
      * The console command description.
@@ -77,7 +77,7 @@ class SeedMakeCommand extends GeneratorCommand
      * @return mixed
      * @throws GeneratorException
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         return (new Stub('/seeder.stub', [
             'NAME' => $this->getSeederName() . 'Seeder',
@@ -103,7 +103,7 @@ class SeedMakeCommand extends GeneratorCommand
      *
      * @throws GeneratorException
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
 
         $path = $this->getModulePath($this->getModuleName());

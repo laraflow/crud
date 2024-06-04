@@ -32,7 +32,7 @@ class FactoryMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'package:make-factory';
+    protected $name = 'laraflow:make-factory';
 
     /**
      * The console command description.
@@ -57,7 +57,7 @@ class FactoryMakeCommand extends GeneratorCommand
     /**
      * @return mixed
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
@@ -91,7 +91,7 @@ class FactoryMakeCommand extends GeneratorCommand
     /**
      * @return mixed
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $path = $this->getModulePath($this->getModuleName());
 
