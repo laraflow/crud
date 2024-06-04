@@ -44,22 +44,6 @@ class ControllerMakeCommand extends GeneratorCommand
     protected $description = 'Generate new restful controller for the specified package.';
 
     /**
-     * Get controller name.
-     *
-     *
-     * @throws GeneratorException
-     */
-    public function getDestinationFilePath(): string
-    {
-        $controllerPath = GenerateConfigReader::read($this->type);
-
-        return $this->getModulePath('RestApi')
-            .$controllerPath->getPath().'/'
-            .$this->getModuleName().'/'
-            .$this->getControllerName().'.php';
-    }
-
-    /**
      * @return array|string
      */
     protected function getControllerName()

@@ -87,24 +87,4 @@ class FactoryMakeCommand extends GeneratorCommand
 
         return $this->laravel['modules']->config('namespace').'\\'.$this->laravel['modules']->findOrFail($this->getModuleName()).'\\'.$path;
     }
-
-    /**
-     * @return mixed
-     */
-    protected function getDestinationFilePath(): string
-    {
-        $path = $this->getModulePath($this->getModuleName());
-
-        $factoryPath = GenerateConfigReader::read('factory');
-
-        return $path.$factoryPath->getPath().'/'.$this->getFileName();
-    }
-
-    /**
-     * @return string
-     */
-    private function getFileName()
-    {
-        return Str::studly($this->argument('name')).'Factory.php';
-    }
 }

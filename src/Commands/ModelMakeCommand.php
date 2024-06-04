@@ -215,18 +215,4 @@ class ModelMakeCommand extends GeneratorCommand
 
         return '[]';
     }
-
-    /**
-     * @return mixed
-     *
-     * @throws GeneratorException
-     */
-    protected function getDestinationFilePath(): string
-    {
-        $path = $this->getModulePath($this->getModuleName());
-
-        $modelPath = GenerateConfigReader::read($this->type);
-
-        return $path.$modelPath->getPath().'/'.$this->getModelName().'.php';
-    }
 }

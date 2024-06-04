@@ -99,18 +99,4 @@ class SeedMakeCommand extends GeneratorCommand
         return Str::studly($this->argument('name'));
     }
 
-    /**
-     * @return mixed
-     *
-     * @throws GeneratorException
-     */
-    protected function getDestinationFilePath(): string
-    {
-
-        $path = $this->getModulePath($this->getModuleName());
-
-        $seederPath = GenerateConfigReader::read($this->type);
-
-        return $path.$seederPath->getPath().'/'.$this->getSeederName().'Seeder.php';
-    }
 }

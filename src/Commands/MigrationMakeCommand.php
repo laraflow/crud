@@ -156,26 +156,6 @@ class MigrationMakeCommand extends GeneratorCommand
     }
 
     /**
-     * @return mixed
-     */
-    protected function getDestinationFilePath(): string
-    {
-        $path = $this->getModulePath($this->getModuleName());
-
-        $generatorPath = GenerateConfigReader::read('migration');
-
-        return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
-    }
-
-    /**
-     * @return string
-     */
-    private function getFileName()
-    {
-        return date('Y_m_d_His_').$this->getSchemaName();
-    }
-
-    /**
      * @return array|string
      */
     private function getSchemaName()

@@ -52,7 +52,6 @@ class ApiCrudServiceProvider extends ServiceProvider
             $this->commands([
                 \Laraflow\ApiCrud\Commands\InstallCommand::class,
                 \Laraflow\ApiCrud\Commands\ControllerMakeCommand::class,
-                \Laraflow\ApiCrud\Commands\CrudMakeCommand::class,
                 \Laraflow\ApiCrud\Commands\FactoryMakeCommand::class,
                 \Laraflow\ApiCrud\Commands\MigrationMakeCommand::class,
                 \Laraflow\ApiCrud\Commands\ModelMakeCommand::class,
@@ -61,6 +60,7 @@ class ApiCrudServiceProvider extends ServiceProvider
                 \Laraflow\ApiCrud\Commands\ResourceMakeCommand::class,
                 \Laraflow\ApiCrud\Commands\SeedMakeCommand::class,
                 \Laraflow\ApiCrud\Commands\TestMakeCommand::class,
+                \Laraflow\ApiCrud\Commands\CrudMakeCommand::class,
             ]);
         }
     }

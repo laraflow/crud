@@ -34,6 +34,9 @@ class Stub
     {
         $this->path = $path;
         $this->replaces = $replaces;
+
+        self::setBasePath(base_path('stubs/api-crud'));
+
     }
 
     /**
@@ -84,7 +87,7 @@ class Stub
     {
         $path = static::getBasePath().$this->path;
 
-        return file_exists($path) ? $path : __DIR__.'/../Commands/stubs'.$this->path;
+        return file_exists($path) ? $path : __DIR__.'/../../../stubs'.$this->path;
     }
 
     /**

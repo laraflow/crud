@@ -4,6 +4,7 @@ namespace Laraflow\ApiCrud\Commands;
 
 use Illuminate\Support\Str;
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
+use Laraflow\ApiCrud\Exceptions\GeneratorException;
 use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Stub;
 use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
@@ -72,6 +73,7 @@ class TestMakeCommand extends GeneratorCommand
 
     /**
      * @return mixed
+     * @throws GeneratorException
      */
     protected function getDestinationFilePath(): string
     {

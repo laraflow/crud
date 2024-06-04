@@ -66,24 +66,4 @@ class PolicyMakeCommand extends GeneratorCommand
             'CLASS' => $this->getClass(),
         ]))->render();
     }
-
-    /**
-     * @return mixed
-     */
-    protected function getDestinationFilePath(): string
-    {
-        $path = $this->getModulePath($this->getModuleName());
-
-        $policyPath = GenerateConfigReader::read('policies');
-
-        return $path.$policyPath->getPath().'/'.$this->getFileName().'.php';
-    }
-
-    /**
-     * @return string
-     */
-    private function getFileName()
-    {
-        return Str::studly($this->argument('name'));
-    }
 }

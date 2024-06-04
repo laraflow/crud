@@ -31,24 +31,18 @@ trait ModuleCommandTrait
      *
      * @throws GeneratorException
      */
-    public function getModuleName()
+    public function getModuleName(): string
     {
-        $fallbackPath = storage_path('cli-package.json');
+        $fallbackPath = base_path(config('api-crud.root_path', 'app'));
 
-        $module = $this->argument('module');
-
-        if (! $module && file_exists($fallbackPath)) {
-
-            $fallback = json_decode(file_get_contents($fallbackPath), true);
-
-            if ($fallback['use']) {
-
-                $module = $fallback['use'] ?? null;
-            }
-        }
+        $module = config('api-crud.namespace', 'App');
 
         if (! $module) {
-            throw new GeneratorException('Invalid or Missing module name on argument.');
+            throw new GeneratorException('Invalid Root namespace on config.');
+        }
+
+        if (! is_dir($fallbackPath)) {
+            throw new GeneratorException('Invalid Root Path on config.');
         }
 
         return $module;

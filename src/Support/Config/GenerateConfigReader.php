@@ -6,6 +6,6 @@ class GenerateConfigReader
 {
     public static function read(string $value): GeneratorPath
     {
-        return new GeneratorPath(config("fintech.generators.paths.generator.{$value}"));
+        return new GeneratorPath(config("api-crud.templates.{$value}"));
     }
 }

@@ -1,11 +1,8 @@
 <?php
 
 namespace Laraflow\ApiCrud\Commands;
-
-use Illuminate\Support\Str;
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
 use Laraflow\ApiCrud\Exceptions\GeneratorException;
-use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Stub;
 use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
@@ -76,12 +73,14 @@ class RequestMakeCommand extends GeneratorCommand
      */
     protected function getTemplateContents(): string
     {
-        return (new Stub('/request.stub', [
-            'NAMESPACE' => $this->getClassNamespace('RestApi').'\\'.$this->getModuleName(),
+        $replacements = [
+            'NAMESPACE' => $this->getClassNamespace(),
             'CLASS' => $this->getClass(),
             'RULES' => $this->getRules(),
             'PAGINATE_TRAIT' => $this->getPaginateTrait(),
-        ]))->render();
+        ];
+
+        return dd((new Stub('/request.stub', $replacements))->render());
     }
 
     /**
@@ -96,8 +95,7 @@ class RequestMakeCommand extends GeneratorCommand
             'page' => ['integer', 'nullable', 'min:1'],
             'paginate' => ['boolean'],
             'sort' => ['string', 'nullable', 'min:2', 'max:255'],
-            'dir' => ['string', 'min:3', 'max:4'],
-            'trashed' => ['boolean', 'nullable'],
+            'dir' => ['string', 'min:3', 'max:4']
 HTML;
         } elseif ($this->option('crud')) {
             return '//';
@@ -116,28 +114,5 @@ HTML;
         } else {
             return '';
         }
-    }
-
-    /**
-     * @return mixed
-     *
-     * @throws GeneratorException
-     */
-    protected function getDestinationFilePath(): string
-    {
-        $requestPath = GenerateConfigReader::read('request');
-
-        return $this->getModulePath('RestApi')
-            .$requestPath->getPath().'/'
-            .$this->getModuleName().'/'
-            .$this->getFileName().'.php';
-    }
-
-    /**
-     * @return string
-     */
-    private function getFileName()
-    {
-        return Str::studly($this->argument('name'));
     }
 }
