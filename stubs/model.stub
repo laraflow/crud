@@ -2,8 +2,8 @@
 
 namespace $NAMESPACE$;
 
-use Fintech\Core\Traits\AuditableTrait;
-use Fintech\Core\Abstracts\BaseModel;
+use Laraflow\ApiCrud\Traits\AuditableTrait;
+use Laraflow\ApiCrud\Abstracts\BaseModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class $CLASS$ extends BaseModel

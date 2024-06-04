@@ -2,10 +2,10 @@
 
 namespace $CLASS_NAMESPACE$;
 use Exception;
-use Fintech\Core\Exceptions\StoreOperationException;
-use Fintech\Core\Exceptions\UpdateOperationException;
-use Fintech\Core\Exceptions\DeleteOperationException;
-use Fintech\Core\Exceptions\RestoreOperationException;
+use Laraflow\ApiCrud\Exceptions\StoreOperationException;
+use Laraflow\ApiCrud\Exceptions\UpdateOperationException;
+use Laraflow\ApiCrud\Exceptions\DeleteOperationException;
+use Laraflow\ApiCrud\Exceptions\RestoreOperationException;
 use Fintech\$MODULE$\Facades\$MODULE$;
 $RESOURCE_NAMESPACES$
 $REQUEST_NAMESPACES$
