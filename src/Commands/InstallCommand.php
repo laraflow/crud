@@ -42,7 +42,7 @@ class InstallCommand extends Command
 
         } catch (\Exception $exception) {
 
-            $this->components->error($exception);
+            $this->components->twoColumnDetail($exception->getMessage(), '<fg=red;options=bold>ERROR</>');
 
             return self::FAILURE;
         }
@@ -50,8 +50,6 @@ class InstallCommand extends Command
 
     private function configureRouteFile(): void
     {
-        $this->components->info("Configuring the API Route file.");
-
         $routeFilePath = base_path(config('api-crud.route_path', 'routes/api.php'));
 
         if (!is_file($routeFilePath)) {
@@ -64,11 +62,22 @@ class InstallCommand extends Command
 
         $content = file_get_contents($routeFilePath);
 
+        if (str_contains($content, '//DO NOT REMOVE THIS LINE//')) {
+            $this->components->twoColumnDetail(
+                "API route file contains the crud point string `[//DO NOT REMOVE THIS LINE//]`.",
+                '<fg=yellow;options=bold>SKIPPED</>');
+            return;
+        }
+
         $content .= "\n//DO NOT REMOVE THIS LINE//\n";
 
         if (!is_writeable($routeFilePath)) {
             throw new CannotWriteFileException("Unable to write on route file.");
         }
+
+        $this->components->twoColumnDetail(
+            "Configured the API Route file.",
+            '<fg=green;options=bold>DONE</>');
 
         file_put_contents($routeFilePath, $content);
     }
@@ -78,6 +87,10 @@ class InstallCommand extends Command
         if ($this->confirm('Publish Configuration File', false)) {
 
             $this->vendorPublish('api-crud-config', is_file(base_path('config/api-crud.php')));
+        } else {
+            $this->components->twoColumnDetail(
+                "Publish Configuration File.",
+                '<fg=yellow;options=bold>SKIPPED</>');
         }
     }
 
@@ -85,15 +98,23 @@ class InstallCommand extends Command
     {
         if ($this->confirm('Publish Language Files', false)) {
 
-            $this->vendorPublish('api-crud-lang', is_dir(app()->langPath('api-crud')));
+            $this->vendorPublish('api-crud-lang', is_dir(app()->langPath('vendor/api-crud')));
+        } else {
+            $this->components->twoColumnDetail(
+                'Publish Language Files.',
+                '<fg=yellow;options=bold>SKIPPED</>');
         }
     }
 
     private function confirmStubsPublish(): void
     {
-        if ($this->confirm('Publish Template Files', false)) {
+        if ($this->confirm('Publish Template Files (Not-Recommended)', false)) {
 
             $this->vendorPublish('api-crud-stubs', is_dir(base_path('stubs/api-crud')));
+        } else {
+            $this->components->twoColumnDetail(
+                'Publish Template Files',
+                '<fg=yellow;options=bold>SKIPPED</>');
         }
     }
 
