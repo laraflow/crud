@@ -25,7 +25,10 @@ class CrudMakeCommand extends Command
      *
      * @var string
      */
-    protected $name = 'laraflow:make-crud';
+    protected $signature = 'laraflow:make-crud
+                            {name : The name of resource will create}
+                            {module? : The root namespace where to create (Experimental.)}
+                            {--fields=* : The fields will be on the resource (Experimental.)}';
 
     /**
      * The console command description.
@@ -43,9 +46,9 @@ class CrudMakeCommand extends Command
     {
         try {
 
-            $this->createRequests();
+//            $this->createRequests();
 
-//            $this->createResources();
+            $this->createResources();
 //
 //            $this->createController();
 //
@@ -102,12 +105,12 @@ class CrudMakeCommand extends Command
     private function createResources()
     {
         Artisan::call('laraflow:make-resource', [
-            'name' => $this->getResourceName().'Resource',
+            'name' => $this->getResourceName(),
             'module' => $this->getModuleName(),
         ]);
 
         Artisan::call('laraflow:make-resource', [
-            'name' => $this->getResourceName().'Collection',
+            'name' => $this->getResourceName(),
             'module' => $this->getModuleName(),
             '--collection',
         ]);
@@ -194,4 +197,5 @@ HTML;
             ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
         ];
     }
+
 }

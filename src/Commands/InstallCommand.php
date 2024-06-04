@@ -127,7 +127,7 @@ class InstallCommand extends Command
 
             if ($this->confirm('Already Published. Overwrite?', true)) {
 
-                $this->call('vendor:publish', ['--tag' => $tag, '--force' => true]);
+                $this->call('vendor:publish', ['--tag' => $tag, '--force']);
             }
 
             return;

@@ -70,8 +70,9 @@ class ResourceMakeCommand extends GeneratorCommand
      */
     protected function getTemplateContents(): string
     {
+
         return (new Stub($this->getStubName(), [
-            'NAMESPACE' => $this->getClassNamespace('RestApi').'\\'.$this->getModuleName(),
+            'NAMESPACE' => $this->getClassNamespace(),
             'CLASS' => $this->getClass(),
         ]))->render();
     }
