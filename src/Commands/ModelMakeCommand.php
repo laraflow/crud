@@ -2,12 +2,12 @@
 
 namespace Laraflow\ApiCrud\Commands;
 
+use Illuminate\Support\Str;
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
 use Laraflow\ApiCrud\Exceptions\GeneratorException;
 use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Stub;
 use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -63,7 +63,7 @@ class ModelMakeCommand extends GeneratorCommand
     private function handleOptionalMigrationOption()
     {
         if ($this->option('migration') === true) {
-            $migrationName = 'create_' . $this->createMigrationName() . '_table';
+            $migrationName = 'create_'.$this->createMigrationName().'_table';
             $this->call('module:make-migration', ['name' => $migrationName, 'module' => $this->argument('module')]);
         }
     }
@@ -82,7 +82,7 @@ class ModelMakeCommand extends GeneratorCommand
         $string = '';
         foreach ($pieces as $i => $piece) {
             if ($i + 1 < count($pieces)) {
-                $string .= strtolower($piece) . '_';
+                $string .= strtolower($piece).'_';
             } else {
                 $string .= Str::plural(strtolower($piece));
             }
@@ -187,7 +187,7 @@ class ModelMakeCommand extends GeneratorCommand
         return (new Stub('/model.stub', [
             'NAME' => $this->getModelName(),
             'ROUTE_NAME' => Str::plural(Str::lower(Str::kebab($this->getModelName()))),
-            'JSON_NAME' => Str::lower(Str::snake($this->getModelName())) . '_data',
+            'JSON_NAME' => Str::lower(Str::snake($this->getModelName())).'_data',
             'TABLE' => Str::plural($this->getModelName()),
             'FILLABLE' => $this->getFillable(),
             'NAMESPACE' => $this->getClassNamespace($this->getModuleName()),
@@ -207,7 +207,7 @@ class ModelMakeCommand extends GeneratorCommand
     {
         $fillable = $this->option('fillable');
 
-        if (!is_null($fillable)) {
+        if (! is_null($fillable)) {
             $arrays = explode(',', $fillable);
 
             return json_encode($arrays);
@@ -227,6 +227,6 @@ class ModelMakeCommand extends GeneratorCommand
 
         $modelPath = GenerateConfigReader::read($this->type);
 
-        return $path . $modelPath->getPath() . '/' . $this->getModelName() . '.php';
+        return $path.$modelPath->getPath().'/'.$this->getModelName().'.php';
     }
 }

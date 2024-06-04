@@ -2,12 +2,12 @@
 
 namespace Laraflow\ApiCrud\Commands;
 
+use Illuminate\Support\Str;
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
 use Laraflow\ApiCrud\Exceptions\GeneratorException;
 use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Stub;
 use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -71,7 +71,7 @@ class ResourceMakeCommand extends GeneratorCommand
     protected function getTemplateContents()
     {
         return (new Stub($this->getStubName(), [
-            'NAMESPACE' => $this->getClassNamespace('RestApi') . '\\' . $this->getModuleName(),
+            'NAMESPACE' => $this->getClassNamespace('RestApi').'\\'.$this->getModuleName(),
             'CLASS' => $this->getClass(),
         ]))->render();
     }
@@ -104,9 +104,9 @@ class ResourceMakeCommand extends GeneratorCommand
         $path = $this->getModulePath($this->getModuleName());
 
         return $this->getModulePath('RestApi')
-            . $resourcePath->getPath() . '/'
-            . $this->getModuleName() . '/'
-            . $this->getFileName() . '.php';
+            .$resourcePath->getPath().'/'
+            .$this->getModuleName().'/'
+            .$this->getFileName().'.php';
     }
 
     /**

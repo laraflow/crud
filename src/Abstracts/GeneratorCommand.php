@@ -2,11 +2,11 @@
 
 namespace Laraflow\ApiCrud\Abstracts;
 
+use Illuminate\Console\Command;
+use InvalidArgumentException;
 use Laraflow\ApiCrud\Exceptions\FileAlreadyExistException;
 use Laraflow\ApiCrud\Exceptions\GeneratorException;
 use Laraflow\ApiCrud\Generators\FileGenerator;
-use Illuminate\Console\Command;
-use InvalidArgumentException;
 
 abstract class GeneratorCommand extends Command
 {
@@ -25,7 +25,7 @@ abstract class GeneratorCommand extends Command
 
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
 
-        if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
+        if (! $this->laravel['files']->isDirectory($dir = dirname($path))) {
             $this->laravel['files']->makeDirectory($dir, 0777, true);
         }
 
@@ -50,23 +50,18 @@ abstract class GeneratorCommand extends Command
 
     /**
      * Get the destination file path.
-     *
-     * @return string
      */
     abstract protected function getDestinationFilePath(): string;
 
     /**
      * Get template contents.
-     *
-     * @return string
      */
     abstract protected function getTemplateContents(): string;
 
     /**
      * Get class namespace.
      *
-     * @param string $module
-     * @return string
+     * @param  string  $module
      *
      * @throws GeneratorException
      */
@@ -78,11 +73,11 @@ abstract class GeneratorCommand extends Command
 
         $namespace = config('fintech.generators.namespace');
 
-        $namespace .= '\\' . $module;
+        $namespace .= '\\'.$module;
 
-        $namespace .= '\\' . $this->getDefaultNamespace();
+        $namespace .= '\\'.$this->getDefaultNamespace();
 
-        $namespace .= '\\' . $extra;
+        $namespace .= '\\'.$extra;
 
         $namespace = str_replace('/', '\\', $namespace);
 
@@ -91,8 +86,6 @@ abstract class GeneratorCommand extends Command
 
     /**
      * Get class name.
-     *
-     * @return string
      */
     public function getClass(): string
     {
@@ -102,23 +95,23 @@ abstract class GeneratorCommand extends Command
     /**
      * Get default namespace.
      *
-     * @param null $type
+     * @param  null  $type
      *
      * @throws GeneratorException
      */
     public function getDefaultNamespace($type = null): string
     {
-        if (!$type) {
+        if (! $type) {
             if (property_exists($this, 'type')) {
                 $type = $this->type;
             }
         }
 
-        if (!$type) {
+        if (! $type) {
             throw new GeneratorException('Stub type argument or property is not configured.');
         }
 
-        if (!config("fintech.generators.paths.generator.{$type}")) {
+        if (! config("fintech.generators.paths.generator.{$type}")) {
             throw new InvalidArgumentException("Generator is missing [{$type}] config, check generators.php file.");
         }
 

@@ -2,17 +2,17 @@
 
 namespace Laraflow\ApiCrud\Generators;
 
+use Illuminate\Config\Repository as Config;
+use Illuminate\Console\Command as Console;
+use Illuminate\Console\View\Components\Factory;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use Laraflow\ApiCrud\Contracts\ActivatorInterface;
 use Laraflow\ApiCrud\FileRepository;
 use Laraflow\ApiCrud\Generator;
 use Laraflow\ApiCrud\Module;
 use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Stub;
-use Illuminate\Config\Repository as Config;
-use Illuminate\Console\Command as Console;
-use Illuminate\Console\View\Components\Factory;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
 
 class ModuleGenerator extends Generator
 {
@@ -91,11 +91,11 @@ class ModuleGenerator extends Generator
      */
     public function __construct(
         $name,
-        FileRepository $module = null,
-        Config $config = null,
-        Filesystem $filesystem = null,
-        Console $console = null,
-        ActivatorInterface $activator = null
+        ?FileRepository $module = null,
+        ?Config $config = null,
+        ?Filesystem $filesystem = null,
+        ?Console $console = null,
+        ?ActivatorInterface $activator = null
     ) {
         $this->name = $name;
         $this->config = $config;
@@ -108,7 +108,7 @@ class ModuleGenerator extends Generator
     /**
      * Set type.
      *
-     * @param string $type
+     * @param  string  $type
      * @return $this
      */
     public function setType($type)
@@ -144,7 +144,7 @@ class ModuleGenerator extends Generator
     /**
      * Set the laravel config instance.
      *
-     * @param Config $config
+     * @param  Config  $config
      * @return $this
      */
     public function setConfig($config)
@@ -180,7 +180,7 @@ class ModuleGenerator extends Generator
     /**
      * Set the laravel filesystem instance.
      *
-     * @param Filesystem $filesystem
+     * @param  Filesystem  $filesystem
      * @return $this
      */
     public function setFilesystem($filesystem)
@@ -203,7 +203,7 @@ class ModuleGenerator extends Generator
     /**
      * Set the laravel console instance.
      *
-     * @param Console $console
+     * @param  Console  $console
      * @return $this
      */
     public function setConsole($console)
@@ -238,7 +238,7 @@ class ModuleGenerator extends Generator
     /**
      * Set the module instance.
      *
-     * @param mixed $module
+     * @param  mixed  $module
      * @return $this
      */
     public function setModule($module)
@@ -251,7 +251,7 @@ class ModuleGenerator extends Generator
     /**
      * Set force status.
      *
-     * @param bool|int $force
+     * @param  bool|int  $force
      * @return $this
      */
     public function setForce($force)
@@ -323,7 +323,7 @@ class ModuleGenerator extends Generator
                 continue;
             }
 
-            $path = $this->module->getModulePath($this->getName()) . '/' . $folder->getPath();
+            $path = $this->module->getModulePath($this->getName()).'/'.$folder->getPath();
 
             $this->filesystem->makeDirectory($path, 0755, true);
             if (config('modules.stubs.gitkeep')) {
@@ -345,11 +345,11 @@ class ModuleGenerator extends Generator
     /**
      * Generate git keep to the specified path.
      *
-     * @param string $path
+     * @param  string  $path
      */
     public function generateGitKeep($path)
     {
-        $this->filesystem->put($path . '/.gitkeep', '');
+        $this->filesystem->put($path.'/.gitkeep', '');
     }
 
     /**
@@ -357,10 +357,10 @@ class ModuleGenerator extends Generator
      */
     private function generateModuleJsonFile()
     {
-        $path = $this->module->getModulePath($this->getName()) . 'module.json';
+        $path = $this->module->getModulePath($this->getName()).'module.json';
 
         $this->component->task("Generating file $path", function () use ($path) {
-            if (!$this->filesystem->isDirectory($dir = dirname($path))) {
+            if (! $this->filesystem->isDirectory($dir = dirname($path))) {
                 $this->filesystem->makeDirectory($dir, 0775, true);
             }
 
@@ -377,7 +377,7 @@ class ModuleGenerator extends Generator
     protected function getStubContents($stub)
     {
         return (new Stub(
-            '/' . $stub . '.stub',
+            '/'.$stub.'.stub',
             $this->getReplacement($stub)
         )
         )->render();
@@ -393,7 +393,7 @@ class ModuleGenerator extends Generator
     {
         $replacements = $this->module->config('stubs.replacements');
 
-        if (!isset($replacements[$stub])) {
+        if (! isset($replacements[$stub])) {
             return [];
         }
 
@@ -407,7 +407,7 @@ class ModuleGenerator extends Generator
             }
         }
         foreach ($keys as $key) {
-            if (method_exists($this, $method = 'get' . ucfirst(Str::studly(strtolower($key))) . 'Replacement')) {
+            if (method_exists($this, $method = 'get'.ucfirst(Str::studly(strtolower($key))).'Replacement')) {
                 $replaces[$key] = $this->$method();
             } else {
                 $replaces[$key] = null;
@@ -423,10 +423,10 @@ class ModuleGenerator extends Generator
     public function generateFiles()
     {
         foreach ($this->getFiles() as $stub => $file) {
-            $path = $this->module->getModulePath($this->getName()) . $file;
+            $path = $this->module->getModulePath($this->getName()).$file;
 
             $this->component->task("Generating file {$path}", function () use ($stub, $path) {
-                if (!$this->filesystem->isDirectory($dir = dirname($path))) {
+                if (! $this->filesystem->isDirectory($dir = dirname($path))) {
                     $this->filesystem->makeDirectory($dir, 0775, true);
                 }
 
@@ -460,7 +460,7 @@ class ModuleGenerator extends Generator
 
         if (GenerateConfigReader::read('provider')->generate() === true) {
             $this->console->call('module:make-provider', [
-                'name' => $this->getName() . 'ServiceProvider',
+                'name' => $this->getName().'ServiceProvider',
                 'module' => $this->getName(),
                 '--master' => true,
             ]);
@@ -472,9 +472,9 @@ class ModuleGenerator extends Generator
         if (GenerateConfigReader::read('controller')->generate() === true) {
             $options = $this->type == 'api' ? ['--api' => true] : [];
             $this->console->call('module:make-controller', [
-                    'controller' => $this->getName() . 'Controller',
-                    'module' => $this->getName(),
-                ] + $options);
+                'controller' => $this->getName().'Controller',
+                'module' => $this->getName(),
+            ] + $options);
         }
     }
 
@@ -484,13 +484,13 @@ class ModuleGenerator extends Generator
      */
     private function cleanModuleJsonFile()
     {
-        $path = $this->module->getModulePath($this->getName()) . 'module.json';
+        $path = $this->module->getModulePath($this->getName()).'module.json';
 
         $content = $this->filesystem->get($path);
         $namespace = $this->getModuleNamespaceReplacement();
         $studlyName = $this->getStudlyNameReplacement();
 
-        $provider = '"' . $namespace . '\\\\' . $studlyName . '\\\\Providers\\\\' . $studlyName . 'ServiceProvider"';
+        $provider = '"'.$namespace.'\\\\'.$studlyName.'\\\\Providers\\\\'.$studlyName.'ServiceProvider"';
 
         $content = str_replace($provider, '', $content);
 

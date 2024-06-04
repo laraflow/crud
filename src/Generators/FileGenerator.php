@@ -2,9 +2,9 @@
 
 namespace Laraflow\ApiCrud\Generators;
 
+use Illuminate\Filesystem\Filesystem;
 use Laraflow\ApiCrud\Exceptions\FileAlreadyExistException;
 use Laraflow\ApiCrud\Generator;
-use Illuminate\Filesystem\Filesystem;
 
 class FileGenerator extends Generator
 {
@@ -37,7 +37,7 @@ class FileGenerator extends Generator
     /**
      * The constructor.
      *
-     * @param null $filesystem
+     * @param  null  $filesystem
      */
     public function __construct($path, $contents, $filesystem = null)
     {
@@ -82,7 +82,7 @@ class FileGenerator extends Generator
     public function generate()
     {
         $path = $this->getPath();
-        if (!$this->filesystem->exists($path)) {
+        if (! $this->filesystem->exists($path)) {
             return $this->filesystem->put($path, $this->getContents());
         }
         if ($this->overwriteFile === true) {
@@ -105,7 +105,7 @@ class FileGenerator extends Generator
     /**
      * Set path.
      *
-     * @param mixed $path
+     * @param  mixed  $path
      * @return $this
      */
     public function setPath($path)
@@ -128,7 +128,7 @@ class FileGenerator extends Generator
     /**
      * Set contents.
      *
-     * @param mixed $contents
+     * @param  mixed  $contents
      * @return $this
      */
     public function setContents($contents)

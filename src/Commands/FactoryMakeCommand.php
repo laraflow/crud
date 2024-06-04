@@ -2,11 +2,11 @@
 
 namespace Laraflow\ApiCrud\Commands;
 
+use Illuminate\Support\Str;
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
 use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Stub;
 use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 
 class FactoryMakeCommand extends GeneratorCommand
@@ -85,7 +85,7 @@ class FactoryMakeCommand extends GeneratorCommand
 
         $path = str_replace('/', '\\', $path);
 
-        return $this->laravel['modules']->config('namespace') . '\\' . $this->laravel['modules']->findOrFail($this->getModuleName()) . '\\' . $path;
+        return $this->laravel['modules']->config('namespace').'\\'.$this->laravel['modules']->findOrFail($this->getModuleName()).'\\'.$path;
     }
 
     /**
@@ -97,7 +97,7 @@ class FactoryMakeCommand extends GeneratorCommand
 
         $factoryPath = GenerateConfigReader::read('factory');
 
-        return $path . $factoryPath->getPath() . '/' . $this->getFileName();
+        return $path.$factoryPath->getPath().'/'.$this->getFileName();
     }
 
     /**
@@ -105,6 +105,6 @@ class FactoryMakeCommand extends GeneratorCommand
      */
     private function getFileName()
     {
-        return Str::studly($this->argument('name')) . 'Factory.php';
+        return Str::studly($this->argument('name')).'Factory.php';
     }
 }
