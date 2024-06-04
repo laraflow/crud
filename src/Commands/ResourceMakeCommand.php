@@ -92,12 +92,11 @@ class ResourceMakeCommand extends GeneratorCommand
             Str::endsWith($this->argument('name'), 'Collection');
     }
 
-
     /**
      * @return string
      */
     protected function getFileName()
     {
-        return Str::studly($this->argument('name')) . ".php";
+        return Str::studly($this->argument('name')).'.php';
     }
 }

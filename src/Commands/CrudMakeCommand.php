@@ -3,14 +3,12 @@
 namespace Laraflow\ApiCrud\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Laraflow\ApiCrud\Exceptions\GeneratorException;
 use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Config\GeneratorPath;
 use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
 use Throwable;
 
 /**
@@ -56,7 +54,6 @@ class CrudMakeCommand extends Command
 
 //            $this->updateRouteFile();
 
-
             $this->components->twoColumnDetail('API Crud Stubs File(s) Created.', '<fg=green;options=bold>DONE</>');
 
             return self::SUCCESS;
@@ -71,21 +68,21 @@ class CrudMakeCommand extends Command
 
     private function createRequests()
     {
-        if (!config('api-crud.templates.request.generate', true)) {
+        if (! config('api-crud.templates.request.generate', true)) {
             return;
         }
         foreach (['Index', 'Store', 'Update'] as $prefix) {
 
-            $resourcePath = $this->getResourceName() . 'Request';
+            $resourcePath = $this->getResourceName().'Request';
 
             $dir = dirname($resourcePath);
 
-            $dir = ($dir == '.') ? '' : $dir . '/';
+            $dir = ($dir == '.') ? '' : $dir.'/';
 
             $resource = basename($resourcePath);
 
             $options = [
-                'name' => $dir . $prefix . $resource,
+                'name' => $dir.$prefix.$resource,
                 'module' => $this->getModuleName(),
             ];
 
@@ -108,16 +105,16 @@ class CrudMakeCommand extends Command
 
     private function createResources()
     {
-        if (!config('api-crud.templates.resource.generate', true)) {
+        if (! config('api-crud.templates.resource.generate', true)) {
             return;
         }
         $this->call('laraflow:make-resource', [
-            'name' => $this->getResourceName() . 'Resource',
+            'name' => $this->getResourceName().'Resource',
             'module' => $this->getModuleName(),
         ]);
 
         $this->call('laraflow:make-resource', [
-            'name' => $this->getResourceName() . 'Collection',
+            'name' => $this->getResourceName().'Collection',
             'module' => $this->getModuleName(),
             '--collection' => true,
         ]);
@@ -125,7 +122,7 @@ class CrudMakeCommand extends Command
 
     private function createController()
     {
-        if (!config('api-crud.templates.controller.generate', true)) {
+        if (! config('api-crud.templates.controller.generate', true)) {
             return;
         }
 
@@ -143,8 +140,8 @@ class CrudMakeCommand extends Command
     private function createModelFiles()
     {
 
-        if (!config('api-crud.templates.model.generate', true)) {
-        return;
+        if (! config('api-crud.templates.model.generate', true)) {
+            return;
         }
         $this->call('laraflow:make-model', [
             'name' => $this->getResourceName(),
@@ -159,10 +156,10 @@ class CrudMakeCommand extends Command
     private function updateRouteFile()
     {
         $filePath = $this->getModulePath('RestApi')
-            . GenerateConfigReader::read('routes')->getPath()
-            . '/' . Str::lower($this->getModuleName()) . '.php';
+            .GenerateConfigReader::read('routes')->getPath()
+            .'/'.Str::lower($this->getModuleName()).'.php';
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             throw new InvalidArgumentException("Route file location doesn't exist");
         }
 
@@ -174,13 +171,13 @@ class CrudMakeCommand extends Command
 
         $controller = GeneratorPath::convertPathToNamespace(
             $this->getModuleNS('RestApi')
-            . GenerateConfigReader::read('controller')->getNamespace()
-            . '\\' . $this->getModuleName()
-            . '\\' . $this->getResourceName()
-            . 'Controller::class'
+            .GenerateConfigReader::read('controller')->getNamespace()
+            .'\\'.$this->getModuleName()
+            .'\\'.$this->getResourceName()
+            .'Controller::class'
         );
 
-        $pathParam = '{' . Str::snake(basename($this->getResourceName())) . '}';
+        $pathParam = '{'.Str::snake(basename($this->getResourceName())).'}';
         $template = <<<HTML
 Route::apiResource('$resourceName', $controller);
     Route::post('$resourceName/$pathParam/restore', [$controller, 'restore'])->name('$resourceName.restore');
@@ -192,5 +189,4 @@ HTML;
 
         file_put_contents($filePath, $fileContent);
     }
-
 }
