@@ -50,6 +50,7 @@ class ApiCrudServiceProvider extends ServiceProvider
              * Using full namespace and runtime call.
              */
             $this->commands([
+                \Laraflow\ApiCrud\Commands\InstallCommand::class,
                 \Laraflow\ApiCrud\Commands\ControllerMakeCommand::class,
                 \Laraflow\ApiCrud\Commands\CrudMakeCommand::class,
                 \Laraflow\ApiCrud\Commands\FactoryMakeCommand::class,
