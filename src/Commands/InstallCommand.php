@@ -38,6 +38,8 @@ class InstallCommand extends Command
 
             $this->confirmStubsPublish();
 
+            $this->components->twoColumnDetail("API Crud Setup Complete.", '<fg=green;options=bold>DONE</>');
+
             return self::SUCCESS;
 
         } catch (\Exception $exception) {
