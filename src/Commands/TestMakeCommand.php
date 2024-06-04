@@ -73,6 +73,7 @@ class TestMakeCommand extends GeneratorCommand
 
     /**
      * @return mixed
+     *
      * @throws GeneratorException
      */
     protected function getDestinationFilePath(): string

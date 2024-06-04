@@ -5,7 +5,6 @@ namespace Laraflow\ApiCrud\Commands;
 use Illuminate\Support\Str;
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
 use Laraflow\ApiCrud\Exceptions\GeneratorException;
-use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Stub;
 use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
@@ -98,5 +97,4 @@ class SeedMakeCommand extends GeneratorCommand
     {
         return Str::studly($this->argument('name'));
     }
-
 }

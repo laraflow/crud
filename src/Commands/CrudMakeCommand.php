@@ -45,20 +45,20 @@ class CrudMakeCommand extends Command
 
             $this->createRequests();
 
-//            $this->createResources();
-//
-//            $this->createController();
-//
-//            $this->updateRouteFile();
-//
-//            $this->createModelFiles();
+            //            $this->createResources();
+            //
+            //            $this->createController();
+            //
+            //            $this->updateRouteFile();
+            //
+            //            $this->createModelFiles();
 
-            $this->components->twoColumnDetail("API Crud Stubs File(s) Created.", '<fg=green;options=bold>DONE</>');
+            $this->components->twoColumnDetail('API Crud Stubs File(s) Created.', '<fg=green;options=bold>DONE</>');
 
             return self::SUCCESS;
 
         } catch (Throwable $exception) {
-//            $this->components->twoColumnDetail($exception->getMessage(), '<fg=red;options=bold>ERROR</>');
+            //            $this->components->twoColumnDetail($exception->getMessage(), '<fg=red;options=bold>ERROR</>');
             $this->error($exception);
         }
 

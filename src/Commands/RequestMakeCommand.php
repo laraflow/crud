@@ -1,6 +1,7 @@
 <?php
 
 namespace Laraflow\ApiCrud\Commands;
+
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
 use Laraflow\ApiCrud\Exceptions\GeneratorException;
 use Laraflow\ApiCrud\Support\Stub;
@@ -80,7 +81,7 @@ class RequestMakeCommand extends GeneratorCommand
             'PAGINATE_TRAIT' => $this->getPaginateTrait(),
         ];
 
-        return ((new Stub('/request.stub', $replacements))->render());
+        return (new Stub('/request.stub', $replacements))->render();
     }
 
     /**
