@@ -3,7 +3,7 @@
 namespace Laraflow\ApiCrud\Tests;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Laraflow\ApiCrud\ApiCrudServiceProvider;
+use Laraflow\ApiCrud\Providers\ApiCrudServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra

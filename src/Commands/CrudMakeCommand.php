@@ -148,8 +148,7 @@ class CrudMakeCommand extends Command
         $this->call('laraflow:make-model', [
             'name' => $this->getResourceName(),
             'module' => $this->getModuleName(),
-            '--migration' => config('api-crud.templates.migration.generate', true),
-            '--seed' => config('api-crud.templates.seed.generate', true)
+//            '--migration' => config('api-crud.templates.migration.generate', true)
         ]);
     }
 

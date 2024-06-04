@@ -58,11 +58,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Laraflow\\ApiCrud\\ApiCrudServiceProvider"
-            ],
-            "aliases": {
-                "ApiCrud": "Laraflow\\ApiCrud\\Facades\\ApiCrud"
-            }
+                "Laraflow\\ApiCrud\\Providers\\ApiCrudServiceProvider"
+            ]
         }
     },
     "minimum-stability": "dev",

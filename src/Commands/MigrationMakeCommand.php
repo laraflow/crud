@@ -98,36 +98,10 @@ class MigrationMakeCommand extends GeneratorCommand
     {
         $parser = new NameParser($this->argument('name'));
 
-        if ($parser->isCreate()) {
-            return Stub::create('/migration/create.stub', [
-                'class' => $this->getClass(),
-                'table' => $parser->getTableName(),
-                'fields' => $this->getSchemaParser()->render(),
-            ]);
-        } elseif ($parser->isAdd()) {
-            return Stub::create('/migration/add.stub', [
-                'class' => $this->getClass(),
-                'table' => $parser->getTableName(),
-                'fields_up' => $this->getSchemaParser()->up(),
-                'fields_down' => $this->getSchemaParser()->down(),
-            ]);
-        } elseif ($parser->isDelete()) {
-            return Stub::create('/migration/delete.stub', [
-                'class' => $this->getClass(),
-                'table' => $parser->getTableName(),
-                'fields_down' => $this->getSchemaParser()->up(),
-                'fields_up' => $this->getSchemaParser()->down(),
-            ]);
-        } elseif ($parser->isDrop()) {
-            return Stub::create('/migration/drop.stub', [
-                'class' => $this->getClass(),
-                'table' => $parser->getTableName(),
-                'fields' => $this->getSchemaParser()->render(),
-            ]);
-        }
-
-        return Stub::create('/migration/plain.stub', [
+        return new Stub('/migration.stub', [
             'class' => $this->getClass(),
+            'table' => $parser->getTableName(),
+            'fields' => $this->getSchemaParser()->render(),
         ]);
     }
 
