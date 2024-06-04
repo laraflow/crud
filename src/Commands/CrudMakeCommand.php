@@ -46,11 +46,11 @@ class CrudMakeCommand extends Command
     {
         try {
 
-//            $this->createRequests();
-//
-//            $this->createResources();
-//
-//            $this->createModelFiles();
+            $this->createRequests();
+
+            $this->createResources();
+
+            $this->createModelFiles();
 
             $this->createController();
 
@@ -130,7 +130,8 @@ class CrudMakeCommand extends Command
         }
 
         $this->call('laraflow:make-controller', [
-            'name' => $this->getResourceName(),
+            'name' => $this->getResourceName().'Controller',
+            '--model' => $this->getResourceName(),
             'module' => $this->getModuleName(),
             '--crud' => true,
         ]);

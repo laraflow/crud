@@ -26,7 +26,7 @@ class ControllerMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $argumentName = 'controller';
+    protected $argumentName = 'name';
 
     /**
      * The console command name.
@@ -66,7 +66,7 @@ class ControllerMakeCommand extends GeneratorCommand
             'CLASS' => $this->getClass(),
             'MODULE' => $this->getModuleName(),
             'LOWER_NAME' => Str::lower($this->getModuleName()),
-            'MODULE_NAMESPACE' => config('fintech.generators.namespace'),
+            'MODULE_NAMESPACE' => config('api-crud.namespace'),
             //CRUD Options
             'RESOURCE' => $this->getResourceName(),
             'RESOURCE_VARIABLE' => $this->getResourceVariableName(),
@@ -74,7 +74,6 @@ class ControllerMakeCommand extends GeneratorCommand
             'MESSAGE_VARIABLE' => Str::title(Str::replace('-', ' ', Str::kebab($this->getResourceVariableName()))),
             'RESOURCE_NAMESPACES' => '',
             'REQUEST_NAMESPACES' => '',
-            'IMPORT_REQUEST' => basename($this->getClassPath('Import')),
             'STORE_REQUEST' => basename($this->getClassPath('Store')),
             'UPDATE_REQUEST' => basename($this->getClassPath('Update')),
             'INDEX_REQUEST' => basename($this->getClassPath('Index')),
@@ -100,7 +99,7 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     protected function getResourceName()
     {
-        return Str::studly(basename($this->argument('name')));
+        return Str::studly(basename($this->option('model')));
     }
 
     /**
@@ -128,7 +127,7 @@ class ControllerMakeCommand extends GeneratorCommand
     {
         $namespaces = [];
 
-        foreach (['Import', 'Store', 'Update', 'Index'] as $prefix) {
+        foreach (['Store', 'Update', 'Index'] as $prefix) {
             $path = $replacements['MODULE_NAMESPACE'].'/RestApi/Http/Requests/'.$replacements['MODULE'].'/'.$this->getClassPath($prefix);
             $namespaces[] = ('use '.implode('\\', explode('/', $path)).';');
 
@@ -170,6 +169,7 @@ class ControllerMakeCommand extends GeneratorCommand
     {
         return [
             ['crud', null, InputOption::VALUE_NONE, 'Exclude the create and edit methods and add crud code to controller.'],
+            ['model', null, InputOption::VALUE_OPTIONAL, 'The model/resources this controller will manage.'],
         ];
     }
 }
