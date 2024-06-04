@@ -2,12 +2,12 @@
 
 namespace Laraflow\ApiCrud\Commands;
 
+use Illuminate\Support\Str;
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
 use Laraflow\ApiCrud\Exceptions\GeneratorException;
 use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Stub;
 use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -55,9 +55,9 @@ class ControllerMakeCommand extends GeneratorCommand
         $controllerPath = GenerateConfigReader::read($this->type);
 
         return $this->getModulePath('RestApi')
-            . $controllerPath->getPath() . '/'
-            . $this->getModuleName() . '/'
-            . $this->getControllerName() . '.php';
+            .$controllerPath->getPath().'/'
+            .$this->getModuleName().'/'
+            .$this->getControllerName().'.php';
     }
 
     /**
@@ -82,7 +82,7 @@ class ControllerMakeCommand extends GeneratorCommand
     protected function getTemplateContents(): string
     {
         $replacements = [
-            'CLASS_NAMESPACE' => $this->getClassNamespace('RestApi'). '\\' . $this->getModuleName(),
+            'CLASS_NAMESPACE' => $this->getClassNamespace('RestApi').'\\'.$this->getModuleName(),
             'CLASS' => $this->getControllerNameWithoutNamespace(),
             'MODULE' => $this->getModuleName(),
             'LOWER_NAME' => Str::lower($this->getModuleName()),
@@ -133,15 +133,15 @@ class ControllerMakeCommand extends GeneratorCommand
 
     protected function getClassPath(string $prefix = '', string $suffix = 'Request')
     {
-        $resourcePath = $this->argument('controller') . $suffix;
+        $resourcePath = $this->argument('controller').$suffix;
 
         $dir = dirname($resourcePath);
 
-        $dir = ($dir == '.') ? '' : $dir . '/';
+        $dir = ($dir == '.') ? '' : $dir.'/';
 
         $resource = basename($resourcePath);
 
-        return $dir . $prefix . $resource;
+        return $dir.$prefix.$resource;
     }
 
     private function setRequestNamespaces(array &$replacements)
@@ -149,8 +149,8 @@ class ControllerMakeCommand extends GeneratorCommand
         $namespaces = [];
 
         foreach (['Import', 'Store', 'Update', 'Index'] as $prefix) {
-            $path = $replacements['MODULE_NAMESPACE'] . '/RestApi/Http/Requests/' . $replacements['MODULE'] .'/'. $this->getClassPath($prefix);
-            $namespaces[] = ('use ' . implode('\\', explode('/', $path)) . ';');
+            $path = $replacements['MODULE_NAMESPACE'].'/RestApi/Http/Requests/'.$replacements['MODULE'].'/'.$this->getClassPath($prefix);
+            $namespaces[] = ('use '.implode('\\', explode('/', $path)).';');
 
         }
 
@@ -162,8 +162,8 @@ class ControllerMakeCommand extends GeneratorCommand
         $namespaces = [];
 
         foreach (['Resource', 'Collection'] as $suffix) {
-            $path = $replacements['MODULE_NAMESPACE'] . '/RestApi/Http/Resources/' . $replacements['MODULE'] .'/'. $this->getClassPath('', $suffix);
-            $namespaces[] = ('use ' . implode('\\', explode('/', $path)) . ';');
+            $path = $replacements['MODULE_NAMESPACE'].'/RestApi/Http/Resources/'.$replacements['MODULE'].'/'.$this->getClassPath('', $suffix);
+            $namespaces[] = ('use '.implode('\\', explode('/', $path)).';');
 
         }
 

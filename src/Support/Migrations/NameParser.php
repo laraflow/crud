@@ -47,7 +47,7 @@ class NameParser
     /**
      * The constructor.
      *
-     * @param string $name
+     * @param  string  $name
      */
     public function __construct($name)
     {

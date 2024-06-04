@@ -2,11 +2,11 @@
 
 namespace Laraflow\ApiCrud\Commands;
 
+use Illuminate\Support\Str;
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
 use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Stub;
 use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 
 class PolicyMakeCommand extends GeneratorCommand
@@ -76,7 +76,7 @@ class PolicyMakeCommand extends GeneratorCommand
 
         $policyPath = GenerateConfigReader::read('policies');
 
-        return $path . $policyPath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$policyPath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**

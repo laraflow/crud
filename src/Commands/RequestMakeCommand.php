@@ -2,12 +2,12 @@
 
 namespace Laraflow\ApiCrud\Commands;
 
+use Illuminate\Support\Str;
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
 use Laraflow\ApiCrud\Exceptions\GeneratorException;
 use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Stub;
 use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -77,7 +77,7 @@ class RequestMakeCommand extends GeneratorCommand
     protected function getTemplateContents(): string
     {
         return (new Stub('/request.stub', [
-            'NAMESPACE' => $this->getClassNamespace('RestApi'). '\\' . $this->getModuleName(),
+            'NAMESPACE' => $this->getClassNamespace('RestApi').'\\'.$this->getModuleName(),
             'CLASS' => $this->getClass(),
             'RULES' => $this->getRules(),
             'PAGINATE_TRAIT' => $this->getPaginateTrait(),
@@ -112,7 +112,7 @@ HTML;
     protected function getPaginateTrait()
     {
         if ($this->option('index')) {
-            return 'use \Fintech\RestApi\Traits\HasPaginateQuery;' . PHP_EOL;
+            return 'use \Fintech\RestApi\Traits\HasPaginateQuery;'.PHP_EOL;
         } else {
             return '';
         }
@@ -128,9 +128,9 @@ HTML;
         $requestPath = GenerateConfigReader::read('request');
 
         return $this->getModulePath('RestApi')
-            . $requestPath->getPath() . '/'
-            . $this->getModuleName() . '/'
-            . $this->getFileName() . '.php';
+            .$requestPath->getPath().'/'
+            .$this->getModuleName().'/'
+            .$this->getFileName().'.php';
     }
 
     /**

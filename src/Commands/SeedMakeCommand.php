@@ -2,12 +2,12 @@
 
 namespace Laraflow\ApiCrud\Commands;
 
+use Illuminate\Support\Str;
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
 use Laraflow\ApiCrud\Exceptions\GeneratorException;
 use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Stub;
 use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -75,12 +75,13 @@ class SeedMakeCommand extends GeneratorCommand
 
     /**
      * @return mixed
+     *
      * @throws GeneratorException
      */
     protected function getTemplateContents(): string
     {
         return (new Stub('/seeder.stub', [
-            'NAME' => $this->getSeederName() . 'Seeder',
+            'NAME' => $this->getSeederName().'Seeder',
             'SERVICE_NAME' => Str::camel($this->getSeederName()),
             'MODULE' => $this->getModuleName(),
             'ROOT_NAMESPACE' => config('fintech.generators.namespace'),
@@ -110,6 +111,6 @@ class SeedMakeCommand extends GeneratorCommand
 
         $seederPath = GenerateConfigReader::read($this->type);
 
-        return $path . $seederPath->getPath() . '/' . $this->getSeederName() . 'Seeder.php';
+        return $path.$seederPath->getPath().'/'.$this->getSeederName().'Seeder.php';
     }
 }

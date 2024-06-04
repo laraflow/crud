@@ -3,8 +3,8 @@
 namespace Laraflow\ApiCrud\Tests;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Laraflow\ApiCrud\ApiCrudServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {

@@ -8,11 +8,12 @@ trait ModuleCommandTrait
 {
     /**
      * return module path with start and closing slash
-     * @param string|null $module
+     *
      * @return string
+     *
      * @throws GeneratorException
      */
-    public function getModulePath(string $module = null)
+    public function getModulePath(?string $module = null)
     {
         if ($module == null) {
             $module = $this->getModuleName();
@@ -20,7 +21,7 @@ trait ModuleCommandTrait
 
         $rootPath = config('fintech.generators.paths.modules');
 
-        return $rootPath . '/' . $module . '/';
+        return $rootPath.'/'.$module.'/';
     }
 
     /**
@@ -36,7 +37,7 @@ trait ModuleCommandTrait
 
         $module = $this->argument('module');
 
-        if (!$module && file_exists($fallbackPath)) {
+        if (! $module && file_exists($fallbackPath)) {
 
             $fallback = json_decode(file_get_contents($fallbackPath), true);
 
@@ -46,7 +47,7 @@ trait ModuleCommandTrait
             }
         }
 
-        if (!$module) {
+        if (! $module) {
             throw new GeneratorException('Invalid or Missing module name on argument.');
         }
 
@@ -56,11 +57,9 @@ trait ModuleCommandTrait
     /**
      * return module namespace with start and closing slash
      *
-     * @param string|null $module
-     * @return string
      * @throws GeneratorException
      */
-    public function getModuleNS(string $module = null): string
+    public function getModuleNS(?string $module = null): string
     {
         if ($module == null) {
             $module = $this->getModuleName();
@@ -68,6 +67,6 @@ trait ModuleCommandTrait
 
         $rootPath = config('fintech.generators.namespace');
 
-        return '\\' . $rootPath . '\\' . $module . '\\';
+        return '\\'.$rootPath.'\\'.$module.'\\';
     }
 }
