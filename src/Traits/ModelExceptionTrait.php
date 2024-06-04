@@ -29,8 +29,8 @@ trait ModelExceptionTrait
     /**
      * Set the affected Eloquent model and instance ids.
      *
-     * @param class-string $model
-     * @param null $id
+     * @param  class-string  $model
+     * @param  null  $id
      * @return $this
      */
     public function setModel($model, $id = null)
