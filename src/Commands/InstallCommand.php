@@ -38,7 +38,7 @@ class InstallCommand extends Command
 
             $this->confirmStubsPublish();
 
-            $this->components->twoColumnDetail("API Crud Setup Complete.", '<fg=green;options=bold>DONE</>');
+            $this->components->twoColumnDetail('API Crud Setup Complete.', '<fg=green;options=bold>DONE</>');
 
             return self::SUCCESS;
 
@@ -54,31 +54,32 @@ class InstallCommand extends Command
     {
         $routeFilePath = base_path(config('api-crud.route_path', 'routes/api.php'));
 
-        if (!is_file($routeFilePath)) {
+        if (! is_file($routeFilePath)) {
             throw new InvalidArgumentException("Invalid API route file path: ({$routeFilePath}).");
         }
 
-        if (!is_readable($routeFilePath)) {
-            throw new AccessDeniedException("Unable to read from route file.");
+        if (! is_readable($routeFilePath)) {
+            throw new AccessDeniedException('Unable to read from route file.');
         }
 
         $content = file_get_contents($routeFilePath);
 
         if (str_contains($content, '//DO NOT REMOVE THIS LINE//')) {
             $this->components->twoColumnDetail(
-                "API route file contains the crud point string `[//DO NOT REMOVE THIS LINE//]`.",
+                'API route file contains the crud point string `[//DO NOT REMOVE THIS LINE//]`.',
                 '<fg=yellow;options=bold>SKIPPED</>');
+
             return;
         }
 
         $content .= "\n//DO NOT REMOVE THIS LINE//\n";
 
-        if (!is_writeable($routeFilePath)) {
-            throw new CannotWriteFileException("Unable to write on route file.");
+        if (! is_writable($routeFilePath)) {
+            throw new CannotWriteFileException('Unable to write on route file.');
         }
 
         $this->components->twoColumnDetail(
-            "Configured the API Route file.",
+            'Configured the API Route file.',
             '<fg=green;options=bold>DONE</>');
 
         file_put_contents($routeFilePath, $content);
@@ -91,7 +92,7 @@ class InstallCommand extends Command
             $this->vendorPublish('api-crud-config', is_file(base_path('config/api-crud.php')));
         } else {
             $this->components->twoColumnDetail(
-                "Publish Configuration File.",
+                'Publish Configuration File.',
                 '<fg=yellow;options=bold>SKIPPED</>');
         }
     }
