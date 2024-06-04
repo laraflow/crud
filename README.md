@@ -28,10 +28,17 @@ return [
 ];
 ```
 
-Optionally, you can publish the language file using
+You can also publish the language file using
 
 ```bash
 php artisan vendor:publish --tag="api-crud-lang"
+```
+
+Optionally, you can publish the Stubs files using to customize
+generated controller,model,resources and requests.
+
+```bash
+php artisan vendor:publish --tag="api-crud-stubs"
 ```
 
 ## Usage

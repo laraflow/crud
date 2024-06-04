@@ -37,6 +37,10 @@ class ApiCrudServiceProvider extends ServiceProvider
             __DIR__ . '/../lang' => $this->app->langPath('vendor/api-crud'),
         ], 'api-crud-lang');
 
+        $this->publishes([
+            __DIR__ . '/../stubs' => base_path('stubs/api-crud'),
+        ], 'api-crud-stubs');
+
         $this->loadCommands();
     }
 
