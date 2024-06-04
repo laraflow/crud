@@ -1,0 +1,278 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+use Exception;
+use Fintech\Core\Exceptions\StoreOperationException;
+use Fintech\Core\Exceptions\UpdateOperationException;
+use Fintech\Core\Exceptions\DeleteOperationException;
+use Fintech\Core\Exceptions\RestoreOperationException;
+use Fintech\$MODULE$\Facades\$MODULE$;
+$RESOURCE_NAMESPACES$
+$REQUEST_NAMESPACES$
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
+
+/**
+ * Class $CLASS$
+ * @package $CLASS_NAMESPACE$
+ *
+ * @lrd:start
+ * This class handle create, display, update, delete & restore
+ * operation related to $RESOURCE$
+ * @lrd:end
+ *
+ */
+
+class $CLASS$ extends Controller
+{
+    /**
+     * @lrd:start
+     * Return a listing of the *$RESOURCE$* resource as collection.
+     *
+     * *```paginate=false``` returns all resource as list not pagination*
+     * @lrd:end
+     *
+     * @param $INDEX_REQUEST$ $request
+     * @return $RESOURCE$Collection|JsonResponse
+     */
+    public function index($INDEX_REQUEST$ $request): $RESOURCE$Collection|JsonResponse
+    {
+        try {
+            $inputs = $request->validated();
+
+            $$RESOURCE_VARIABLE$Paginate = $MODULE$::$RESOURCE_VARIABLE$()->list($inputs);
+
+            return new $RESOURCE$Collection($$RESOURCE_VARIABLE$Paginate);
+
+        } catch (Exception $exception) {
+
+            return response()->failed($exception->getMessage());
+        }
+    }
+
+    /**
+     * @lrd:start
+     * Create a new *$RESOURCE$* resource in storage.
+     * @lrd:end
+     *
+     * @param $STORE_REQUEST$ $request
+     * @return JsonResponse
+     * @throws StoreOperationException
+     */
+    public function store($STORE_REQUEST$ $request): JsonResponse
+    {
+        try {
+            $inputs = $request->validated();
+
+            $$RESOURCE_VARIABLE$ = $MODULE$::$RESOURCE_VARIABLE$()->create($inputs);
+
+            if (!$$RESOURCE_VARIABLE$) {
+                throw (new StoreOperationException)->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'));
+            }
+
+            return response()->created([
+                'message' => __('restapi::messages.resource.created', ['model' => '$MESSAGE_VARIABLE$']),
+                'id' => $$RESOURCE_VARIABLE$->id
+             ]);
+
+        } catch (Exception $exception) {
+
+            return response()->failed($exception->getMessage());
+        }
+    }
+
+    /**
+     * @lrd:start
+     * Return a specified *$RESOURCE$* resource found by id.
+     * @lrd:end
+     *
+     * @param string|int $id
+     * @return $RESOURCE$Resource|JsonResponse
+     * @throws ModelNotFoundException
+     */
+    public function show(string|int $id): $RESOURCE$Resource|JsonResponse
+    {
+        try {
+
+            $$RESOURCE_VARIABLE$ = $MODULE$::$RESOURCE_VARIABLE$()->find($id);
+
+            if (!$$RESOURCE_VARIABLE$) {
+                throw (new ModelNotFoundException)->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
+            }
+
+            return new $RESOURCE$Resource($$RESOURCE_VARIABLE$);
+
+        } catch (ModelNotFoundException $exception) {
+
+            return response()->notfound($exception->getMessage());
+
+        } catch (Exception $exception) {
+
+            return response()->failed($exception->getMessage());
+        }
+    }
+
+    /**
+     * @lrd:start
+     * Update a specified *$RESOURCE$* resource using id.
+     * @lrd:end
+     *
+     * @param $UPDATE_REQUEST$ $request
+     * @param string|int $id
+     * @return JsonResponse
+     * @throws ModelNotFoundException
+     * @throws UpdateOperationException
+     */
+    public function update($UPDATE_REQUEST$ $request, string|int $id): JsonResponse
+    {
+        try {
+
+            $$RESOURCE_VARIABLE$ = $MODULE$::$RESOURCE_VARIABLE$()->find($id);
+
+            if (!$$RESOURCE_VARIABLE$) {
+                throw (new ModelNotFoundException)->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
+            }
+
+            $inputs = $request->validated();
+
+            if (!$MODULE$::$RESOURCE_VARIABLE$()->update($id, $inputs)) {
+
+                throw (new UpdateOperationException)->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
+            }
+
+            return response()->updated(__('restapi::messages.resource.updated', ['model' => '$MESSAGE_VARIABLE$']));
+
+        } catch (ModelNotFoundException $exception) {
+
+            return response()->notfound($exception->getMessage());
+
+        } catch (Exception $exception) {
+
+            return response()->failed($exception->getMessage());
+        }
+    }
+
+    /**
+     * @lrd:start
+     * Soft delete a specified *$RESOURCE$* resource using id.
+     * @lrd:end
+     *
+     * @param string|int $id
+     * @return JsonResponse
+     * @throws ModelNotFoundException
+     * @throws DeleteOperationException
+     */
+    public function destroy(string|int $id)
+    {
+        try {
+
+            $$RESOURCE_VARIABLE$ = $MODULE$::$RESOURCE_VARIABLE$()->find($id);
+
+            if (!$$RESOURCE_VARIABLE$) {
+                throw (new ModelNotFoundException)->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
+            }
+
+            if (!$MODULE$::$RESOURCE_VARIABLE$()->destroy($id)) {
+
+                throw (new DeleteOperationException())->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
+            }
+
+            return response()->deleted(__('restapi::messages.resource.deleted', ['model' => '$MESSAGE_VARIABLE$']));
+
+        } catch (ModelNotFoundException $exception) {
+
+            return response()->notfound($exception->getMessage());
+
+        } catch (Exception $exception) {
+
+            return response()->failed($exception->getMessage());
+        }
+    }
+
+    /**
+     * @lrd:start
+     * Restore the specified *$RESOURCE$* resource from trash.
+     * ** ```Soft Delete``` needs to enabled to use this feature**
+     * @lrd:end
+     *
+     * @param string|int $id
+     * @return JsonResponse
+     */
+    public function restore(string|int $id)
+    {
+        try {
+
+            $$RESOURCE_VARIABLE$ = $MODULE$::$RESOURCE_VARIABLE$()->find($id, true);
+
+            if (!$$RESOURCE_VARIABLE$) {
+                throw (new ModelNotFoundException)->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
+            }
+
+            if (!$MODULE$::$RESOURCE_VARIABLE$()->restore($id)) {
+
+                throw (new RestoreOperationException())->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
+            }
+
+            return response()->restored(__('restapi::messages.resource.restored', ['model' => '$MESSAGE_VARIABLE$']));
+
+        } catch (ModelNotFoundException $exception) {
+
+            return response()->notfound($exception->getMessage());
+
+        } catch (Exception $exception) {
+
+            return response()->failed($exception->getMessage());
+        }
+    }
+
+    /**
+     * @lrd:start
+     * Create a exportable list of the *$RESOURCE$* resource as document.
+     * After export job is done system will fire  export completed event
+     *
+     * @lrd:end
+     *
+     * @param $INDEX_REQUEST$ $request
+     * @return JsonResponse
+     */
+    public function export($INDEX_REQUEST$ $request): JsonResponse
+    {
+        try {
+            $inputs = $request->validated();
+
+            $$RESOURCE_VARIABLE$Paginate = $MODULE$::$RESOURCE_VARIABLE$()->export($inputs);
+
+            return response()->exported(__('restapi::messages.resource.exported', ['model' => '$MESSAGE_VARIABLE$']));
+
+        } catch (Exception $exception) {
+
+            return response()->failed($exception->getMessage());
+        }
+    }
+
+    /**
+     * @lrd:start
+     * Create a exportable list of the *$RESOURCE$* resource as document.
+     * After export job is done system will fire  export completed event
+     *
+     * @lrd:end
+     *
+     * @param $IMPORT_REQUEST$ $request
+     * @return $RESOURCE$Collection|JsonResponse
+     */
+    public function import($IMPORT_REQUEST$ $request): JsonResponse
+    {
+        try {
+            $inputs = $request->validated();
+
+            $$RESOURCE_VARIABLE$Paginate = $MODULE$::$RESOURCE_VARIABLE$()->list($inputs);
+
+            return new $RESOURCE$Collection($$RESOURCE_VARIABLE$Paginate);
+
+        } catch (Exception $exception) {
+
+            return response()->failed($exception->getMessage());
+        }
+    }
+}

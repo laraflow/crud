@@ -4,7 +4,6 @@ namespace Laraflow\ApiCrud;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
-use Laraflow\ApiCrud\Commands\InstallCommand;
 
 class ApiCrudServiceProvider extends ServiceProvider
 {
@@ -52,8 +51,21 @@ class ApiCrudServiceProvider extends ServiceProvider
     private function loadCommands(): void
     {
         if ($this->app->runningInConsole() && Config::get('api-crud.enabled', false)) {
+            /**
+             * As registration is done conditional
+             * Using full namespace and runtime call.
+             */
             $this->commands([
-                InstallCommand::class
+                \Laraflow\ApiCrud\Commands\ControllerMakeCommand::class,
+                \Laraflow\ApiCrud\Commands\CrudMakeCommand::class,
+                \Laraflow\ApiCrud\Commands\FactoryMakeCommand::class,
+                \Laraflow\ApiCrud\Commands\MigrationMakeCommand::class,
+                \Laraflow\ApiCrud\Commands\ModelMakeCommand::class,
+                \Laraflow\ApiCrud\Commands\PolicyMakeCommand::class,
+                \Laraflow\ApiCrud\Commands\RequestMakeCommand::class,
+                \Laraflow\ApiCrud\Commands\ResourceMakeCommand::class,
+                \Laraflow\ApiCrud\Commands\SeedMakeCommand::class,
+                \Laraflow\ApiCrud\Commands\TestMakeCommand::class,
             ]);
         }
     }
