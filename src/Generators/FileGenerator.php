@@ -3,10 +3,9 @@
 namespace Laraflow\ApiCrud\Generators;
 
 use Illuminate\Filesystem\Filesystem;
-use Laraflow\ApiCrud\ApiCrud;
 use Laraflow\ApiCrud\Exceptions\FileAlreadyExistException;
 
-class FileGenerator extends ApiCrud
+class FileGenerator
 {
     /**
      * The path wil be used.

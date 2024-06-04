@@ -46,15 +46,15 @@ class CrudMakeCommand extends Command
     {
         try {
 
-            $this->createRequests();
-
-            $this->createResources();
-
-            $this->createModelFiles();
+//            $this->createRequests();
+//
+//            $this->createResources();
+//
+//            $this->createModelFiles();
 
             $this->createController();
 
-            $this->updateRouteFile();
+//            $this->updateRouteFile();
 
 
             $this->components->twoColumnDetail('API Crud Stubs File(s) Created.', '<fg=green;options=bold>DONE</>');
@@ -130,7 +130,7 @@ class CrudMakeCommand extends Command
         }
 
         $this->call('laraflow:make-controller', [
-            'controller' => $this->getResourceName(),
+            'name' => $this->getResourceName(),
             'module' => $this->getModuleName(),
             '--crud' => true,
         ]);

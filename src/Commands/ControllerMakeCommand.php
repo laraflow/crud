@@ -47,7 +47,7 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     protected function getControllerName()
     {
-        $controller = Str::studly($this->argument('controller'));
+        $controller = Str::studly($this->argument('name'));
 
         if (Str::contains(strtolower($controller), 'controller') === false) {
             $controller .= 'Controller';
@@ -62,8 +62,8 @@ class ControllerMakeCommand extends GeneratorCommand
     protected function getTemplateContents(): string
     {
         $replacements = [
-            'CLASS_NAMESPACE' => $this->getClassNamespace('RestApi').'\\'.$this->getModuleName(),
-            'CLASS' => $this->getControllerNameWithoutNamespace(),
+            'CLASS_NAMESPACE' => $this->getClassNamespace(),
+            'CLASS' => $this->getClass(),
             'MODULE' => $this->getModuleName(),
             'LOWER_NAME' => Str::lower($this->getModuleName()),
             'MODULE_NAMESPACE' => config('fintech.generators.namespace'),
@@ -84,13 +84,13 @@ class ControllerMakeCommand extends GeneratorCommand
 
         $this->setResourceNamespaces($replacements);
 
-        return (new Stub($this->getStubName(), $replacements))->render();
+        return (new Stub('/controller-crud.stub', $replacements))->render();
     }
 
     /**
      * @return array|string
      */
-    private function getControllerNameWithoutNamespace()
+    public function getClass(): string
     {
         return class_basename($this->getControllerName());
     }
@@ -100,7 +100,7 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     protected function getResourceName()
     {
-        return Str::studly(basename($this->argument('controller')));
+        return Str::studly(basename($this->argument('name')));
     }
 
     /**
@@ -113,7 +113,7 @@ class ControllerMakeCommand extends GeneratorCommand
 
     protected function getClassPath(string $prefix = '', string $suffix = 'Request')
     {
-        $resourcePath = $this->argument('controller').$suffix;
+        $resourcePath = $this->argument('name').$suffix;
 
         $dir = dirname($resourcePath);
 
@@ -151,26 +151,6 @@ class ControllerMakeCommand extends GeneratorCommand
     }
 
     /**
-     * Get the stub file name based on the options
-     *
-     * @return string
-     */
-    protected function getStubName()
-    {
-        if ($this->option('plain') === true) {
-            $stub = '/controller-plain.stub';
-        } elseif ($this->option('api') === true) {
-            $stub = '/controller-api.stub';
-        } elseif ($this->option('crud') === true) {
-            $stub = '/controller-crud.stub';
-        } else {
-            $stub = '/controller.stub';
-        }
-
-        return $stub;
-    }
-
-    /**
      * Get the console command arguments.
      *
      * @return array
@@ -178,7 +158,7 @@ class ControllerMakeCommand extends GeneratorCommand
     protected function getArguments()
     {
         return [
-            ['controller', InputArgument::REQUIRED, 'The name of the controller class. Exclude `Controller` suffix.'],
+            ['name', InputArgument::REQUIRED, 'The name of the controller class. Exclude `Controller` suffix.'],
             ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
         ];
     }
@@ -189,8 +169,6 @@ class ControllerMakeCommand extends GeneratorCommand
     protected function getOptions()
     {
         return [
-            ['plain', 'p', InputOption::VALUE_NONE, 'Generate a plain controller', null],
-            ['api', null, InputOption::VALUE_NONE, 'Exclude the create and edit methods from the controller.'],
             ['crud', null, InputOption::VALUE_NONE, 'Exclude the create and edit methods and add crud code to controller.'],
         ];
     }
