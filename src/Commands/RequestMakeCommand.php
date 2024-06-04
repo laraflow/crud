@@ -80,7 +80,7 @@ class RequestMakeCommand extends GeneratorCommand
             'PAGINATE_TRAIT' => $this->getPaginateTrait(),
         ];
 
-        return dd((new Stub('/request.stub', $replacements))->render());
+        return ((new Stub('/request.stub', $replacements))->render());
     }
 
     /**
@@ -110,7 +110,7 @@ HTML;
     protected function getPaginateTrait()
     {
         if ($this->option('index')) {
-            return 'use \Fintech\RestApi\Traits\HasPaginateQuery;'.PHP_EOL;
+            return PHP_EOL;
         } else {
             return '';
         }

@@ -62,9 +62,9 @@ abstract class GeneratorCommand extends Command
     {
         $config = GenerateConfigReader::read($this->type);
 
-        return $this->getModuleName() . '/'
+        return config('api-crud.root_path', 'app') . '/'
             . $config->getPath() . '/'
-            . $this->getFileName() . '.php';
+            . $this->getFileName();
     }
 
     /**
@@ -139,6 +139,8 @@ abstract class GeneratorCommand extends Command
      */
     private function getFileName()
     {
-        return Str::studly($this->argument('name')) . Str::studly($this->type) . '.php';
+        $type = Str::studly($this->type);
+
+        return str_replace($type, "", Str::studly($this->argument('name'))) . "{$type}.php";
     }
 }
