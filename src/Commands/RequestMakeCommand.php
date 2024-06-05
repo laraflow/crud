@@ -46,7 +46,7 @@ class RequestMakeCommand extends GeneratorCommand
      *
      * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of the form request class.'],
@@ -59,15 +59,17 @@ class RequestMakeCommand extends GeneratorCommand
      *
      * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
-            ['index', null, InputOption::VALUE_NONE, 'The terminal command that should be assigned.', null],
-            ['crud', null, InputOption::VALUE_NONE, 'The terminal command that should be assigned.', null],
+            ['index', null, InputOption::VALUE_NONE, 'The request should have index default validation.', null],
+            ['crud', null, InputOption::VALUE_NONE, 'The request will have resource fields as validation.', null],
         ];
     }
 
     /**
+     * return rendered stubs file contents
+     *
      * @return mixed
      *
      * @throws GeneratorException
@@ -77,41 +79,27 @@ class RequestMakeCommand extends GeneratorCommand
         return (new Stub('/request.stub', [
             'NAMESPACE' => $this->getClassNamespace(),
             'CLASS' => $this->getClass(),
-            'RULES' => $this->getRules(),
-            'PAGINATE_TRAIT' => $this->getPaginateTrait(),
+            'RULES' => $this->getRules()
         ]))->render();
     }
 
     /**
+     * return the default rules needed in request class
+     *
      * @return string
      */
-    protected function getRules()
+    protected function getRules(): string
     {
-        if ($this->option('index')) {
-            return <<<'HTML'
+        return $this->option('index')
+            ? <<<'HTML'
 'search' => ['string', 'nullable', 'max:255'],
-            'per_page' => ['integer', 'nullable', 'min:10', 'max:500'],
+            'per_page' => ['integer', 'nullable'],
             'page' => ['integer', 'nullable', 'min:1'],
-            'paginate' => ['boolean'],
             'sort' => ['string', 'nullable', 'min:2', 'max:255'],
-            'dir' => ['string', 'min:3', 'max:4']
-HTML;
-        } elseif ($this->option('crud')) {
-            return '//';
-        } else {
-            return '//';
-        }
-    }
+            'dir' => ['string', 'nullable', 'min:3', 'max:4']
+HTML
+            :
+            '//';
 
-    /**
-     * @return string
-     */
-    protected function getPaginateTrait()
-    {
-        if ($this->option('index')) {
-            return PHP_EOL;
-        } else {
-            return '';
-        }
     }
 }
