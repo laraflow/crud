@@ -48,11 +48,13 @@ return [
     |--------------------------------------------------------------------------
     | Customise the paths where the folders will be generated.
     | Set the generate key too false to not generate that folder
+    | Note: migration, tests are excluded from root path
+    |
     */
     'templates' => [
         'migration' => [
             'path' => 'database/migrations',
-            'generate' => false,
+            'generate' => true,
             'namespace' => null,
         ],
         'seeder' => [

@@ -2,14 +2,15 @@
 
 namespace $NAMESPACE$;
 
-use Laraflow\ApiCrud\Traits\AuditableTrait;
-use Laraflow\ApiCrud\Abstracts\BaseModel;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
-class $CLASS$ extends BaseModel
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+/**
+ * @method static Builder filter(array $filters = [])
+ */
+class $CLASS$ extends Model
 {
-   use AuditableTrait;
-   use SoftDeletes;
+    use HasFactory;
 
     /*
     |--------------------------------------------------------------------------
@@ -17,15 +18,17 @@ class $CLASS$ extends BaseModel
     |--------------------------------------------------------------------------
     */
 
+    protected $table = '$TABLE$';
+
     protected $primaryKey = 'id';
 
     protected $guarded = ['id'];
 
-    protected $appends = ['links'];
+    protected $appends = [];
 
-    protected $casts = ['$JSON_NAME$' => 'array', 'restored_at' => 'datetime', 'enabled' => 'bool'];
+    protected $casts = [];
 
-    protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id'];
+    protected $hidden = [];
 
     /*
     |--------------------------------------------------------------------------
@@ -45,34 +48,18 @@ class $CLASS$ extends BaseModel
     |--------------------------------------------------------------------------
     */
 
+    public function scopeFilter(Builder $query, array $filters = []): Builder
+    {
+        return $query->when(!empty($filters['search']), function ($query) use($filters) {
+
+        });
+    }
+
     /*
     |--------------------------------------------------------------------------
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
-
-    /**
-     * @return array
-     */
-    public function getLinksAttribute()
-    {
-        $primaryKey = $this->getKey();
-
-        $links = [
-            'show' => action_link(route('$LOWER_NAME$.$ROUTE_NAME$.show', $primaryKey), __('core::messages.action.show'), 'get'),
-            'update' => action_link(route('$LOWER_NAME$.$ROUTE_NAME$.update', $primaryKey), __('core::messages.action.update'), 'put'),
-            'destroy' => action_link(route('$LOWER_NAME$.$ROUTE_NAME$.destroy', $primaryKey), __('core::messages.action.destroy'), 'delete'),
-            'restore' => action_link(route('$LOWER_NAME$.$ROUTE_NAME$.restore', $primaryKey), __('core::messages.action.restore'), 'post'),
-        ];
-
-        if ($this->getAttribute('deleted_at') == null) {
-            unset($links['restore']);
-        } else {
-            unset($links['destroy']);
-        }
-
-        return $links;
-    }
 
     /*
     |--------------------------------------------------------------------------

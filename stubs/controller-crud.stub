@@ -1,12 +1,12 @@
 <?php
 
 namespace $CLASS_NAMESPACE$;
+
 use Exception;
+use $MODULE$\$MODEL$;
 use Laraflow\ApiCrud\Exceptions\StoreOperationException;
 use Laraflow\ApiCrud\Exceptions\UpdateOperationException;
 use Laraflow\ApiCrud\Exceptions\DeleteOperationException;
-use Laraflow\ApiCrud\Exceptions\RestoreOperationException;
-use Fintech\$MODULE$\Facades\$MODULE$;
 $RESOURCE_NAMESPACES$
 $REQUEST_NAMESPACES$
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -23,7 +23,6 @@ use Illuminate\Routing\Controller;
  * @lrd:end
  *
  */
-
 class $CLASS$ extends Controller
 {
     /**
@@ -41,9 +40,16 @@ class $CLASS$ extends Controller
         try {
             $inputs = $request->validated();
 
-            $$RESOURCE_VARIABLE$Paginate = $MODULE$::$RESOURCE_VARIABLE$()->list($inputs);
+            $$RESOURCE_VARIABLE$s = $RESOURCE$::filter($inputs)
+            ->orderBy($request->input('sort', 'id'), $request->input('dir', 'asc'));
 
-            return new $RESOURCE$Collection($$RESOURCE_VARIABLE$Paginate);
+           if($request->input('paginate', true)) {
+                $$RESOURCE_VARIABLE$s = $$RESOURCE_VARIABLE$s->paginate($request->input('per_page'));
+           } else {
+                $$RESOURCE_VARIABLE$s = $$RESOURCE_VARIABLE$s->get();
+           }
+
+            return new $RESOURCE$Collection($$RESOURCE_VARIABLE$s);
 
         } catch (Exception $exception) {
 
@@ -65,15 +71,15 @@ class $CLASS$ extends Controller
         try {
             $inputs = $request->validated();
 
-            $$RESOURCE_VARIABLE$ = $MODULE$::$RESOURCE_VARIABLE$()->create($inputs);
+            $$RESOURCE_VARIABLE$ = $RESOURCE$::create($inputs);
 
             if (!$$RESOURCE_VARIABLE$) {
-                throw (new StoreOperationException)->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'));
+                throw (new StoreOperationException)->setModel($RESOURCE$::class);
             }
 
             return response()->created([
-                'message' => __('restapi::messages.resource.created', ['model' => '$MESSAGE_VARIABLE$']),
-                'id' => $$RESOURCE_VARIABLE$->id
+                'message' => __('api-crud::messages.resource.created', ['model' => '$MESSAGE_VARIABLE$']),
+                'id' => $$RESOURCE_VARIABLE$->getKey()
              ]);
 
         } catch (Exception $exception) {
@@ -87,25 +93,14 @@ class $CLASS$ extends Controller
      * Return a specified *$RESOURCE$* resource found by id.
      * @lrd:end
      *
-     * @param string|int $id
+     * @param $RESOURCE$ $$RESOURCE_VARIABLE$
      * @return $RESOURCE$Resource|JsonResponse
-     * @throws ModelNotFoundException
      */
-    public function show(string|int $id): $RESOURCE$Resource|JsonResponse
+    public function show($RESOURCE$ $$RESOURCE_VARIABLE$): $RESOURCE$Resource|JsonResponse
     {
         try {
 
-            $$RESOURCE_VARIABLE$ = $MODULE$::$RESOURCE_VARIABLE$()->find($id);
-
-            if (!$$RESOURCE_VARIABLE$) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
-            }
-
             return new $RESOURCE$Resource($$RESOURCE_VARIABLE$);
-
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
 
         } catch (Exception $exception) {
 
@@ -119,33 +114,22 @@ class $CLASS$ extends Controller
      * @lrd:end
      *
      * @param $UPDATE_REQUEST$ $request
-     * @param string|int $id
+     * @param $RESOURCE$ $$RESOURCE_VARIABLE$
      * @return JsonResponse
-     * @throws ModelNotFoundException
      * @throws UpdateOperationException
      */
-    public function update($UPDATE_REQUEST$ $request, string|int $id): JsonResponse
+    public function update($UPDATE_REQUEST$ $request, $RESOURCE$ $$RESOURCE_VARIABLE$): JsonResponse
     {
         try {
 
-            $$RESOURCE_VARIABLE$ = $MODULE$::$RESOURCE_VARIABLE$()->find($id);
-
-            if (!$$RESOURCE_VARIABLE$) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
-            }
-
             $inputs = $request->validated();
 
-            if (!$MODULE$::$RESOURCE_VARIABLE$()->update($id, $inputs)) {
+            if (!$$RESOURCE_VARIABLE$->update($inputs)) {
 
-                throw (new UpdateOperationException)->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
+                throw (new UpdateOperationException)->setModel($RESOURCE$::class, $$RESOURCE_VARIABLE$->getKey());
             }
 
-            return response()->updated(__('restapi::messages.resource.updated', ['model' => '$MESSAGE_VARIABLE$']));
-
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
+            return response()->updated(__('api-crud::messages.resource.updated', ['model' => '$MESSAGE_VARIABLE$']));
 
         } catch (Exception $exception) {
 
@@ -158,117 +142,21 @@ class $CLASS$ extends Controller
      * Soft delete a specified *$RESOURCE$* resource using id.
      * @lrd:end
      *
-     * @param string|int $id
+     * @param $RESOURCE$ $$RESOURCE_VARIABLE$
      * @return JsonResponse
      * @throws ModelNotFoundException
      * @throws DeleteOperationException
      */
-    public function destroy(string|int $id)
+    public function destroy($RESOURCE$ $$RESOURCE_VARIABLE$)
     {
         try {
 
-            $$RESOURCE_VARIABLE$ = $MODULE$::$RESOURCE_VARIABLE$()->find($id);
+            if (!$$RESOURCE_VARIABLE$->delete()) {
 
-            if (!$$RESOURCE_VARIABLE$) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
+                throw (new DeleteOperationException())->setModel($RESOURCE$::class, $$RESOURCE_VARIABLE$->getKey());
             }
 
-            if (!$MODULE$::$RESOURCE_VARIABLE$()->destroy($id)) {
-
-                throw (new DeleteOperationException())->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
-            }
-
-            return response()->deleted(__('restapi::messages.resource.deleted', ['model' => '$MESSAGE_VARIABLE$']));
-
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
-
-            return response()->failed($exception->getMessage());
-        }
-    }
-
-    /**
-     * @lrd:start
-     * Restore the specified *$RESOURCE$* resource from trash.
-     * ** ```Soft Delete``` needs to enabled to use this feature**
-     * @lrd:end
-     *
-     * @param string|int $id
-     * @return JsonResponse
-     */
-    public function restore(string|int $id)
-    {
-        try {
-
-            $$RESOURCE_VARIABLE$ = $MODULE$::$RESOURCE_VARIABLE$()->find($id, true);
-
-            if (!$$RESOURCE_VARIABLE$) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
-            }
-
-            if (!$MODULE$::$RESOURCE_VARIABLE$()->restore($id)) {
-
-                throw (new RestoreOperationException())->setModel(config('fintech.$LOWER_NAME$.$CONFIG_VARIABLE$_model'), $id);
-            }
-
-            return response()->restored(__('restapi::messages.resource.restored', ['model' => '$MESSAGE_VARIABLE$']));
-
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
-
-            return response()->failed($exception->getMessage());
-        }
-    }
-
-    /**
-     * @lrd:start
-     * Create a exportable list of the *$RESOURCE$* resource as document.
-     * After export job is done system will fire  export completed event
-     *
-     * @lrd:end
-     *
-     * @param $INDEX_REQUEST$ $request
-     * @return JsonResponse
-     */
-    public function export($INDEX_REQUEST$ $request): JsonResponse
-    {
-        try {
-            $inputs = $request->validated();
-
-            $$RESOURCE_VARIABLE$Paginate = $MODULE$::$RESOURCE_VARIABLE$()->export($inputs);
-
-            return response()->exported(__('restapi::messages.resource.exported', ['model' => '$MESSAGE_VARIABLE$']));
-
-        } catch (Exception $exception) {
-
-            return response()->failed($exception->getMessage());
-        }
-    }
-
-    /**
-     * @lrd:start
-     * Create a exportable list of the *$RESOURCE$* resource as document.
-     * After export job is done system will fire  export completed event
-     *
-     * @lrd:end
-     *
-     * @param $IMPORT_REQUEST$ $request
-     * @return $RESOURCE$Collection|JsonResponse
-     */
-    public function import($IMPORT_REQUEST$ $request): JsonResponse
-    {
-        try {
-            $inputs = $request->validated();
-
-            $$RESOURCE_VARIABLE$Paginate = $MODULE$::$RESOURCE_VARIABLE$()->list($inputs);
-
-            return new $RESOURCE$Collection($$RESOURCE_VARIABLE$Paginate);
+            return response()->deleted(__('api-crud::messages.resource.deleted', ['model' => '$MESSAGE_VARIABLE$']));
 
         } catch (Exception $exception) {
 
