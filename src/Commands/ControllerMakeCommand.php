@@ -43,20 +43,6 @@ class ControllerMakeCommand extends GeneratorCommand
     protected $description = 'Generate new restful controller for the specified package.';
 
     /**
-     * @return array|string
-     */
-    protected function getControllerName()
-    {
-        $controller = Str::studly($this->argument('name'));
-
-        if (Str::contains(strtolower($controller), 'controller') === false) {
-            $controller .= 'Controller';
-        }
-
-        return $controller;
-    }
-
-    /**
      * @throws GeneratorException
      */
     protected function getTemplateContents(): string
@@ -74,7 +60,7 @@ class ControllerMakeCommand extends GeneratorCommand
             'MESSAGE_VARIABLE' => Str::title(Str::replace('-', ' ', Str::kebab($this->getResourceVariableName()))),
             'RESOURCE_NAMESPACES' => '',
             'REQUEST_NAMESPACES' => '',
-            'MODEL' => str_replace('/', '\\', $this->getDefaultNamespace('model').'\\'.$this->option('model')),
+            'MODEL' => str_replace('/', '\\', $this->getDefaultNamespace('model') . '\\' . $this->option('model')),
             'STORE_REQUEST' => '',
             'UPDATE_REQUEST' => '',
             'INDEX_REQUEST' => '',
@@ -96,6 +82,20 @@ class ControllerMakeCommand extends GeneratorCommand
     }
 
     /**
+     * @return array|string
+     */
+    protected function getControllerName()
+    {
+        $controller = Str::studly($this->argument('name'));
+
+        if (Str::contains(strtolower($controller), 'controller') === false) {
+            $controller .= 'Controller';
+        }
+
+        return $controller;
+    }
+
+    /**
      * @return string
      */
     protected function getResourceName()
@@ -111,35 +111,23 @@ class ControllerMakeCommand extends GeneratorCommand
         return Str::camel(basename($this->getResourceName()));
     }
 
-    protected function getClassPath(string $prefix = '', string $suffix = 'Request')
-    {
-        $resourcePath = $this->argument('name').$suffix;
-
-        $dir = dirname($resourcePath);
-
-        $dir = ($dir == '.') ? '' : $dir.'/';
-
-        $resource = basename($resourcePath);
-
-        return $dir.$prefix.$resource;
-    }
-
     private function setRequestNamespaces(array &$replacements)
     {
         $namespaces = [];
 
         foreach (['Store', 'Update', 'Index'] as $prefix) {
-            $path = $this->getModuleName().'/'
-                .$this->getDefaultNamespace('request').'/'
-                .dirname($this->option('model')).'/'.$prefix.class_basename($this->option('model')).'Request';
+            $path = $this->getModuleName() . '/'
+                . $this->getDefaultNamespace('request') . '/'
+                . dirname($this->option('model')) . '/' . $prefix . class_basename($this->option('model')) . 'Request';
 
+            $path = str_replace('/./', '/', $path);
             match ($prefix) {
                 'Store' => $replacements['STORE_REQUEST'] = basename($path),
                 'Index' => $replacements['INDEX_REQUEST'] = basename($path),
                 'Update' => $replacements['UPDATE_REQUEST'] = basename($path),
             };
 
-            $namespaces[] = ('use '.implode('\\', explode('/', $path)).';');
+            $namespaces[] = ('use ' . implode('\\', explode('/', $path)) . ';');
 
         }
 
@@ -154,15 +142,28 @@ class ControllerMakeCommand extends GeneratorCommand
         $namespaces = [];
 
         foreach (['Resource', 'Collection'] as $suffix) {
-            $path = $this->getModuleName().'/'
-                .$this->getDefaultNamespace('resource').'/'
-                .$this->option('model').$suffix;
+            $path = $this->getModuleName() . '/'
+                . $this->getDefaultNamespace('resource') . '/'
+                . $this->option('model') . $suffix;
 
-            $namespaces[] = ('use '.implode('\\', explode('/', $path)).';');
+            $namespaces[] = ('use ' . implode('\\', explode('/', $path)) . ';');
 
         }
 
         $replacements['RESOURCE_NAMESPACES'] = implode("\n", $namespaces);
+    }
+
+    protected function getClassPath(string $prefix = '', string $suffix = 'Request')
+    {
+        $resourcePath = $this->argument('name') . $suffix;
+
+        $dir = dirname($resourcePath);
+
+        $dir = ($dir == '.') ? '' : $dir . '/';
+
+        $resource = basename($resourcePath);
+
+        return $dir . $prefix . $resource;
     }
 
     /**

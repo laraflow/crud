@@ -68,21 +68,21 @@ class CrudMakeCommand extends Command
 
     private function createRequest()
     {
-        if (! config('api-crud.templates.request.generate', true)) {
+        if (!config('api-crud.templates.request.generate', true)) {
             return;
         }
         foreach (['Index', 'Store', 'Update'] as $prefix) {
 
-            $resourcePath = $this->getResourceName().'Request';
+            $resourcePath = $this->getResourceName() . 'Request';
 
             $dir = dirname($resourcePath);
 
-            $dir = ($dir == '.') ? '' : $dir.'/';
+            $dir = ($dir == '.') ? '' : $dir . '/';
 
             $resource = basename($resourcePath);
 
             $options = [
-                'name' => $dir.$prefix.$resource,
+                'name' => $dir . $prefix . $resource,
                 'module' => $this->getModuleName(),
             ];
 
@@ -105,32 +105,18 @@ class CrudMakeCommand extends Command
 
     private function createResource()
     {
-        if (! config('api-crud.templates.resource.generate', true)) {
+        if (!config('api-crud.templates.resource.generate', true)) {
             return;
         }
         $this->call('laraflow:make-resource', [
-            'name' => $this->getResourceName().'Resource',
+            'name' => $this->getResourceName() . 'Resource',
             'module' => $this->getModuleName(),
         ]);
 
         $this->call('laraflow:make-resource', [
-            'name' => $this->getResourceName().'Collection',
+            'name' => $this->getResourceName() . 'Collection',
             'module' => $this->getModuleName(),
             '--collection' => true,
-        ]);
-    }
-
-    private function createController()
-    {
-        if (! config('api-crud.templates.controller.generate', true)) {
-            return;
-        }
-
-        $this->call('laraflow:make-controller', [
-            'name' => $this->getResourceName().'Controller',
-            '--model' => $this->getResourceName(),
-            'module' => $this->getModuleName(),
-            '--crud' => true,
         ]);
     }
 
@@ -140,13 +126,27 @@ class CrudMakeCommand extends Command
     private function createModel()
     {
 
-        if (! config('api-crud.templates.model.generate', true)) {
+        if (!config('api-crud.templates.model.generate', true)) {
             return;
         }
         $this->call('laraflow:make-model', [
             'name' => $this->getResourceName(),
             'module' => $this->getModuleName(),
             '--migration' => config('api-crud.templates.migration.generate', true),
+        ]);
+    }
+
+    private function createController()
+    {
+        if (!config('api-crud.templates.controller.generate', true)) {
+            return;
+        }
+
+        $this->call('laraflow:make-controller', [
+            'name' => $this->getResourceName() . 'Controller',
+            '--model' => $this->getResourceName(),
+            'module' => $this->getModuleName(),
+            '--crud' => true,
         ]);
     }
 
@@ -157,13 +157,13 @@ class CrudMakeCommand extends Command
     {
         $filePath = base_path(config('api-crud.route_path', 'routes/api.php'));
 
-        if (! file_exists($filePath)) {
+        if (!file_exists($filePath)) {
             throw new InvalidArgumentException("Route file location doesn't exist");
         }
 
         $fileContent = file_get_contents($filePath);
 
-        if (! str_contains($fileContent, '//DO NOT REMOVE THIS LINE//')) {
+        if (!str_contains($fileContent, '//DO NOT REMOVE THIS LINE//')) {
             throw new GeneratorException('Route file missing the CRUD Pointer comment.');
         }
 
@@ -174,12 +174,12 @@ class CrudMakeCommand extends Command
         $controller =
             GeneratorPath::convertPathToNamespace(
                 '\\'
-                .$this->getModuleName()
-                .'\\'
-                .GenerateConfigReader::read('controller')->getNamespace()
-                .'\\'
-                .$this->getResourceName()
-                .'Controller::class'
+                . $this->getModuleName()
+                . '\\'
+                . GenerateConfigReader::read('controller')->getNamespace()
+                . '\\'
+                . $this->getResourceName()
+                . 'Controller::class'
             );
 
         $template = <<<HTML

@@ -2,6 +2,7 @@
 
 namespace Laraflow\ApiCrud\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -42,7 +43,7 @@ class InstallCommand extends Command
 
             return self::SUCCESS;
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             $this->components->twoColumnDetail($exception->getMessage(), '<fg=red;options=bold>ERROR</>');
 
@@ -54,11 +55,11 @@ class InstallCommand extends Command
     {
         $routeFilePath = base_path(config('api-crud.route_path', 'routes/api.php'));
 
-        if (! is_file($routeFilePath)) {
+        if (!is_file($routeFilePath)) {
             throw new InvalidArgumentException("Invalid API route file path: ({$routeFilePath}).");
         }
 
-        if (! is_readable($routeFilePath)) {
+        if (!is_readable($routeFilePath)) {
             throw new AccessDeniedException('Unable to read from route file.');
         }
 
@@ -74,7 +75,7 @@ class InstallCommand extends Command
 
         $content .= "\n//DO NOT REMOVE THIS LINE//\n";
 
-        if (! is_writable($routeFilePath)) {
+        if (!is_writable($routeFilePath)) {
             throw new CannotWriteFileException('Unable to write on route file.');
         }
 
@@ -95,6 +96,21 @@ class InstallCommand extends Command
                 'Publish Configuration File.',
                 '<fg=yellow;options=bold>SKIPPED</>');
         }
+    }
+
+    private function vendorPublish(string $tag, bool $forced = false): void
+    {
+        if ($forced) {
+
+            if ($this->confirm('Already Published. Overwrite?', true)) {
+
+                $this->call('vendor:publish', ['--tag' => $tag, '--force' => true]);
+            }
+
+            return;
+        }
+
+        $this->call('vendor:publish', ['--tag' => $tag]);
     }
 
     private function confirmLanguagePublish(): void
@@ -119,20 +135,5 @@ class InstallCommand extends Command
                 'Publish Template Files',
                 '<fg=yellow;options=bold>SKIPPED</>');
         }
-    }
-
-    private function vendorPublish(string $tag, bool $forced = false): void
-    {
-        if ($forced) {
-
-            if ($this->confirm('Already Published. Overwrite?', true)) {
-
-                $this->call('vendor:publish', ['--tag' => $tag, '--force' => true]);
-            }
-
-            return;
-        }
-
-        $this->call('vendor:publish', ['--tag' => $tag]);
     }
 }

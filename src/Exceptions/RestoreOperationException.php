@@ -18,8 +18,8 @@ class RestoreOperationException extends Exception
     /**
      * RestoreOperationException constructor.
      *
-     * @param  string  $message
-     * @param  int  $code
+     * @param string $message
+     * @param int $code
      */
     public function __construct($message = '', $code = 0, ?Throwable $previous = null)
     {

@@ -126,23 +126,23 @@ class MigrationMakeCommand extends GeneratorCommand
         return new SchemaParser($this->option('fields'));
     }
 
+    protected function getDestinationFilePath(): string
+    {
+        $config = GenerateConfigReader::read($this->type);
+
+        return $config->getPath() . '/' . $this->getFileName();
+    }
+
+    protected function getFileName()
+    {
+        return date('Y_m_d_His_\c\r\e\a\t\e_') . Str::snake($this->argument('name')) . '_table.php';
+    }
+
     /**
      * @return array|string
      */
     private function getSchemaName()
     {
         return $this->argument('name');
-    }
-
-    protected function getDestinationFilePath(): string
-    {
-        $config = GenerateConfigReader::read($this->type);
-
-        return $config->getPath().'/'.$this->getFileName();
-    }
-
-    protected function getFileName()
-    {
-        return date('Y_m_d_His_\c\r\e\a\t\e_').Str::snake($this->argument('name')).'_table.php';
     }
 }

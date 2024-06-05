@@ -4,6 +4,13 @@ namespace Laraflow\ApiCrud\Providers;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Laraflow\ApiCrud\Commands\ControllerMakeCommand;
+use Laraflow\ApiCrud\Commands\CrudMakeCommand;
+use Laraflow\ApiCrud\Commands\InstallCommand;
+use Laraflow\ApiCrud\Commands\MigrationMakeCommand;
+use Laraflow\ApiCrud\Commands\ModelMakeCommand;
+use Laraflow\ApiCrud\Commands\RequestMakeCommand;
+use Laraflow\ApiCrud\Commands\ResourceMakeCommand;
 
 class ApiCrudServiceProvider extends ServiceProvider
 {
@@ -13,7 +20,7 @@ class ApiCrudServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/api-crud.php', 'api-crud'
+            __DIR__ . '/../../config/api-crud.php', 'api-crud'
         );
 
         $this->app->register(MacroServiceProvider::class);
@@ -25,17 +32,17 @@ class ApiCrudServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__.'/../../config/api-crud.php' => config_path('api-crud.php'),
+            __DIR__ . '/../../config/api-crud.php' => config_path('api-crud.php'),
         ], 'api-crud-config');
 
-        $this->loadTranslationsFrom(__DIR__.'/../../lang', 'api-crud');
+        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'api-crud');
 
         $this->publishes([
-            __DIR__.'/../../lang' => $this->app->langPath('vendor/api-crud'),
+            __DIR__ . '/../../lang' => $this->app->langPath('vendor/api-crud'),
         ], 'api-crud-lang');
 
         $this->publishes([
-            __DIR__.'/../../stubs' => base_path('stubs/api-crud'),
+            __DIR__ . '/../../stubs' => base_path('stubs/api-crud'),
         ], 'api-crud-stubs');
 
         $this->loadCommands();
@@ -52,13 +59,13 @@ class ApiCrudServiceProvider extends ServiceProvider
              * Using full namespace and runtime call.
              */
             $this->commands([
-                \Laraflow\ApiCrud\Commands\InstallCommand::class,
-                \Laraflow\ApiCrud\Commands\ControllerMakeCommand::class,
-                \Laraflow\ApiCrud\Commands\MigrationMakeCommand::class,
-                \Laraflow\ApiCrud\Commands\ModelMakeCommand::class,
-                \Laraflow\ApiCrud\Commands\RequestMakeCommand::class,
-                \Laraflow\ApiCrud\Commands\ResourceMakeCommand::class,
-                \Laraflow\ApiCrud\Commands\CrudMakeCommand::class,
+                InstallCommand::class,
+                ControllerMakeCommand::class,
+                MigrationMakeCommand::class,
+                ModelMakeCommand::class,
+                RequestMakeCommand::class,
+                ResourceMakeCommand::class,
+                CrudMakeCommand::class,
             ]);
         }
     }

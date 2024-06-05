@@ -65,6 +65,11 @@ class ModelMakeCommand extends GeneratorCommand
         }
     }
 
+    private function GetTableName()
+    {
+        return Str::replace('/', '', Str::lower(Str::snake(Str::plural($this->getModelName()))));
+    }
+
     /**
      * @return mixed|string
      */
@@ -129,7 +134,7 @@ class ModelMakeCommand extends GeneratorCommand
         return (new Stub('/model.stub', [
             'NAME' => $this->getModelName(),
             'ROUTE_NAME' => Str::plural(Str::lower(Str::kebab($this->getModelName()))),
-            'JSON_NAME' => Str::lower(Str::snake($this->getModelName())).'_data',
+            'JSON_NAME' => Str::lower(Str::snake($this->getModelName())) . '_data',
             'TABLE' => $this->getTableName(),
             'FILLABLE' => $this->getFillable(),
             'NAMESPACE' => $this->getClassNamespace($this->getModuleName()),
@@ -142,11 +147,6 @@ class ModelMakeCommand extends GeneratorCommand
         ]))->render();
     }
 
-    private function GetTableName()
-    {
-        return Str::replace('/', '', Str::lower(Str::snake(Str::plural($this->getModelName()))));
-    }
-
     /**
      * @return string
      */
@@ -154,7 +154,7 @@ class ModelMakeCommand extends GeneratorCommand
     {
         $fillable = $this->option('fillable');
 
-        if (! is_null($fillable)) {
+        if (!is_null($fillable)) {
             $arrays = explode(',', $fillable);
 
             return json_encode($arrays);
@@ -168,6 +168,6 @@ class ModelMakeCommand extends GeneratorCommand
      */
     protected function getFileName()
     {
-        return Str::studly($this->argument('name')).'.php';
+        return Str::studly($this->argument('name')) . '.php';
     }
 }
