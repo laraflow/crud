@@ -49,9 +49,7 @@ class ModelMakeCommand extends GeneratorCommand
         }
 
         $this->handleOptionalMigrationOption();
-        $this->handleOptionalControllerOption();
         $this->handleOptionalSeedOption();
-        $this->handleOptionalRequestOption();
 
         return 0;
     }
@@ -91,21 +89,6 @@ class ModelMakeCommand extends GeneratorCommand
     }
 
     /**
-     * Create the controller file for the given model if controller flag was used
-     */
-    private function handleOptionalControllerOption()
-    {
-        if ($this->option('controller') === true) {
-            $controllerName = "{$this->getModelName()}Controller";
-
-            $this->call('laraflow:make-controller', array_filter([
-                'controller' => $controllerName,
-                'module' => $this->argument('module'),
-            ]));
-        }
-    }
-
-    /**
      * @return mixed|string
      */
     private function getModelName()
@@ -130,22 +113,6 @@ class ModelMakeCommand extends GeneratorCommand
         }
     }
 
-    /**
-     * Create a request file for the model.
-     *
-     * @return void
-     */
-    protected function handleOptionalRequestOption()
-    {
-        if ($this->option('request') === true) {
-            $requestName = "{$this->getModelName()}Request";
-
-            $this->call('laraflow:make-request', array_filter([
-                'name' => $requestName,
-                'module' => $this->argument('module'),
-            ]));
-        }
-    }
 
     /**
      * Get the console command arguments.
