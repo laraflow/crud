@@ -20,7 +20,7 @@ class ApiCrudServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../../config/api-crud.php', 'api-crud'
+            __DIR__.'/../../config/api-crud.php', 'api-crud'
         );
 
         $this->app->register(MacroServiceProvider::class);
@@ -32,17 +32,17 @@ class ApiCrudServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../../config/api-crud.php' => config_path('api-crud.php'),
+            __DIR__.'/../../config/api-crud.php' => config_path('api-crud.php'),
         ], 'api-crud-config');
 
-        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'api-crud');
+        $this->loadTranslationsFrom(__DIR__.'/../../lang', 'api-crud');
 
         $this->publishes([
-            __DIR__ . '/../../lang' => $this->app->langPath('vendor/api-crud'),
+            __DIR__.'/../../lang' => $this->app->langPath('vendor/api-crud'),
         ], 'api-crud-lang');
 
         $this->publishes([
-            __DIR__ . '/../../stubs' => base_path('stubs/api-crud'),
+            __DIR__.'/../../stubs' => base_path('stubs/api-crud'),
         ], 'api-crud-stubs');
 
         $this->loadCommands();
