@@ -58,7 +58,7 @@ trait ModuleCommandTrait
             $module = $this->getModuleName();
         }
 
-        $rootPath = config('fintech.generators.namespace');
+        $rootPath = config('api-crud.namespace', 'App');
 
         return '\\'.$rootPath.'\\'.$module.'\\';
     }
