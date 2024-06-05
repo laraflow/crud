@@ -44,8 +44,6 @@ class ResourceMakeCommand extends GeneratorCommand
 
     /**
      * Get the console command arguments.
-     *
-     * @return array
      */
     protected function getArguments(): array
     {
@@ -92,9 +90,6 @@ class ResourceMakeCommand extends GeneratorCommand
             Str::endsWith($this->argument('name'), 'Collection');
     }
 
-    /**
-     * @return string
-     */
     protected function getFileName(): string
     {
         return Str::studly($this->argument('name')).'.php';
