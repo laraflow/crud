@@ -60,32 +60,9 @@ class ModelMakeCommand extends GeneratorCommand
     private function handleOptionalMigrationOption()
     {
         if ($this->option('migration') === true) {
-            $migrationName = 'create_'.$this->createMigrationName().'_table';
+            $migrationName = $this->getTableName();
             $this->call('laraflow:make-migration', ['name' => $migrationName, 'module' => $this->argument('module')]);
         }
-    }
-
-    /**
-     * Create a proper migration name:
-     * ProductDetail: product_details
-     * Product: products
-     *
-     * @return string
-     */
-    private function createMigrationName()
-    {
-        $pieces = preg_split('/(?=[A-Z])/', $this->argument('model'), -1, PREG_SPLIT_NO_EMPTY);
-
-        $string = '';
-        foreach ($pieces as $i => $piece) {
-            if ($i + 1 < count($pieces)) {
-                $string .= strtolower($piece).'_';
-            } else {
-                $string .= Str::plural(strtolower($piece));
-            }
-        }
-
-        return $string;
     }
 
     /**
@@ -154,7 +131,7 @@ class ModelMakeCommand extends GeneratorCommand
             'NAME' => $this->getModelName(),
             'ROUTE_NAME' => Str::plural(Str::lower(Str::kebab($this->getModelName()))),
             'JSON_NAME' => Str::lower(Str::snake($this->getModelName())).'_data',
-            'TABLE' => Str::plural($this->getModelName()),
+            'TABLE' => $this->getTableName(),
             'FILLABLE' => $this->getFillable(),
             'NAMESPACE' => $this->getClassNamespace($this->getModuleName()),
             'CLASS' => $this->getClass(),
@@ -164,6 +141,11 @@ class ModelMakeCommand extends GeneratorCommand
             'STUDLY_NAME' => $this->getModuleName(),
             'MODULE_NAMESPACE' => config('fintech.generators.namespace'),
         ]))->render();
+    }
+
+    private function GetTableName()
+    {
+        return Str::replace('/', '', Str::lower(Str::snake(Str::plural($this->getModelName()))));
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Laraflow\ApiCrud\Commands;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
+use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Migrations\NameParser;
 use Laraflow\ApiCrud\Support\Migrations\SchemaParser;
 use Laraflow\ApiCrud\Support\Stub;
@@ -49,9 +50,6 @@ class MigrationMakeCommand extends GeneratorCommand
      */
     public function handle(): int
     {
-
-        $this->components->info('Creating migration...');
-
         if (parent::handle() === E_ERROR) {
             return E_ERROR;
         }
@@ -100,7 +98,7 @@ class MigrationMakeCommand extends GeneratorCommand
 
         return new Stub('/migration.stub', [
             'class' => $this->getClass(),
-            'table' => $parser->getTableName(),
+            'table' => $this->argument('name'),
             'fields' => $this->getSchemaParser()->render(),
         ]);
     }
@@ -134,5 +132,17 @@ class MigrationMakeCommand extends GeneratorCommand
     private function getSchemaName()
     {
         return $this->argument('name');
+    }
+
+    protected function getDestinationFilePath(): string
+    {
+        $config = GenerateConfigReader::read($this->type);
+
+        return $config->getPath().'/' .$this->getFileName();
+    }
+
+    protected function getFileName()
+    {
+        return date('Y_m_d_His_\c\r\e\a\t\e_') . Str::snake($this->argument('name')) . "_table.php";
     }
 }

@@ -44,11 +44,11 @@ class CrudMakeCommand extends Command
     {
         try {
 
-            $this->createRequests();
+            $this->createRequest();
 
-            $this->createResources();
+            $this->createResource();
 
-            $this->createModelFiles();
+            $this->createModel();
 
             $this->createController();
 
@@ -66,7 +66,7 @@ class CrudMakeCommand extends Command
         return self::FAILURE;
     }
 
-    private function createRequests()
+    private function createRequest()
     {
         if (!config('api-crud.templates.request.generate', true)) {
             return;
@@ -103,7 +103,7 @@ class CrudMakeCommand extends Command
         return Str::studly($this->argument('name'));
     }
 
-    private function createResources()
+    private function createResource()
     {
         if (!config('api-crud.templates.resource.generate', true)) {
             return;
@@ -137,7 +137,7 @@ class CrudMakeCommand extends Command
     /**
      * @throws GeneratorException
      */
-    private function createModelFiles()
+    private function createModel()
     {
 
         if (!config('api-crud.templates.model.generate', true)) {
@@ -146,7 +146,7 @@ class CrudMakeCommand extends Command
         $this->call('laraflow:make-model', [
             'name' => $this->getResourceName(),
             'module' => $this->getModuleName(),
-            //            '--migration' => config('api-crud.templates.migration.generate', true)
+            '--migration' => config('api-crud.templates.migration.generate', true)
         ]);
     }
 
