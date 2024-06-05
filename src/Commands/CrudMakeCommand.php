@@ -52,7 +52,7 @@ class CrudMakeCommand extends Command
 
             $this->createController();
 
-//            $this->updateRouteFile();
+            //            $this->updateRouteFile();
 
             $this->components->twoColumnDetail('API Crud Stubs File(s) Created.', '<fg=green;options=bold>DONE</>');
 
@@ -146,7 +146,7 @@ class CrudMakeCommand extends Command
         $this->call('laraflow:make-model', [
             'name' => $this->getResourceName(),
             'module' => $this->getModuleName(),
-//            '--migration' => config('api-crud.templates.migration.generate', true)
+            //            '--migration' => config('api-crud.templates.migration.generate', true)
         ]);
     }
 
