@@ -90,7 +90,6 @@ class ModelMakeCommand extends GeneratorCommand
         }
     }
 
-
     /**
      * Get the console command arguments.
      *

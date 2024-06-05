@@ -74,7 +74,7 @@ class ControllerMakeCommand extends GeneratorCommand
             'MESSAGE_VARIABLE' => Str::title(Str::replace('-', ' ', Str::kebab($this->getResourceVariableName()))),
             'RESOURCE_NAMESPACES' => '',
             'REQUEST_NAMESPACES' => '',
-            'MODEL' => str_replace('/', '\\', $this->getDefaultNamespace('model') . '\\' . $this->option('model')),
+            'MODEL' => str_replace('/', '\\', $this->getDefaultNamespace('model').'\\'.$this->option('model')),
             'STORE_REQUEST' => '',
             'UPDATE_REQUEST' => '',
             'INDEX_REQUEST' => '',
@@ -113,15 +113,15 @@ class ControllerMakeCommand extends GeneratorCommand
 
     protected function getClassPath(string $prefix = '', string $suffix = 'Request')
     {
-        $resourcePath = $this->argument('name') . $suffix;
+        $resourcePath = $this->argument('name').$suffix;
 
         $dir = dirname($resourcePath);
 
-        $dir = ($dir == '.') ? '' : $dir . '/';
+        $dir = ($dir == '.') ? '' : $dir.'/';
 
         $resource = basename($resourcePath);
 
-        return $dir . $prefix . $resource;
+        return $dir.$prefix.$resource;
     }
 
     private function setRequestNamespaces(array &$replacements)
@@ -129,9 +129,9 @@ class ControllerMakeCommand extends GeneratorCommand
         $namespaces = [];
 
         foreach (['Store', 'Update', 'Index'] as $prefix) {
-            $path = $this->getModuleName() . '/'
-                . $this->getDefaultNamespace('request') . '/'
-                . dirname($this->option('model')) . '/' . $prefix . class_basename($this->option('model')) . 'Request';
+            $path = $this->getModuleName().'/'
+                .$this->getDefaultNamespace('request').'/'
+                .dirname($this->option('model')).'/'.$prefix.class_basename($this->option('model')).'Request';
 
             match ($prefix) {
                 'Store' => $replacements['STORE_REQUEST'] = basename($path),
@@ -139,7 +139,7 @@ class ControllerMakeCommand extends GeneratorCommand
                 'Update' => $replacements['UPDATE_REQUEST'] = basename($path),
             };
 
-            $namespaces[] = ('use ' . implode('\\', explode('/', $path)) . ';');
+            $namespaces[] = ('use '.implode('\\', explode('/', $path)).';');
 
         }
 
@@ -154,11 +154,11 @@ class ControllerMakeCommand extends GeneratorCommand
         $namespaces = [];
 
         foreach (['Resource', 'Collection'] as $suffix) {
-            $path = $this->getModuleName() . '/'
-                . $this->getDefaultNamespace('resource') . '/'
-                . $this->option('model') . $suffix;
+            $path = $this->getModuleName().'/'
+                .$this->getDefaultNamespace('resource').'/'
+                .$this->option('model').$suffix;
 
-            $namespaces[] = ('use ' . implode('\\', explode('/', $path)) . ';');
+            $namespaces[] = ('use '.implode('\\', explode('/', $path)).';');
 
         }
 
