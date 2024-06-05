@@ -66,5 +66,8 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "suggest": {
+        "rakutentech/laravel-request-docs": "For Live Docs & OpenAPI 3 export Generation"
+    }
 }
