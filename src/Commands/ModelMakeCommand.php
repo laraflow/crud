@@ -42,34 +42,6 @@ class ModelMakeCommand extends GeneratorCommand
      */
     protected $description = 'Create a new model for the specified package.';
 
-    public function handle(): int
-    {
-        if (parent::handle() === E_ERROR) {
-            return E_ERROR;
-        }
-
-        $this->handleOptionalMigrationOption();
-        $this->handleOptionalSeedOption();
-
-        return 0;
-    }
-
-    /**
-     * Create the migration file with the given model if migration flag was used
-     */
-    private function handleOptionalMigrationOption()
-    {
-        if ($this->option('migration') === true) {
-            $migrationName = $this->getTableName();
-            $this->call('laraflow:make-migration', ['name' => $migrationName, 'module' => $this->argument('module')]);
-        }
-    }
-
-    private function GetTableName()
-    {
-        return Str::replace('/', '', Str::lower(Str::snake(Str::plural($this->getModelName()))));
-    }
-
     /**
      * @return mixed|string
      */
@@ -80,7 +52,7 @@ class ModelMakeCommand extends GeneratorCommand
 
     /**
      * Create a seeder file for the model.
-     *
+     * @experimental
      * @return void
      */
     protected function handleOptionalSeedOption()
@@ -100,7 +72,7 @@ class ModelMakeCommand extends GeneratorCommand
      *
      * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of model will be created.'],
@@ -113,7 +85,7 @@ class ModelMakeCommand extends GeneratorCommand
      *
      * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['fillable', null, InputOption::VALUE_OPTIONAL, 'The fillable attributes.', null],
@@ -148,6 +120,7 @@ class ModelMakeCommand extends GeneratorCommand
     }
 
     /**
+     * @experimental
      * @return string
      */
     private function getFillable()
@@ -166,7 +139,7 @@ class ModelMakeCommand extends GeneratorCommand
     /**
      * @return string
      */
-    protected function getFileName()
+    protected function getFileName(): string
     {
         return Str::studly($this->argument('name')).'.php';
     }

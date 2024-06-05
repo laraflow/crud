@@ -50,6 +50,8 @@ class CrudMakeCommand extends Command
 
             $this->createModel();
 
+            $this->createMigration();
+
             $this->createController();
 
             $this->updateRouteFile();
@@ -129,12 +131,33 @@ class CrudMakeCommand extends Command
         if (! config('api-crud.templates.model.generate', true)) {
             return;
         }
+
         $this->call('laraflow:make-model', [
             'name' => $this->getResourceName(),
-            'module' => $this->getModuleName(),
-            '--migration' => config('api-crud.templates.migration.generate', true),
+            'module' => $this->getModuleName()
         ]);
     }
+    /**
+     * @throws GeneratorException
+     */
+    private function createMigration()
+    {
+
+        if (! config('api-crud.templates.migration.generate', true)) {
+            return;
+        }
+
+        $this->call('laraflow:make-migration', [
+            'name' => $this->getTableName(),
+            'module' => $this->getModuleName()
+        ]);
+    }
+
+    private function getTableName(): array|string
+    {
+        return Str::replace('/', '', Str::lower(Str::snake(Str::plural($this->argument('name')))));
+    }
+
 
     private function createController()
     {
