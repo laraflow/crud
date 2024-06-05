@@ -130,12 +130,12 @@ class MigrationMakeCommand extends GeneratorCommand
     {
         $config = GenerateConfigReader::read($this->type);
 
-        return $config->getPath() . '/' . $this->getFileName();
+        return $config->getPath().'/'.$this->getFileName();
     }
 
     protected function getFileName()
     {
-        return date('Y_m_d_His_\c\r\e\a\t\e_') . Str::snake($this->argument('name')) . '_table.php';
+        return date('Y_m_d_His_\c\r\e\a\t\e_').Str::snake($this->argument('name')).'_table.php';
     }
 
     /**

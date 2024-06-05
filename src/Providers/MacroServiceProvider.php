@@ -15,7 +15,7 @@ class MacroServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../../config/api-crud.php', 'api-crud'
+            __DIR__.'/../../config/api-crud.php', 'api-crud'
         );
     }
 
@@ -29,7 +29,7 @@ class MacroServiceProvider extends ServiceProvider
          * resource
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return JsonResponse
          */
         ResponseFacade::macro('deleted', function ($data, array $headers = []) {
@@ -41,7 +41,7 @@ class MacroServiceProvider extends ServiceProvider
          * resource restored
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return JsonResponse
          */
         ResponseFacade::macro('restored', function ($data, array $headers = []) {
@@ -53,7 +53,7 @@ class MacroServiceProvider extends ServiceProvider
          * created on server
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return JsonResponse
          */
         ResponseFacade::macro('created', function ($data, array $headers = []) {
@@ -65,7 +65,7 @@ class MacroServiceProvider extends ServiceProvider
          * request accepted
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return JsonResponse
          */
         ResponseFacade::macro('updated', function ($data, array $headers = []) {
@@ -77,7 +77,7 @@ class MacroServiceProvider extends ServiceProvider
          * request accepted
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return JsonResponse
          */
         ResponseFacade::macro('exported', function ($data, array $headers = []) {
@@ -89,7 +89,7 @@ class MacroServiceProvider extends ServiceProvider
          * logic exception
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return JsonResponse
          */
         ResponseFacade::macro('failed', function ($data, array $headers = []) {
@@ -100,7 +100,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 200 for all success status
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return JsonResponse
          */
         ResponseFacade::macro('success', function ($data, array $headers = []) {
@@ -112,7 +112,7 @@ class MacroServiceProvider extends ServiceProvider
          * token or ip banned
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return JsonResponse
          */
         ResponseFacade::macro('banned', function ($data, array $headers = []) {
@@ -124,7 +124,7 @@ class MacroServiceProvider extends ServiceProvider
          * to that request
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return JsonResponse
          */
         ResponseFacade::macro('forbidden', function ($data, array $headers = []) {
@@ -135,7 +135,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 404 not found
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return JsonResponse
          */
         ResponseFacade::macro('notfound', function ($data, array $headers = []) {
@@ -146,7 +146,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 423 attempt locked
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return JsonResponse
          */
         ResponseFacade::macro('locked', function ($data, array $headers = []) {
@@ -157,7 +157,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 429 too many requests code
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return JsonResponse
          */
         ResponseFacade::macro('overflow', function ($data, array $headers = []) {
