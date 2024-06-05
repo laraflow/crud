@@ -47,7 +47,7 @@ class ResourceMakeCommand extends GeneratorCommand
      *
      * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of the resource class.'],
@@ -55,10 +55,10 @@ class ResourceMakeCommand extends GeneratorCommand
         ];
     }
 
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
-            ['collection', 'c', InputOption::VALUE_NONE, 'Create a resource collection.'],
+            ['collection', 'c', InputOption::VALUE_NONE, 'The resource class will be a collection.'],
         ];
     }
 
@@ -95,7 +95,7 @@ class ResourceMakeCommand extends GeneratorCommand
     /**
      * @return string
      */
-    protected function getFileName()
+    protected function getFileName(): string
     {
         return Str::studly($this->argument('name')) . '.php';
     }
