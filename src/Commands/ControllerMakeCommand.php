@@ -74,9 +74,10 @@ class ControllerMakeCommand extends GeneratorCommand
             'MESSAGE_VARIABLE' => Str::title(Str::replace('-', ' ', Str::kebab($this->getResourceVariableName()))),
             'RESOURCE_NAMESPACES' => '',
             'REQUEST_NAMESPACES' => '',
-            'STORE_REQUEST' => basename($this->getClassPath('Store')),
-            'UPDATE_REQUEST' => basename($this->getClassPath('Update')),
-            'INDEX_REQUEST' => basename($this->getClassPath('Index')),
+            'MODEL' => str_replace('/', '\\', $this->getDefaultNamespace('model') . '\\' . $this->option('model')),
+            'STORE_REQUEST' => '',
+            'UPDATE_REQUEST' => '',
+            'INDEX_REQUEST' => '',
         ];
 
         $this->setRequestNamespaces($replacements);
@@ -112,15 +113,15 @@ class ControllerMakeCommand extends GeneratorCommand
 
     protected function getClassPath(string $prefix = '', string $suffix = 'Request')
     {
-        $resourcePath = $this->argument('name').$suffix;
+        $resourcePath = $this->argument('name') . $suffix;
 
         $dir = dirname($resourcePath);
 
-        $dir = ($dir == '.') ? '' : $dir.'/';
+        $dir = ($dir == '.') ? '' : $dir . '/';
 
         $resource = basename($resourcePath);
 
-        return $dir.$prefix.$resource;
+        return $dir . $prefix . $resource;
     }
 
     private function setRequestNamespaces(array &$replacements)
@@ -128,21 +129,36 @@ class ControllerMakeCommand extends GeneratorCommand
         $namespaces = [];
 
         foreach (['Store', 'Update', 'Index'] as $prefix) {
-            $path = $replacements['MODULE_NAMESPACE'].'/RestApi/Http/Requests/'.$replacements['MODULE'].'/'.$this->getClassPath($prefix);
-            $namespaces[] = ('use '.implode('\\', explode('/', $path)).';');
+            $path = $this->getModuleName() . '/'
+                . $this->getDefaultNamespace('request') . '/'
+                . dirname($this->option('model')) . '/' . $prefix . class_basename($this->option('model')) . 'Request';
+
+            match ($prefix) {
+                'Store' => $replacements['STORE_REQUEST'] = basename($path),
+                'Index' => $replacements['INDEX_REQUEST'] = basename($path),
+                'Update' => $replacements['UPDATE_REQUEST'] = basename($path),
+            };
+
+            $namespaces[] = ('use ' . implode('\\', explode('/', $path)) . ';');
 
         }
 
         $replacements['REQUEST_NAMESPACES'] = implode("\n", $namespaces);
     }
 
+    /**
+     * @throws GeneratorException
+     */
     private function setResourceNamespaces(array &$replacements)
     {
         $namespaces = [];
 
         foreach (['Resource', 'Collection'] as $suffix) {
-            $path = $replacements['MODULE_NAMESPACE'].'/RestApi/Http/Resources/'.$replacements['MODULE'].'/'.$this->getClassPath('', $suffix);
-            $namespaces[] = ('use '.implode('\\', explode('/', $path)).';');
+            $path = $this->getModuleName() . '/'
+                . $this->getDefaultNamespace('resource') . '/'
+                . $this->option('model') . $suffix;
+
+            $namespaces[] = ('use ' . implode('\\', explode('/', $path)) . ';');
 
         }
 
