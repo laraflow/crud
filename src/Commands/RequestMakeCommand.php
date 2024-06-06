@@ -63,7 +63,8 @@ class RequestMakeCommand extends GeneratorCommand
     {
         return [
             ['index', null, InputOption::VALUE_NONE, 'The request should have index default validation.', null],
-            ['crud', null, InputOption::VALUE_NONE, 'The request will have resource fields as validation.', null],
+            ['crud', null, InputOption::VALUE_NONE, 'The request will have resource store and update fields as validation.', null],
+            ['fields', null, InputOption::VALUE_OPTIONAL, 'The request will have given field as validation rules.', null],
         ];
     }
 
@@ -90,16 +91,30 @@ class RequestMakeCommand extends GeneratorCommand
      */
     protected function getRules(): string
     {
-        return $this->option('index')
-            ? <<<'HTML'
-'search' => ['string', 'nullable', 'max:255'],
-            'per_page' => ['integer', 'nullable'],
-            'page' => ['integer', 'nullable', 'min:1'],
-            'sort' => ['string', 'nullable', 'min:2', 'max:255'],
-            'dir' => ['string', 'nullable', 'min:3', 'max:4']
-HTML
-            :
-            '//';
+        $rules = [];
+
+        if ($this->option('index')) {
+
+            $rules['search'] = ['string', 'nullable', 'max:255'];
+            $rules['per_page'] = ['integer', 'nullable'];
+            $rules['page'] = ['integer', 'nullable', 'min:1'];
+            $rules['sort'] = ['string', 'nullable', 'min:2', 'max:255'];
+            $rules['dir'] = ['string', 'nullable', 'min:3', 'max:4'];
+            $rules['id'] = ['integer', 'nullable', 'min:1'];
+        }
+
+        if ($this->option('crud')) {
+
+            $fields = $this->option('fields');
+
+            if (!is_null($fields)) {
+                foreach (explode(',', trim($fields)) as $field) {
+                    $rules[$field] = ['string', 'nullable', 'max:255'];
+                }
+            }
+        }
+
+        return var_export($rules, true);
 
     }
 }

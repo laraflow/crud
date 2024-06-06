@@ -106,6 +106,7 @@ class ModelMakeCommand extends GeneratorCommand
         $fillable = $this->option('fillable');
 
         if (! is_null($fillable)) {
+
             $arrays = array_map(function ($column) {
                 return (string) $column;
             }, explode(',', trim($fillable)));

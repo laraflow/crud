@@ -45,15 +45,15 @@ class CrudMakeCommand extends Command
 
             $this->createRequest();
 
-            $this->createResource();
-
-            $this->createModel();
-
-            $this->createMigration();
-
-            $this->createController();
-
-            $this->updateRouteFile();
+//            $this->createResource();
+//
+//            $this->createModel();
+//
+//            $this->createMigration();
+//
+//            $this->createController();
+//
+//            $this->updateRouteFile();
 
             $this->components->twoColumnDetail('API Crud Stubs File(s) Created.', '<fg=green;options=bold>DONE</>');
 
@@ -136,6 +136,7 @@ class CrudMakeCommand extends Command
             $options = [
                 'name' => $dir . $prefix . $resource,
                 'module' => $this->getModuleName(),
+                '--fields' => $this->option('fields')
             ];
 
             if ($prefix == 'Index') {

@@ -15,7 +15,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'laraflow:install';
+    protected $name = 'laraflow:install';
 
     /**
      * The console command description.
@@ -73,7 +73,7 @@ class InstallCommand extends Command
             return;
         }
 
-        $content .= "\n//DO NOT REMOVE THIS LINE//\n";
+        $content .= "\n\t//DO NOT REMOVE THIS LINE//\n";
 
         if (! is_writable($routeFilePath)) {
             throw new CannotWriteFileException('Unable to write on route file.');
