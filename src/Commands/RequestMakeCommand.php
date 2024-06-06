@@ -39,7 +39,7 @@ class RequestMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Create a new form request class for the specified package.';
+    protected $description = 'Create a new form request class for the specified resource.';
 
     /**
      * Get the console command arguments.

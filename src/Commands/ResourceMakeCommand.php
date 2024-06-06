@@ -40,7 +40,7 @@ class ResourceMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Create a new resource class for the specified package.';
+    protected $description = 'Create a new resource class for the specified resource.';
 
     /**
      * Get the console command arguments.

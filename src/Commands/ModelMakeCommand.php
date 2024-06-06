@@ -40,7 +40,7 @@ class ModelMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Create a new model for the specified package.';
+    protected $description = 'Create a new model for the specified resource.';
 
     /**
      * @return mixed|string
@@ -48,23 +48,6 @@ class ModelMakeCommand extends GeneratorCommand
     private function getModelName()
     {
         return Str::studly($this->argument('name'));
-    }
-
-    /**
-     * Create a seeder file for the model.
-     * @experimental
-     * @return void
-     */
-    protected function handleOptionalSeedOption()
-    {
-        if ($this->option('seed') === true) {
-            $seedName = "{$this->getModelName()}Seeder";
-
-            $this->call('laraflow:make-seed', array_filter([
-                'name' => $seedName,
-                'module' => $this->argument('module'),
-            ]));
-        }
     }
 
     /**
@@ -105,17 +88,10 @@ class ModelMakeCommand extends GeneratorCommand
     {
         return (new Stub('/model.stub', [
             'NAME' => $this->getModelName(),
-            'ROUTE_NAME' => Str::plural(Str::lower(Str::kebab($this->getModelName()))),
-            'JSON_NAME' => Str::lower(Str::snake($this->getModelName())).'_data',
             'TABLE' => $this->getTableName(),
             'FILLABLE' => $this->getFillable(),
-            'NAMESPACE' => $this->getClassNamespace($this->getModuleName()),
-            'CLASS' => $this->getClass(),
-            'LOWER_CLASS' => Str::lower($this->getClass()),
-            'LOWER_NAME' => Str::lower($this->getModuleName()),
-            'MODULE' => $this->getModuleName(),
-            'STUDLY_NAME' => $this->getModuleName(),
-            'MODULE_NAMESPACE' => config('fintech.generators.namespace'),
+            'NAMESPACE' => $this->getClassNamespace(),
+            'CLASS' => $this->getClass()
         ]))->render();
     }
 
@@ -125,15 +101,19 @@ class ModelMakeCommand extends GeneratorCommand
      */
     private function getFillable()
     {
+        $field = 'guarded = ["id"]';
+
         $fillable = $this->option('fillable');
 
         if (! is_null($fillable)) {
-            $arrays = explode(',', $fillable);
+            $arrays = array_map(function ($column) {
+                return (string) $column;
+            }, explode(',', trim($fillable)));
 
-            return json_encode($arrays);
+            $field = "fillable = ".json_encode($arrays, JSON_PRETTY_PRINT);
         }
 
-        return '[]';
+        return $field;
     }
 
     /**

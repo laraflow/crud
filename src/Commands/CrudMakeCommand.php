@@ -9,6 +9,8 @@ use Laraflow\ApiCrud\Exceptions\GeneratorException;
 use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
 use Laraflow\ApiCrud\Support\Config\GeneratorPath;
 use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Throwable;
 
 /**
@@ -23,10 +25,7 @@ class CrudMakeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'laraflow:make-crud
-                            {name : The name of resource will create}
-                            {module? : The root namespace where to create (Experimental.)}
-                            {--fields=* : The fields will be on the resource (Experimental.)}';
+    protected $name = 'laraflow:make-crud';
 
     /**
      * The console command description.
@@ -68,23 +67,74 @@ class CrudMakeCommand extends Command
         return self::FAILURE;
     }
 
-    private function createRequest()
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments(): array
     {
-        if (! config('api-crud.templates.request.generate', true)) {
+        return [
+            ['name', InputArgument::REQUIRED, 'The resource name will be created.'],
+            ['module', InputArgument::OPTIONAL, 'The name of module where will be created. (Experimental.)'],
+        ];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions(): array
+    {
+        return [
+            ['fields', null, InputOption::VALUE_OPTIONAL, 'The specified table fields (Experimental).', null]
+        ];
+    }
+
+    /**
+     * Get the migration table from resource name.
+     *
+     * @return string
+     */
+    private function getTableName(): string
+    {
+        return Str::plural(Str::replace('/', '', Str::lower(Str::snake($this->argument('name')))));
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return string
+     */
+    private function getResourceName(): string
+    {
+        return Str::studly($this->argument('name'));
+    }
+
+    /**
+     * Create Request classes for resource store,
+     * update and index operation.
+     *
+     * @throws GeneratorException
+     */
+    private function createRequest(): void
+    {
+        if (!config('api-crud.templates.request.generate', true)) {
             return;
         }
         foreach (['Index', 'Store', 'Update'] as $prefix) {
 
-            $resourcePath = $this->getResourceName().'Request';
+            $resourcePath = $this->getResourceName() . 'Request';
 
             $dir = dirname($resourcePath);
 
-            $dir = ($dir == '.') ? '' : $dir.'/';
+            $dir = ($dir == '.') ? '' : $dir . '/';
 
             $resource = basename($resourcePath);
 
             $options = [
-                'name' => $dir.$prefix.$resource,
+                'name' => $dir . $prefix . $resource,
                 'module' => $this->getModuleName(),
             ];
 
@@ -100,50 +150,57 @@ class CrudMakeCommand extends Command
         }
     }
 
-    private function getResourceName()
+    /**
+     * Create Resource classes for resource list and
+     * show response.
+     *
+     * @throws GeneratorException
+     */
+    private function createResource(): void
     {
-        return Str::studly($this->argument('name'));
-    }
-
-    private function createResource()
-    {
-        if (! config('api-crud.templates.resource.generate', true)) {
+        if (!config('api-crud.templates.resource.generate', true)) {
             return;
         }
         $this->call('laraflow:make-resource', [
-            'name' => $this->getResourceName().'Resource',
+            'name' => $this->getResourceName() . 'Resource',
             'module' => $this->getModuleName(),
         ]);
 
         $this->call('laraflow:make-resource', [
-            'name' => $this->getResourceName().'Collection',
+            'name' => $this->getResourceName() . 'Collection',
             'module' => $this->getModuleName(),
             '--collection' => true,
         ]);
     }
 
     /**
+     * Create Model class for resource.
+     *
      * @throws GeneratorException
      */
-    private function createModel()
+    private function createModel(): void
     {
 
-        if (! config('api-crud.templates.model.generate', true)) {
+        if (!config('api-crud.templates.model.generate', true)) {
             return;
         }
 
         $this->call('laraflow:make-model', [
             'name' => $this->getResourceName(),
-            'module' => $this->getModuleName()
+            'module' => $this->getModuleName(),
+            '--fillable' => $this->option('fields'),
         ]);
     }
+
     /**
+     * Create migration script for resource table.
+     *
      * @throws GeneratorException
      */
-    private function createMigration()
+    private function createMigration(): void
     {
 
-        if (! config('api-crud.templates.migration.generate', true)) {
+        if (!config('api-crud.templates.migration.generate', true)) {
             return;
         }
 
@@ -153,20 +210,20 @@ class CrudMakeCommand extends Command
         ]);
     }
 
-    private function getTableName(): array|string
+    /**
+     * Create Controller class for resource list, store,
+     * show, update and destroy response.
+     *
+     * @throws GeneratorException
+     */
+    private function createController(): void
     {
-        return Str::replace('/', '', Str::lower(Str::snake(Str::plural($this->argument('name')))));
-    }
-
-
-    private function createController()
-    {
-        if (! config('api-crud.templates.controller.generate', true)) {
+        if (!config('api-crud.templates.controller.generate', true)) {
             return;
         }
 
         $this->call('laraflow:make-controller', [
-            'name' => $this->getResourceName().'Controller',
+            'name' => $this->getResourceName() . 'Controller',
             '--model' => $this->getResourceName(),
             'module' => $this->getModuleName(),
             '--crud' => true,
@@ -176,17 +233,17 @@ class CrudMakeCommand extends Command
     /**
      * @throws GeneratorException
      */
-    private function updateRouteFile()
+    private function updateRouteFile(): void
     {
         $filePath = base_path(config('api-crud.route_path', 'routes/api.php'));
 
-        if (! file_exists($filePath)) {
+        if (!file_exists($filePath)) {
             throw new InvalidArgumentException("Route file location doesn't exist");
         }
 
         $fileContent = file_get_contents($filePath);
 
-        if (! str_contains($fileContent, '//DO NOT REMOVE THIS LINE//')) {
+        if (!str_contains($fileContent, '//DO NOT REMOVE THIS LINE//')) {
             throw new GeneratorException('Route file missing the CRUD Pointer comment.');
         }
 
@@ -197,12 +254,12 @@ class CrudMakeCommand extends Command
         $controller =
             GeneratorPath::convertPathToNamespace(
                 '\\'
-                .$this->getModuleName()
-                .'\\'
-                .GenerateConfigReader::read('controller')->getNamespace()
-                .'\\'
-                .$this->getResourceName()
-                .'Controller::class'
+                . $this->getModuleName()
+                . '\\'
+                . GenerateConfigReader::read('controller')->getNamespace()
+                . '\\'
+                . $this->getResourceName()
+                . 'Controller::class'
             );
 
         $template = <<<HTML
@@ -215,4 +272,5 @@ HTML;
 
         file_put_contents($filePath, $fileContent);
     }
+
 }

@@ -21,13 +21,23 @@ abstract class GeneratorCommand extends Command
 
     /**
      * Execute the console command.
+     *
+     * @throws GeneratorException
+     * @throws FileAlreadyExistException
      */
     public function handle(): int
     {
+        /**
+         * Disable Script on Testing environment
+         * also Disable through configuration
+         */
+        if (app()->environment('testing') || !config('api-crud.enabled', false)) {
+            return self::SUCCESS;
+        }
 
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
 
-        if (! $this->laravel['files']->isDirectory($dir = dirname($path))) {
+        if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
             $this->laravel['files']->makeDirectory($dir, 0777, true);
         }
 
@@ -60,9 +70,9 @@ abstract class GeneratorCommand extends Command
     {
         $config = GenerateConfigReader::read($this->type);
 
-        return config('api-crud.root_path', 'app').'/'
-            .$config->getPath().'/'
-            .$this->getFileName();
+        return config('api-crud.root_path', 'app') . '/'
+            . $config->getPath() . '/'
+            . $this->getFileName();
     }
 
     /**
@@ -72,7 +82,7 @@ abstract class GeneratorCommand extends Command
     {
         $type = Str::studly($this->type);
 
-        return str_replace($type, '', Str::studly($this->argument('name')))."{$type}.php";
+        return str_replace($type, '', Str::studly($this->argument('name'))) . "{$type}.php";
     }
 
     /**
@@ -94,9 +104,9 @@ abstract class GeneratorCommand extends Command
 
         $namespace = config('api-crud.namespace');
 
-        $namespace .= '\\'.$this->getDefaultNamespace();
+        $namespace .= '\\' . $this->getDefaultNamespace();
 
-        $namespace .= '\\'.$extra;
+        $namespace .= '\\' . $extra;
 
         $namespace = str_replace('/', '\\', $namespace);
 
@@ -114,23 +124,23 @@ abstract class GeneratorCommand extends Command
     /**
      * Get default namespace.
      *
-     * @param  null  $type
+     * @param null $type
      *
      * @throws GeneratorException
      */
     public function getDefaultNamespace($type = null): string
     {
-        if (! $type) {
+        if (!$type) {
             if (property_exists($this, 'type')) {
                 $type = $this->type;
             }
         }
 
-        if (! $type) {
+        if (!$type) {
             throw new GeneratorException('Stub type argument or property is not configured.');
         }
 
-        if (! config("api-crud.templates.{$type}")) {
+        if (!config("api-crud.templates.{$type}")) {
             throw new InvalidArgumentException("Generator is missing [{$type}] config, check generators.php file.");
         }
 

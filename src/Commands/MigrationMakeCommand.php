@@ -43,23 +43,7 @@ class MigrationMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Create a new migration for the specified package.';
-
-    /**
-     * Run the command.
-     */
-    public function handle(): int
-    {
-        if (parent::handle() === E_ERROR) {
-            return E_ERROR;
-        }
-
-        if (app()->environment() === 'testing') {
-            return 0;
-        }
-
-        return 0;
-    }
+    protected $description = 'Create a new migration for the specified resource.';
 
     /**
      * Get the console command arguments.

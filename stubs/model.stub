@@ -22,7 +22,7 @@ class $CLASS$ extends Model
 
     protected $primaryKey = 'id';
 
-    protected $guarded = ['id'];
+    protected $$FILLABLE$;
 
     protected $appends = [];
 
@@ -51,7 +51,11 @@ class $CLASS$ extends Model
     public function scopeFilter(Builder $query, array $filters = []): Builder
     {
         return $query->when(!empty($filters['search']), function ($query) use($filters) {
+            if(is_int($filters['search'])) {
+                $query->where($this->getKey(), $filters['search']);
+            } else {
 
+            }
         });
     }
 

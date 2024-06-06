@@ -40,7 +40,7 @@ class ControllerMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Generate new restful controller for the specified package.';
+    protected $description = 'Generate new restful controller for the specified resource.';
 
     /**
      * @throws GeneratorException
