@@ -43,8 +43,6 @@ class RequestMakeCommand extends GeneratorCommand
 
     /**
      * Get the console command arguments.
-     *
-     * @return array
      */
     protected function getArguments(): array
     {
@@ -56,8 +54,6 @@ class RequestMakeCommand extends GeneratorCommand
 
     /**
      * Get the console command options.
-     *
-     * @return array
      */
     protected function getOptions(): array
     {
@@ -79,14 +75,12 @@ class RequestMakeCommand extends GeneratorCommand
         return (new Stub('/request.stub', [
             'NAMESPACE' => $this->getClassNamespace(),
             'CLASS' => $this->getClass(),
-            'RULES' => $this->getRules()
+            'RULES' => $this->getRules(),
         ]))->render();
     }
 
     /**
      * return the default rules needed in request class
-     *
-     * @return string
      */
     protected function getRules(): string
     {
