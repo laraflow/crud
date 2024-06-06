@@ -43,11 +43,11 @@ class CrudMakeCommand extends Command
     {
         try {
 
-//            $this->createRequest();
+            $this->createRequest();
 
 //            $this->createResource();
 
-            $this->createModel();
+//            $this->createModel();
 //
 //            $this->createMigration();
 //
@@ -126,15 +126,11 @@ class CrudMakeCommand extends Command
             $options = [
                 'name' => $dir . $prefix . $resource,
                 'module' => $this->getModuleName(),
-                '--fields' => $this->option('fields')
+                '--fields' => $this->option('fields'),
             ];
 
             if ($prefix == 'Index') {
                 $options['--index'] = true;
-            }
-
-            if (in_array($prefix, ['Store', 'Update'])) {
-                $options['--crud'] = true;
             }
 
             $this->call('laraflow:make-request', $options);
