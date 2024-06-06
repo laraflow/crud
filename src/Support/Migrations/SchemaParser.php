@@ -97,7 +97,7 @@ class SchemaParser implements Arrayable
             /**
              * @experimental
              */
-//            $attributes = $this->getAttributes($columnName, $columns);
+            //            $attributes = $this->getAttributes($columnName, $columns);
             $parsed[$columnName] = ['string', 'nullable'];
         }
 

@@ -52,8 +52,6 @@ class ModelMakeCommand extends GeneratorCommand
 
     /**
      * Get the console command arguments.
-     *
-     * @return array
      */
     protected function getArguments(): array
     {
@@ -65,8 +63,6 @@ class ModelMakeCommand extends GeneratorCommand
 
     /**
      * Get the console command options.
-     *
-     * @return array
      */
     protected function getOptions(): array
     {
@@ -91,12 +87,13 @@ class ModelMakeCommand extends GeneratorCommand
             'TABLE' => $this->getTableName(),
             'FILLABLE' => $this->getFillable(),
             'NAMESPACE' => $this->getClassNamespace(),
-            'CLASS' => $this->getClass()
+            'CLASS' => $this->getClass(),
         ]))->render();
     }
 
     /**
      * @experimental
+     *
      * @return string
      */
     private function getFillable()
@@ -111,15 +108,12 @@ class ModelMakeCommand extends GeneratorCommand
                 return (string) $column;
             }, explode(',', trim($fillable)));
 
-            $field = "fillable = ".json_encode($arrays, JSON_PRETTY_PRINT);
+            $field = 'fillable = '.json_encode($arrays, JSON_PRETTY_PRINT);
         }
 
         return $field;
     }
 
-    /**
-     * @return string
-     */
     protected function getFileName(): string
     {
         return Str::studly($this->argument('name')).'.php';

@@ -32,8 +32,6 @@ trait ModuleCommandTrait
 
     /**
      * Get the migration table from resource name.
-     *
-     * @return string
      */
     private function getTableName(): string
     {
