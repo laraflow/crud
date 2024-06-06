@@ -92,12 +92,13 @@ class SchemaParser implements Arrayable
 
         $parsed = [];
 
-        foreach ($this->getSchemas() as $schemaArray) {
-            $column = $this->getColumn($schemaArray);
-
-            $attributes = $this->getAttributes($column, $schemaArray);
-
-            $parsed[$column] = $attributes;
+        foreach ($this->getSchemas() as $columns) {
+            $columnName = $this->getColumn($columns);
+            /**
+             * @experimental
+             */
+//            $attributes = $this->getAttributes($columnName, $columns);
+            $parsed[$columnName] = ['string', 'nullable'];
         }
 
         return $parsed;
@@ -177,11 +178,9 @@ class SchemaParser implements Arrayable
         $results = "\t\t\t".'$table';
 
         foreach ($attributes as $key => $field) {
-            if (in_array($column, $this->relationshipKeys)) {
-                $results .= $this->addRelationColumn($key, $field, $column);
-            } else {
-                $results .= $this->{"{$type}Column"}($key, $field, $column);
-            }
+            $results .= (in_array($column, $this->relationshipKeys))
+                ? $this->addRelationColumn($key, $field, $column)
+                : $this->{"{$type}Column"}($key, $field, $column);
         }
 
         return $results.';'.PHP_EOL;
@@ -255,22 +254,5 @@ class SchemaParser implements Arrayable
         }
 
         return '->'.$field.'()';
-    }
-
-    /**
-     * Format field to script.
-     *
-     * @param  int  $key
-     * @param  string  $field
-     * @param  string  $column
-     * @return string
-     */
-    protected function removeColumn($key, $field, $column)
-    {
-        if ($this->hasCustomAttribute($column)) {
-            return '->'.$field;
-        }
-
-        return '->dropColumn('."'".$column."')";
     }
 }

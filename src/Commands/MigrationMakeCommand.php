@@ -81,33 +81,9 @@ class MigrationMakeCommand extends GeneratorCommand
         $parser = new NameParser($this->argument('name'));
 
         return new Stub('/migration.stub', [
-            'class' => $this->getClass(),
-            'table' => $this->argument('name'),
-            'fields' => $this->getSchemaParser()->render(),
+            'TABLE' => $this->argument('name'),
+            'FIELDS' => trim((new SchemaParser($this->option('fields')))->render()),
         ]);
-    }
-
-    public function getClass(): string
-    {
-        return $this->getClassName();
-    }
-
-    /**
-     * @return string
-     */
-    private function getClassName()
-    {
-        return Str::studly($this->argument('name'));
-    }
-
-    /**
-     * Get schema parser.
-     *
-     * @return SchemaParser
-     */
-    public function getSchemaParser()
-    {
-        return new SchemaParser($this->option('fields'));
     }
 
     protected function getDestinationFilePath(): string
