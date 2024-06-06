@@ -114,7 +114,14 @@ class RequestMakeCommand extends GeneratorCommand
             }
         }
 
-        return var_export($rules, true);
+        $rulesString = json_encode($rules);
+
+        //wrap the outer layer
+
+        $rulesString = preg_replace('/^\{(.*)}$/i', "[$1\n]", $rulesString);
+
+        //add newline on each field
+        return preg_replace('/("[a-z0-9_.]+"):/i', "\n $1 => ", $rulesString);
 
     }
 }
