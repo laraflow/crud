@@ -43,11 +43,11 @@ class CrudMakeCommand extends Command
     {
         try {
 
-            $this->createRequest();
+//            $this->createRequest();
 
 //            $this->createResource();
-//
-//            $this->createModel();
+
+            $this->createModel();
 //
 //            $this->createMigration();
 //
@@ -90,16 +90,6 @@ class CrudMakeCommand extends Command
         return [
             ['fields', null, InputOption::VALUE_OPTIONAL, 'The specified table fields (Experimental).', null]
         ];
-    }
-
-    /**
-     * Get the migration table from resource name.
-     *
-     * @return string
-     */
-    private function getTableName(): string
-    {
-        return Str::plural(Str::replace('/', '', Str::lower(Str::snake($this->argument('name')))));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Laraflow\ApiCrud\Traits;
 
+use Illuminate\Support\Str;
 use Laraflow\ApiCrud\Exceptions\GeneratorException;
 
 trait ModuleCommandTrait
@@ -27,5 +28,15 @@ trait ModuleCommandTrait
         }
 
         return $module;
+    }
+
+    /**
+     * Get the migration table from resource name.
+     *
+     * @return string
+     */
+    private function getTableName(): string
+    {
+        return Str::plural(Str::replace('/', '', Str::lower(Str::snake($this->argument('name')))));
     }
 }
