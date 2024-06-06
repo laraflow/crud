@@ -23,19 +23,25 @@ php artisan laraflow:install
 
 ## Usage
 
-To create a complete API CRUD stub files use this command
+To create a complete API CRUD stub file use this command
 
 ```bash
-php artisan laraflow:make-crud [ResourceName]
+php artisan laraflow:make-crud ResourceName
 ```
 
-Optionally, If you want to create inside subdirectory.
+If you want to add fields to migration and request validation then
 
 ```bash
-php artisan laraflow:make-crud [Directory1/Directorry2/ResourceName]
+php artisan laraflow:make-crud ResourceName --fields=name,email,phone,image
 ```
 
-Note: Root Namespace will to added from configuration.
+Optionally, If you want to create an inside subdirectory.
+
+```bash
+php artisan laraflow:make-crud Directory1/Directorry2/ResourceName
+```
+
+Note: Root Namespace will be added from the configuration.
 
 ## Testing
 
