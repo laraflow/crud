@@ -77,11 +77,11 @@ class ControllerMakeCommand extends GeneratorCommand
     /**
      * @throws GeneratorException
      */
-    private function getParentController() : string
+    private function getParentController(): string
     {
         $controllerName = config('crud.parent_controller');
 
-        if (!$controllerName || !class_exists($controllerName)) {
+        if (! $controllerName || ! class_exists($controllerName)) {
             throw new GeneratorException("Parent Controller class {$controllerName} does not exist.");
         }
 
@@ -92,9 +92,6 @@ class ControllerMakeCommand extends GeneratorCommand
         return "use {$controllerName};";
     }
 
-    /**
-     * @return string
-     */
     public function getClass(): string
     {
         return class_basename($this->getControllerName());
