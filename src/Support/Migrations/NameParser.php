@@ -47,7 +47,7 @@ class NameParser
     /**
      * The constructor.
      *
-     * @param  string  $name
+     * @param string $name
      */
     public function __construct($name)
     {
@@ -113,19 +113,13 @@ class NameParser
             case 'insert':
                 return "/{$action}_(.*)_to_(.*)_table/";
 
-                break;
-
             case 'delete':
             case 'remove':
             case 'alter':
                 return "/{$action}_(.*)_from_(.*)_table/";
 
-                break;
-
             default:
                 return "/{$action}_(.*)_table/";
-
-                break;
         }
     }
 

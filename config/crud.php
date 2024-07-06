@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Controller;
+
 return [
 
     /*
@@ -17,7 +19,7 @@ return [
     | This setting will be used to set which controller class that all api
     | controller will inherit.
     */
-    'parent_controller' => \App\Http\Controllers\Controller::class,
+    'parent_controller' => Controller::class,
 
     /*
     |--------------------------------------------------------------------------

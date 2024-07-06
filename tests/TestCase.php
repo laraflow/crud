@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraflow\ApiCrud\Tests;
+namespace Laraflow\Crud\Tests;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Laraflow\ApiCrud\Providers\CrudServiceProvider;
+use Laraflow\Crud\Providers\CrudServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra

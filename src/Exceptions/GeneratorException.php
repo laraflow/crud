@@ -7,4 +7,6 @@ use Exception;
 /**
  * Class GeneratorException
  */
-class GeneratorException extends Exception {}
+class GeneratorException extends Exception
+{
+}

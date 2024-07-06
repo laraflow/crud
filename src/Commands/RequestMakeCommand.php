@@ -98,7 +98,7 @@ class RequestMakeCommand extends GeneratorCommand
 
         $fields = $this->option('fields');
 
-        if (! is_null($fields)) {
+        if (!is_null($fields)) {
             foreach (explode(',', trim($fields)) as $field) {
                 $rules[$field] = ['string', 'nullable', 'max:255'];
             }
