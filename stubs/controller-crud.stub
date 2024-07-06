@@ -4,7 +4,7 @@ namespace $CLASS_NAMESPACE$;
 
 use Exception;
 use $MODULE$\$MODEL$;
-use Laraflow\ApiCrud\Exceptions\StoreOperationException;
+use Laraflow\ApiCrud\Exceptions\CreateOperationException;
 use Laraflow\ApiCrud\Exceptions\UpdateOperationException;
 use Laraflow\ApiCrud\Exceptions\DeleteOperationException;
 $RESOURCE_NAMESPACES$
@@ -64,7 +64,7 @@ class $CLASS$ extends Controller
      *
      * @param $STORE_REQUEST$ $request
      * @return JsonResponse
-     * @throws StoreOperationException
+     * @throws CreateOperationException
      */
     public function store($STORE_REQUEST$ $request): JsonResponse
     {
@@ -74,11 +74,11 @@ class $CLASS$ extends Controller
             $$RESOURCE_VARIABLE$ = $RESOURCE$::create($inputs);
 
             if (!$$RESOURCE_VARIABLE$) {
-                throw (new StoreOperationException)->setModel($RESOURCE$::class);
+                throw (new CreateOperationException)->setModel($RESOURCE$::class);
             }
 
             return response()->created([
-                'message' => __('api-crud::messages.resource.created', ['model' => '$MESSAGE_VARIABLE$']),
+                'message' => __('crud::messages.resource.created', ['model' => '$MESSAGE_VARIABLE$']),
                 'id' => $$RESOURCE_VARIABLE$->getKey()
              ]);
 
@@ -129,7 +129,7 @@ class $CLASS$ extends Controller
                 throw (new UpdateOperationException)->setModel($RESOURCE$::class, $$RESOURCE_VARIABLE$->getKey());
             }
 
-            return response()->updated(__('api-crud::messages.resource.updated', ['model' => '$MESSAGE_VARIABLE$']));
+            return response()->updated(__('crud::messages.resource.updated', ['model' => '$MESSAGE_VARIABLE$']));
 
         } catch (Exception $exception) {
 
@@ -156,7 +156,7 @@ class $CLASS$ extends Controller
                 throw (new DeleteOperationException())->setModel($RESOURCE$::class, $$RESOURCE_VARIABLE$->getKey());
             }
 
-            return response()->deleted(__('api-crud::messages.resource.deleted', ['model' => '$MESSAGE_VARIABLE$']));
+            return response()->deleted(__('crud::messages.resource.deleted', ['model' => '$MESSAGE_VARIABLE$']));
 
         } catch (Exception $exception) {
 

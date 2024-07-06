@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraflow\ApiCrud\Support\Config;
+namespace Laraflow\Crud\Support\Config;
 
 class GenerateConfigReader
 {
     public static function read(string $value): GeneratorPath
     {
-        return new GeneratorPath(config("api-crud.templates.{$value}"));
+        return new GeneratorPath(config("crud.templates.{$value}"));
     }
 }

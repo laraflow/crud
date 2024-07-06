@@ -8,13 +8,13 @@ if (! function_exists('response_format')) {
     {
         if (is_string($data)) {
             $data = ['message' => $data];
-            //            if ($statusCode != null && config('api-crud.append_status_code')) {
+            //            if ($statusCode != null && config('crud.append_status_code')) {
             //                $data['code'] = $statusCode;
             //            }
         }
 
         //        if (is_array($data) && !isset($data['code'])) {
-        //            if ($statusCode != null && config('api-crud.append_status_code')) {
+        //            if ($statusCode != null && config('crud.append_status_code')) {
         //                $data['code'] = $statusCode;
         //            }
         //        }

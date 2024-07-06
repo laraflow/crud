@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflow\ApiCrud\Providers;
+namespace Laraflow\Crud\Providers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response as ResponseFacade;
@@ -9,16 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MacroServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/api-crud.php', 'api-crud'
-        );
-    }
-
     /**
      * Bootstrap any package services.
      */

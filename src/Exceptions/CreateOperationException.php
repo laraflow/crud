@@ -1,22 +1,22 @@
 <?php
 
-namespace Laraflow\ApiCrud\Exceptions;
+namespace Laraflow\Crud\Exceptions;
 
 use Exception;
-use Laraflow\ApiCrud\Traits\ModelExceptionTrait;
+use Laraflow\Crud\Traits\ModelExceptionTrait;
 use Throwable;
 
 /**
- * Class StoreOperationException
+ * Class CreateOperationException
  */
-class StoreOperationException extends Exception
+class CreateOperationException extends Exception
 {
     use ModelExceptionTrait;
 
     protected $type = 'store';
 
     /**
-     * StoreOperationException constructor.
+     * CreateOperationException constructor.
      *
      * @param  string  $message
      * @param  int  $code

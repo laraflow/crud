@@ -3,7 +3,7 @@
 namespace Laraflow\ApiCrud\Tests;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Laraflow\ApiCrud\Providers\ApiCrudServiceProvider;
+use Laraflow\ApiCrud\Providers\CrudServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -33,7 +33,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
-            ApiCrudServiceProvider::class,
+            CrudServiceProvider::class,
         ];
     }
 }

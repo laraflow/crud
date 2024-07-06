@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflow\ApiCrud\Exceptions;
+namespace Laraflow\Crud\Exceptions;
 
 use Exception;
 

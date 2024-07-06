@@ -1,3 +1,3 @@
 # Changelog
 
-All notable changes to `api-crud` will be documented in this file.
+All notable changes to `crud` will be documented in this file.

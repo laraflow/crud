@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflow\ApiCrud\Commands;
+namespace Laraflow\Crud\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
@@ -53,7 +53,7 @@ class InstallCommand extends Command
 
     private function configureRouteFile(): void
     {
-        $routeFilePath = base_path(config('api-crud.route_path', 'routes/api.php'));
+        $routeFilePath = base_path(config('crud.route_path', 'routes/api.php'));
 
         if (! is_file($routeFilePath)) {
             throw new InvalidArgumentException("Invalid API route file path: ({$routeFilePath}).");
@@ -90,7 +90,7 @@ class InstallCommand extends Command
     {
         if ($this->confirm('Publish Configuration File', false)) {
 
-            $this->vendorPublish('api-crud-config', is_file(base_path('config/api-crud.php')));
+            $this->vendorPublish('crud-config', is_file(base_path('config/crud.php')));
         } else {
             $this->components->twoColumnDetail(
                 'Publish Configuration File.',
@@ -117,7 +117,7 @@ class InstallCommand extends Command
     {
         if ($this->confirm('Publish Language Files', false)) {
 
-            $this->vendorPublish('api-crud-lang', is_dir(app()->langPath('vendor/api-crud')));
+            $this->vendorPublish('crud-lang', is_dir(app()->langPath('vendor/crud')));
         } else {
             $this->components->twoColumnDetail(
                 'Publish Language Files.',
@@ -129,7 +129,7 @@ class InstallCommand extends Command
     {
         if ($this->confirm('Publish Template Files (Not-Recommended)', false)) {
 
-            $this->vendorPublish('api-crud-stubs', is_dir(base_path('stubs/api-crud')));
+            $this->vendorPublish('crud-stubs', is_dir(base_path('stubs/crud')));
         } else {
             $this->components->twoColumnDetail(
                 'Publish Template Files',

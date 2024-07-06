@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflow\ApiCrud\Support;
+namespace Laraflow\Crud\Support;
 
 class Stub
 {
@@ -35,7 +35,7 @@ class Stub
         $this->path = $path;
         $this->replaces = $replaces;
 
-        self::setBasePath(base_path('stubs/api-crud'));
+        self::setBasePath(base_path('stubs/crud'));
 
     }
 

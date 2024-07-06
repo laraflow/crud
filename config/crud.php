@@ -53,6 +53,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Use Simple Message
+    |--------------------------------------------------------------------------
+    | This setting will return the actual debug error messages with simple
+    | failed message
+    */
+    'simple_message' => true,
+
+    /*
+    |--------------------------------------------------------------------------
     | Template Settings
     |--------------------------------------------------------------------------
     | Customise the paths where the folders will be generated.

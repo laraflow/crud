@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraflow\ApiCrud\Commands;
+namespace Laraflow\Crud\Commands;
 
-use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
-use Laraflow\ApiCrud\Exceptions\GeneratorException;
-use Laraflow\ApiCrud\Support\Stub;
-use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
+use Laraflow\Crud\Abstracts\GeneratorCommand;
+use Laraflow\Crud\Exceptions\GeneratorException;
+use Laraflow\Crud\Support\Stub;
+use Laraflow\Crud\Traits\ModuleCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 

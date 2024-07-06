@@ -1,18 +1,18 @@
 <?php
 
-namespace Laraflow\ApiCrud\Providers;
+namespace Laraflow\Crud\Providers;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
-use Laraflow\ApiCrud\Commands\ControllerMakeCommand;
-use Laraflow\ApiCrud\Commands\CrudMakeCommand;
-use Laraflow\ApiCrud\Commands\InstallCommand;
-use Laraflow\ApiCrud\Commands\MigrationMakeCommand;
-use Laraflow\ApiCrud\Commands\ModelMakeCommand;
-use Laraflow\ApiCrud\Commands\RequestMakeCommand;
-use Laraflow\ApiCrud\Commands\ResourceMakeCommand;
+use Laraflow\Crud\Commands\ControllerMakeCommand;
+use Laraflow\Crud\Commands\CrudMakeCommand;
+use Laraflow\Crud\Commands\InstallCommand;
+use Laraflow\Crud\Commands\MigrationMakeCommand;
+use Laraflow\Crud\Commands\ModelMakeCommand;
+use Laraflow\Crud\Commands\RequestMakeCommand;
+use Laraflow\Crud\Commands\ResourceMakeCommand;
 
-class ApiCrudServiceProvider extends ServiceProvider
+class CrudServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -20,7 +20,7 @@ class ApiCrudServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/api-crud.php', 'api-crud'
+            __DIR__.'/../../config/crud.php', 'crud'
         );
 
         $this->app->register(MacroServiceProvider::class);
@@ -32,18 +32,18 @@ class ApiCrudServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__.'/../../config/api-crud.php' => config_path('api-crud.php'),
-        ], 'api-crud-config');
+            __DIR__.'/../../config/crud.php' => config_path('crud.php'),
+        ], 'crud-config');
 
-        $this->loadTranslationsFrom(__DIR__.'/../../lang', 'api-crud');
-
-        $this->publishes([
-            __DIR__.'/../../lang' => $this->app->langPath('vendor/api-crud'),
-        ], 'api-crud-lang');
+        $this->loadTranslationsFrom(__DIR__.'/../../lang', 'crud');
 
         $this->publishes([
-            __DIR__.'/../../stubs' => base_path('stubs/api-crud'),
-        ], 'api-crud-stubs');
+            __DIR__.'/../../lang' => $this->app->langPath('vendor/crud'),
+        ], 'crud-lang');
+
+        $this->publishes([
+            __DIR__.'/../../stubs' => base_path('stubs/crud'),
+        ], 'crud-stubs');
 
         $this->loadCommands();
     }
@@ -53,7 +53,7 @@ class ApiCrudServiceProvider extends ServiceProvider
      */
     private function loadCommands(): void
     {
-        if ($this->app->runningInConsole() && Config::get('api-crud.enabled', false)) {
+        if ($this->app->runningInConsole() && Config::get('crud.enabled', false)) {
             /**
              * As registration is done conditional
              * Using full namespace and runtime call.

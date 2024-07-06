@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflow\ApiCrud\Support\Migrations;
+namespace Laraflow\Crud\Support\Migrations;
 
 class NameParser
 {

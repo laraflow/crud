@@ -1,12 +1,18 @@
 {
-    "name": "laraflow/api-crud",
-    "description": "This is my package api-crud",
+    "name": "laraflow/crud",
+    "description": "Laraflow CRUD stub files generator and utility functions.",
     "keywords": [
         "laraflow",
         "laravel",
-        "api-crud"
+        "crud",
+        "generator",
+        "utility",
+        "marco",
+        "restapi",
+        "restful",
+        "openapi3"
     ],
-    "homepage": "https://github.com/laraflow/api-crud",
+    "homepage": "https://github.com/laraflow/crud",
     "license": "MIT",
     "authors": [
         {
@@ -33,7 +39,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Laraflow\\ApiCrud\\": "src/"
+            "Laraflow\\Crud\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -41,7 +47,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Laraflow\\ApiCrud\\Tests\\": "tests/"
+            "Laraflow\\Crud\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -61,12 +67,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Laraflow\\ApiCrud\\Providers\\ApiCrudServiceProvider"
+                "Laraflow\\Crud\\CrudServiceProvider"
             ]
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "suggest": {
         "rakutentech/laravel-request-docs": "For Live Docs & OpenAPI 3 export Generation"
     }

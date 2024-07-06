@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraflow\ApiCrud\Commands;
+namespace Laraflow\Crud\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Laraflow\ApiCrud\Exceptions\GeneratorException;
-use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
-use Laraflow\ApiCrud\Support\Config\GeneratorPath;
-use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
+use Laraflow\Crud\Exceptions\GeneratorException;
+use Laraflow\Crud\Support\Config\GenerateConfigReader;
+use Laraflow\Crud\Support\Config\GeneratorPath;
+use Laraflow\Crud\Traits\ModuleCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Throwable;
@@ -104,7 +104,7 @@ class CrudMakeCommand extends Command
      */
     private function createRequest(): void
     {
-        if (! config('api-crud.templates.request.generate', true)) {
+        if (! config('crud.templates.request.generate', true)) {
             return;
         }
         foreach (['Index', 'Store', 'Update'] as $prefix) {
@@ -139,7 +139,7 @@ class CrudMakeCommand extends Command
      */
     private function createResource(): void
     {
-        if (! config('api-crud.templates.resource.generate', true)) {
+        if (! config('crud.templates.resource.generate', true)) {
             return;
         }
         $this->call('laraflow:make-resource', [
@@ -162,7 +162,7 @@ class CrudMakeCommand extends Command
     private function createModel(): void
     {
 
-        if (! config('api-crud.templates.model.generate', true)) {
+        if (! config('crud.templates.model.generate', true)) {
             return;
         }
 
@@ -181,7 +181,7 @@ class CrudMakeCommand extends Command
     private function createMigration(): void
     {
 
-        if (! config('api-crud.templates.migration.generate', true)) {
+        if (! config('crud.templates.migration.generate', true)) {
             return;
         }
 
@@ -200,7 +200,7 @@ class CrudMakeCommand extends Command
      */
     private function createController(): void
     {
-        if (! config('api-crud.templates.controller.generate', true)) {
+        if (! config('crud.templates.controller.generate', true)) {
             return;
         }
 
@@ -217,7 +217,7 @@ class CrudMakeCommand extends Command
      */
     private function updateRouteFile(): void
     {
-        $filePath = base_path(config('api-crud.route_path', 'routes/api.php'));
+        $filePath = base_path(config('crud.route_path', 'routes/api.php'));
 
         if (! file_exists($filePath)) {
             throw new InvalidArgumentException("Route file location doesn't exist");

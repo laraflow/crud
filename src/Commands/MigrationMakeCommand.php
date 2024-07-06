@@ -1,15 +1,15 @@
 <?php
 
-namespace Laraflow\ApiCrud\Commands;
+namespace Laraflow\Crud\Commands;
 
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
-use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
-use Laraflow\ApiCrud\Support\Migrations\NameParser;
-use Laraflow\ApiCrud\Support\Migrations\SchemaParser;
-use Laraflow\ApiCrud\Support\Stub;
-use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
+use Laraflow\Crud\Abstracts\GeneratorCommand;
+use Laraflow\Crud\Support\Config\GenerateConfigReader;
+use Laraflow\Crud\Support\Migrations\NameParser;
+use Laraflow\Crud\Support\Migrations\SchemaParser;
+use Laraflow\Crud\Support\Stub;
+use Laraflow\Crud\Traits\ModuleCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 

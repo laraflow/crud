@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflow\ApiCrud\Support\Config;
+namespace Laraflow\Crud\Support\Config;
 
 class GeneratorPath
 {

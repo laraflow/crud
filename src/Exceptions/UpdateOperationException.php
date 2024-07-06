@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraflow\ApiCrud\Exceptions;
+namespace Laraflow\Crud\Exceptions;
 
 use Exception;
-use Laraflow\ApiCrud\Traits\ModelExceptionTrait;
+use Laraflow\Crud\Traits\ModelExceptionTrait;
 use Throwable;
 
 /**

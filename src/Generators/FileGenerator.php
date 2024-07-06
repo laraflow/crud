@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraflow\ApiCrud\Generators;
+namespace Laraflow\Crud\Generators;
 
 use Illuminate\Filesystem\Filesystem;
-use Laraflow\ApiCrud\Exceptions\FileAlreadyExistException;
+use Laraflow\Crud\Exceptions\FileAlreadyExistException;
 
 class FileGenerator
 {

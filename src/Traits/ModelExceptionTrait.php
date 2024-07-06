@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflow\ApiCrud\Traits;
+namespace Laraflow\Crud\Traits;
 
 trait ModelExceptionTrait
 {
@@ -50,10 +50,10 @@ trait ModelExceptionTrait
     private function setMessage()
     {
         $this->message = match ($this->type) {
-            'delete' => __('api-crud::messages.exception.delete', ['model' => $this->getModel(), 'id' => $this->getId()]),
-            'store' => __('api-crud::messages.exception.store', ['model' => $this->getModel()]),
-            'update' => __('api-crud::messages.exception.update', ['model' => $this->getModel(), 'id' => $this->getId()]),
-            default => __('api-crud::messages.exception.default')
+            'delete' => __('crud::messages.exception.delete', ['model' => $this->getModel(), 'id' => $this->getId()]),
+            'store' => __('crud::messages.exception.store', ['model' => $this->getModel()]),
+            'update' => __('crud::messages.exception.update', ['model' => $this->getModel(), 'id' => $this->getId()]),
+            default => __('crud::messages.exception.default')
         };
     }
 

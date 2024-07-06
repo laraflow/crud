@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraflow\ApiCrud\Commands;
+namespace Laraflow\Crud\Commands;
 
 use Illuminate\Support\Str;
-use Laraflow\ApiCrud\Abstracts\GeneratorCommand;
-use Laraflow\ApiCrud\Exceptions\GeneratorException;
-use Laraflow\ApiCrud\Support\Stub;
-use Laraflow\ApiCrud\Traits\ModuleCommandTrait;
+use Laraflow\Crud\Abstracts\GeneratorCommand;
+use Laraflow\Crud\Exceptions\GeneratorException;
+use Laraflow\Crud\Support\Stub;
+use Laraflow\Crud\Traits\ModuleCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -52,7 +52,7 @@ class ControllerMakeCommand extends GeneratorCommand
             'CLASS' => $this->getClass(),
             'MODULE' => $this->getModuleName(),
             'LOWER_NAME' => Str::lower($this->getModuleName()),
-            'MODULE_NAMESPACE' => config('api-crud.namespace'),
+            'MODULE_NAMESPACE' => config('crud.namespace'),
             'PARENT_CONTROLLER' => $this->getParentController(),
             //CRUD Options
             'RESOURCE' => $this->getResourceName(),
@@ -79,7 +79,7 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     private function getParentController() : string
     {
-        $controllerName = config('api-crud.parent_controller');
+        $controllerName = config('crud.parent_controller');
 
         if (!$controllerName || !class_exists($controllerName)) {
             throw new GeneratorException("Parent Controller class {$controllerName} does not exist.");

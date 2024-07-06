@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraflow\ApiCrud\Abstracts;
+namespace Laraflow\Crud\Abstracts;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Laraflow\ApiCrud\Exceptions\FileAlreadyExistException;
-use Laraflow\ApiCrud\Exceptions\GeneratorException;
-use Laraflow\ApiCrud\Generators\FileGenerator;
-use Laraflow\ApiCrud\Support\Config\GenerateConfigReader;
+use Laraflow\Crud\Exceptions\FileAlreadyExistException;
+use Laraflow\Crud\Exceptions\GeneratorException;
+use Laraflow\Crud\Generators\FileGenerator;
+use Laraflow\Crud\Support\Config\GenerateConfigReader;
 
 abstract class GeneratorCommand extends Command
 {
@@ -31,7 +31,7 @@ abstract class GeneratorCommand extends Command
          * Disable Script on Testing environment
          * also Disable through configuration
          */
-        if (app()->environment('testing') || ! config('api-crud.enabled', false)) {
+        if (app()->environment('testing') || ! config('crud.enabled', false)) {
             return self::SUCCESS;
         }
 
@@ -70,7 +70,7 @@ abstract class GeneratorCommand extends Command
     {
         $config = GenerateConfigReader::read($this->type);
 
-        return config('api-crud.root_path', 'app').'/'
+        return config('crud.root_path', 'app').'/'
             .$config->getPath().'/'
             .$this->getFileName();
     }
@@ -102,7 +102,7 @@ abstract class GeneratorCommand extends Command
 
         $extra = str_replace('/', '\\', $extra);
 
-        $namespace = config('api-crud.namespace');
+        $namespace = config('crud.namespace');
 
         $namespace .= '\\'.$this->getDefaultNamespace();
 
@@ -140,11 +140,11 @@ abstract class GeneratorCommand extends Command
             throw new GeneratorException('Stub type argument or property is not configured.');
         }
 
-        if (! config("api-crud.templates.{$type}")) {
+        if (! config("crud.templates.{$type}")) {
             throw new InvalidArgumentException("Generator is missing [{$type}] config, check generators.php file.");
         }
 
-        $config = config("api-crud.templates.{$type}");
+        $config = config("crud.templates.{$type}");
 
         return $config['namespace'] ?? $config['path'];
 
