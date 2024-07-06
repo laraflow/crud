@@ -36,7 +36,7 @@ class FileGenerator
     /**
      * The constructor.
      *
-     * @param null $filesystem
+     * @param  null  $filesystem
      */
     public function __construct($path, $contents, $filesystem = null)
     {
@@ -83,7 +83,7 @@ class FileGenerator
     public function generate()
     {
         $path = $this->getPath();
-        if (!$this->filesystem->exists($path)) {
+        if (! $this->filesystem->exists($path)) {
             return $this->filesystem->put($path, $this->getContents());
         }
         if ($this->overwriteFile === true) {
@@ -106,7 +106,7 @@ class FileGenerator
     /**
      * Set path.
      *
-     * @param mixed $path
+     * @param  mixed  $path
      * @return $this
      */
     public function setPath($path)
@@ -129,7 +129,7 @@ class FileGenerator
     /**
      * Set contents.
      *
-     * @param mixed $contents
+     * @param  mixed  $contents
      * @return $this
      */
     public function setContents($contents)

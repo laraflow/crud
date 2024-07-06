@@ -20,7 +20,7 @@ class CrudServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../../config/crud.php', 'crud'
+            __DIR__.'/../../config/crud.php', 'crud'
         );
 
         $this->app->register(MacroServiceProvider::class);
@@ -32,17 +32,17 @@ class CrudServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../../config/crud.php' => config_path('crud.php'),
+            __DIR__.'/../../config/crud.php' => config_path('crud.php'),
         ], 'crud-config');
 
-        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'crud');
+        $this->loadTranslationsFrom(__DIR__.'/../../lang', 'crud');
 
         $this->publishes([
-            __DIR__ . '/../../lang' => $this->app->langPath('vendor/crud'),
+            __DIR__.'/../../lang' => $this->app->langPath('vendor/crud'),
         ], 'crud-lang');
 
         $this->publishes([
-            __DIR__ . '/../../stubs' => base_path('stubs/crud'),
+            __DIR__.'/../../stubs' => base_path('stubs/crud'),
         ], 'crud-stubs');
 
         $this->loadCommands();

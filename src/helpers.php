@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('response_format')) {
+if (! function_exists('response_format')) {
     /**
      * @return mixed|string[]
      */

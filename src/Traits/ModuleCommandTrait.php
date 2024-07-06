@@ -19,11 +19,11 @@ trait ModuleCommandTrait
 
         $module = config('crud.namespace', 'App');
 
-        if (!$module) {
+        if (! $module) {
             throw new GeneratorException('Invalid Root namespace on config.');
         }
 
-        if (!is_dir($fallbackPath)) {
+        if (! is_dir($fallbackPath)) {
             throw new GeneratorException('Invalid Root Path on config.');
         }
 

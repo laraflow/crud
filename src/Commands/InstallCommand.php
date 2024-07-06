@@ -55,11 +55,11 @@ class InstallCommand extends Command
     {
         $routeFilePath = base_path(config('crud.route_path', 'routes/api.php'));
 
-        if (!is_file($routeFilePath)) {
+        if (! is_file($routeFilePath)) {
             throw new InvalidArgumentException("Invalid API route file path: ({$routeFilePath}).");
         }
 
-        if (!is_readable($routeFilePath)) {
+        if (! is_readable($routeFilePath)) {
             throw new AccessDeniedException('Unable to read from route file.');
         }
 
@@ -75,7 +75,7 @@ class InstallCommand extends Command
 
         $content .= "\n\t//DO NOT REMOVE THIS LINE//\n";
 
-        if (!is_writable($routeFilePath)) {
+        if (! is_writable($routeFilePath)) {
             throw new CannotWriteFileException('Unable to write on route file.');
         }
 
