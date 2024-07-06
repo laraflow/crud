@@ -53,6 +53,7 @@ class ControllerMakeCommand extends GeneratorCommand
             'MODULE' => $this->getModuleName(),
             'LOWER_NAME' => Str::lower($this->getModuleName()),
             'MODULE_NAMESPACE' => config('api-crud.namespace'),
+            'PARENT_CONTROLLER' => $this->getParentController(),
             //CRUD Options
             'RESOURCE' => $this->getResourceName(),
             'RESOURCE_VARIABLE' => $this->getResourceVariableName(),
@@ -74,7 +75,25 @@ class ControllerMakeCommand extends GeneratorCommand
     }
 
     /**
-     * @return array|string
+     * @throws GeneratorException
+     */
+    private function getParentController() : string
+    {
+        $controllerName = config('api-crud.parent_controller');
+
+        if (!$controllerName || !class_exists($controllerName)) {
+            throw new GeneratorException("Parent Controller class {$controllerName} does not exist.");
+        }
+
+        if (class_basename($controllerName) != 'Controller') {
+            $controllerName .= 'as Controller';
+        }
+
+        return "use {$controllerName};";
+    }
+
+    /**
+     * @return string
      */
     public function getClass(): string
     {

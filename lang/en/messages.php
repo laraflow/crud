@@ -13,12 +13,13 @@
 
 return [
     'resource' => [
-        'created' => ':model created successfully.',
+        'created' => 'The :model item created successfully.',
+        'saved' => 'The :model item saved successfully.',
         'notfound' => 'No :model found with ID :id.',
-        'updated' => ':model updated successfully.',
-        'deleted' => ':model deleted successfully.',
-        'restored' => ':model restored successfully.',
-        'exported' => ':model exported successfully.',
+        'updated' => 'The :model item updated successfully.',
+        'deleted' => 'The :model item deleted successfully.',
+        'restored' => 'The :model item restored successfully.',
+        'exported' => 'The :model item exported successfully.',
     ],
     'exception' => [
         'store' => 'There\'s been an error. :model might not have been saved.',
