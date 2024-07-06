@@ -28,7 +28,7 @@ class Stub
     /**
      * The constructor.
      *
-     * @param string $path
+     * @param  string  $path
      */
     public function __construct($path, array $replaces = [])
     {
@@ -42,7 +42,7 @@ class Stub
     /**
      * Create new self instance.
      *
-     * @param string $path
+     * @param  string  $path
      * @return self
      */
     public static function create($path, array $replaces = [])
@@ -53,13 +53,13 @@ class Stub
     /**
      * Save stub to specific path.
      *
-     * @param string $path
-     * @param string $filename
+     * @param  string  $path
+     * @param  string  $filename
      * @return bool
      */
     public function saveTo($path, $filename)
     {
-        return file_put_contents($path . '/' . $filename, $this->getContents());
+        return file_put_contents($path.'/'.$filename, $this->getContents());
     }
 
     /**
@@ -72,7 +72,7 @@ class Stub
         $contents = file_get_contents($this->getPath());
 
         foreach ($this->replaces as $search => $replace) {
-            $contents = str_replace('$' . strtoupper($search) . '$', $replace, $contents);
+            $contents = str_replace('$'.strtoupper($search).'$', $replace, $contents);
         }
 
         return $contents;
@@ -85,15 +85,15 @@ class Stub
      */
     public function getPath()
     {
-        $path = static::getBasePath() . $this->path;
+        $path = static::getBasePath().$this->path;
 
-        return file_exists($path) ? $path : __DIR__ . '/../../stubs' . $this->path;
+        return file_exists($path) ? $path : __DIR__.'/../../stubs'.$this->path;
     }
 
     /**
      * Set stub path.
      *
-     * @param string $path
+     * @param  string  $path
      * @return self
      */
     public function setPath($path)
@@ -116,7 +116,7 @@ class Stub
     /**
      * Set base path.
      *
-     * @param string $path
+     * @param  string  $path
      */
     public static function setBasePath($path)
     {

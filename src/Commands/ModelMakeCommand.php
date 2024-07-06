@@ -102,13 +102,13 @@ class ModelMakeCommand extends GeneratorCommand
 
         $fillable = $this->option('fillable');
 
-        if (!is_null($fillable)) {
+        if (! is_null($fillable)) {
 
             $arrays = array_map(function ($column) {
-                return (string)$column;
+                return (string) $column;
             }, explode(',', trim($fillable)));
 
-            $field = 'fillable = ' . json_encode($arrays, JSON_PRETTY_PRINT);
+            $field = 'fillable = '.json_encode($arrays, JSON_PRETTY_PRINT);
         }
 
         return $field;
@@ -116,6 +116,6 @@ class ModelMakeCommand extends GeneratorCommand
 
     protected function getFileName(): string
     {
-        return Str::studly($this->argument('name')) . '.php';
+        return Str::studly($this->argument('name')).'.php';
     }
 }

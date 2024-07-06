@@ -92,6 +92,6 @@ class ResourceMakeCommand extends GeneratorCommand
 
     protected function getFileName(): string
     {
-        return Str::studly($this->argument('name')) . '.php';
+        return Str::studly($this->argument('name')).'.php';
     }
 }
