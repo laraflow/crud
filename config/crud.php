@@ -22,7 +22,7 @@ return [
     | command with default laravel commands. You can change it to `make:crud`
     | Default is : 'laraflow:make-crud'
     */
-    'command' => "laraflow:make-crud",
+    'command' => 'laraflow:make-crud',
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ return [
     | {CONTROLLER} => full namespace controller path
     |
     */
-    'route_template' => <<<HTML
+    'route_template' => <<<'HTML'
 Route::apiResource('{RESOURCE_URI}', {CONTROLLER});
 HTML,
 

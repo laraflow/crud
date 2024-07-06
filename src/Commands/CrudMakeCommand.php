@@ -214,7 +214,7 @@ class CrudMakeCommand extends Command
         file_put_contents($filePath, $fileContent);
     }
 
-    private function renderRouteTemplate():string
+    private function renderRouteTemplate(): string
     {
         $singleName = Str::kebab(basename($this->getResourceName()));
 
@@ -222,17 +222,17 @@ class CrudMakeCommand extends Command
 
         $controller = GeneratorPath::convertPathToNamespace(
             '\\'
-            . $this->getModuleName()
-            . '\\'
-            . GenerateConfigReader::read('controller')->getNamespace()
-            . '\\'
-            . $this->getResourceName()
-            . 'Controller::class'
+            .$this->getModuleName()
+            .'\\'
+            .GenerateConfigReader::read('controller')->getNamespace()
+            .'\\'
+            .$this->getResourceName()
+            .'Controller::class'
         );
 
         $layout = config('crud.route_template', "Route::apiResource('{RESOURCE_URI}', {CONTROLLER});\n");
 
-        $template = $layout . "\n\n    //DO NOT REMOVE THIS LINE//\n";
+        $template = $layout."\n\n    //DO NOT REMOVE THIS LINE//\n";
 
         $replacements = [
             '{RESOURCE_URI}' => $resourceName,
