@@ -20,12 +20,12 @@ class CrudMakeCommand extends Command
 {
     use ModuleCommandTrait;
 
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $name = 'laraflow:make-crud';
+    public function __construct()
+    {
+        $this->name = config('crud.command', 'laraflow:make-crud');
+
+        parent::__construct();
+    }
 
     /**
      * The console command description.
@@ -60,8 +60,7 @@ class CrudMakeCommand extends Command
             return self::SUCCESS;
 
         } catch (Throwable $exception) {
-            //            $this->components->twoColumnDetail($exception->getMessage(), '<fg=red;options=bold>ERROR</>');
-            $this->error($exception);
+            $this->components->twoColumnDetail($exception->getMessage(), '<fg=red;options=bold>ERROR</>');
         }
 
         return self::FAILURE;
@@ -208,30 +207,40 @@ class CrudMakeCommand extends Command
             throw new GeneratorException('Route file missing the CRUD Pointer comment.');
         }
 
-        $singleName = Str::kebab(basename($this->getResourceName()));
-
-        $resourceName = Str::plural($singleName);
-
-        $controller =
-            GeneratorPath::convertPathToNamespace(
-                '\\'
-                . $this->getModuleName()
-                . '\\'
-                . GenerateConfigReader::read('controller')->getNamespace()
-                . '\\'
-                . $this->getResourceName()
-                . 'Controller::class'
-            );
-
-        $template = <<<HTML
-Route::apiResource('$resourceName', $controller);
-
-    //DO NOT REMOVE THIS LINE//
-HTML;
+        $template = $this->renderRouteTemplate();
 
         $fileContent = str_replace('//DO NOT REMOVE THIS LINE//', $template, $fileContent);
 
         file_put_contents($filePath, $fileContent);
+    }
+
+    private function renderRouteTemplate():string
+    {
+        $singleName = Str::kebab(basename($this->getResourceName()));
+
+        $resourceName = Str::plural($singleName);
+
+        $controller = GeneratorPath::convertPathToNamespace(
+            '\\'
+            . $this->getModuleName()
+            . '\\'
+            . GenerateConfigReader::read('controller')->getNamespace()
+            . '\\'
+            . $this->getResourceName()
+            . 'Controller::class'
+        );
+
+        $layout = config('crud.route_template', "Route::apiResource('{RESOURCE_URI}', {CONTROLLER});\n");
+
+        $template = $layout . "\n\n    //DO NOT REMOVE THIS LINE//\n";
+
+        $replacements = [
+            '{RESOURCE_URI}' => $resourceName,
+            '{CONTROLLER}' => $controller,
+        ];
+
+        return strtr($template, $replacements);
+
     }
 
     /**

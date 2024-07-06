@@ -8,14 +8,27 @@ return [
     |--------------------------------------------------------------------------
     | Accessibility
     |--------------------------------------------------------------------------
+    |
     | This setting will disable command on production server.
     */
     'enabled' => env('APP_ENV', 'production') == 'local',
 
     /*
     |--------------------------------------------------------------------------
+    | Command Name Substitution
+    |--------------------------------------------------------------------------
+    |
+    | This setting will be used to set command name if you want to align crud
+    | command with default laravel commands. You can change it to `make:crud`
+    | Default is : 'laraflow:make-crud'
+    */
+    'command' => "laraflow:make-crud",
+
+    /*
+    |--------------------------------------------------------------------------
     | Parent Controller Namespace
     |--------------------------------------------------------------------------
+    |
     | This setting will be used to set which controller class that all api
     | controller will inherit.
     */
@@ -31,6 +44,21 @@ return [
     |
     */
     'route_path' => 'routes/api.php',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Route Template
+    |--------------------------------------------------------------------------
+    |
+    | This template section will be used while creating routes
+    | Substitutions variables are available:
+    | {RESOURCE_URI} => the route path for the crud controller
+    | {CONTROLLER} => full namespace controller path
+    |
+    */
+    'route_template' => <<<HTML
+Route::apiResource('{RESOURCE_URI}', {CONTROLLER});
+HTML,
 
     /*
     |--------------------------------------------------------------------------
@@ -57,6 +85,7 @@ return [
     |--------------------------------------------------------------------------
     | Use Simple Message
     |--------------------------------------------------------------------------
+    |
     | This setting will return the actual debug error messages with simple
     | failed message
     */
@@ -66,6 +95,7 @@ return [
     |--------------------------------------------------------------------------
     | Template Settings
     |--------------------------------------------------------------------------
+    |
     | Customise the paths where the folders will be generated.
     | Set the generate key too false to not generate that folder
     | Note: migration, tests are excluded from root path
