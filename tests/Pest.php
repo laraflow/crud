@@ -1,5 +1,5 @@
 <?php
 
-use Laraflow\ApiCrud\Tests\TestCase;
+use Laraflow\Crud\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);
