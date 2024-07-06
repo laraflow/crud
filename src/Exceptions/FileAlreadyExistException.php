@@ -7,6 +7,4 @@ use Exception;
 /**
  * Class FileAlreadyExistException
  */
-class FileAlreadyExistException extends Exception
-{
-}
+class FileAlreadyExistException extends Exception {}
