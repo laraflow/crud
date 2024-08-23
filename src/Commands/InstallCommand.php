@@ -36,7 +36,7 @@ class InstallCommand extends Command
             $this->confirmLanguagePublish();
 
             $this->confirmStubsPublish();
-            
+
             $this->configureRouteFile();
 
             $this->components->twoColumnDetail('API Crud Setup Complete.', '<fg=green;options=bold>DONE</>');

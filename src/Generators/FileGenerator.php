@@ -42,7 +42,7 @@ class FileGenerator
     {
         $this->path = $path;
         $this->contents = $contents;
-        $this->filesystem = $filesystem ?: new Filesystem();
+        $this->filesystem = $filesystem ?: new Filesystem;
     }
 
     /**
