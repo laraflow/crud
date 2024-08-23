@@ -31,13 +31,13 @@ class InstallCommand extends Command
     {
         try {
 
-            $this->configureRouteFile();
-
             $this->confirmConfigPublish();
 
             $this->confirmLanguagePublish();
 
             $this->confirmStubsPublish();
+            
+            $this->configureRouteFile();
 
             $this->components->twoColumnDetail('API Crud Setup Complete.', '<fg=green;options=bold>DONE</>');
 
