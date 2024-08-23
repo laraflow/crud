@@ -67,7 +67,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Laraflow\\Crud\\CrudServiceProvider"
+                "Laraflow\\Crud\\Providers\\CrudServiceProvider"
             ]
         }
     },
