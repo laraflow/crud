@@ -53,10 +53,14 @@ class InstallCommand extends Command
 
     private function configureRouteFile(): void
     {
-        $routeFilePath = base_path(config('crud.route_path', 'routes/api.php'));
+        $routeFilePath = base_path(config('crud.route_path', 'routes'. DIRECTORY_SEPARATOR .'api.php'));
 
         if (! is_file($routeFilePath)) {
-            throw new InvalidArgumentException("Invalid API route file path: ({$routeFilePath}).");
+            if ($this->confirm("Invalid API route file path: ({$routeFilePath}). Create one?", false)) {
+                
+            } else {
+                throw new InvalidArgumentException("Invalid API route file path: ({$routeFilePath}).");
+            }
         }
 
         if (! is_readable($routeFilePath)) {
