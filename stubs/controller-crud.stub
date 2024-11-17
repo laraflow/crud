@@ -4,9 +4,9 @@ namespace $CLASS_NAMESPACE$;
 
 use Exception;
 use $MODULE$\$MODEL$;
-use Laraflow\ApiCrud\Exceptions\CreateOperationException;
-use Laraflow\ApiCrud\Exceptions\UpdateOperationException;
-use Laraflow\ApiCrud\Exceptions\DeleteOperationException;
+use Laraflow\Crud\Exceptions\CreateOperationException;
+use Laraflow\Crud\Exceptions\UpdateOperationException;
+use Laraflow\Crud\Exceptions\DeleteOperationException;
 $RESOURCE_NAMESPACES$
 $REQUEST_NAMESPACES$
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -18,7 +18,7 @@ use Illuminate\Routing\Controller;
  * @package $CLASS_NAMESPACE$
  *
  * @lrd:start
- * This class handle create, display, update, delete & restore
+ * This class handles create, display, update, delete & restore
  * operation related to $RESOURCE$
  * @lrd:end
  *
