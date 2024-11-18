@@ -1,4 +1,4 @@
-# API CRUD
+# Laraflow CRUD
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/laraflow/crud.svg?style=flat-square)](https://packagist.org/packages/laraflow/crud)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/laraflow/crud/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/laraflow/crud/actions?query=workflow%3Arun-tests+branch%3Amain)
@@ -13,6 +13,12 @@ You can install the package via composer:
 
 ```bash
 composer require laraflow/crud
+```
+
+or only on the Development Environment
+
+```bash
+composer require --dev laraflow/crud
 ```
 
 After that run this command to configure project.
