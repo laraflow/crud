@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class $CLASS$ extends Model
 {
-    use HasFactory;
-
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -22,6 +20,8 @@ class $CLASS$ extends Model
 
     protected $primaryKey = 'id';
 
+    protected $titleKey = 'name';
+
     protected $$FILLABLE$;
 
     protected $appends = [];
@@ -29,6 +29,8 @@ class $CLASS$ extends Model
     protected $casts = [];
 
     protected $hidden = [];
+
+    protected $searchable = [];
 
     /*
     |--------------------------------------------------------------------------
@@ -42,22 +44,6 @@ class $CLASS$ extends Model
     |--------------------------------------------------------------------------
     */
 
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES
-    |--------------------------------------------------------------------------
-    */
-
-    public function scopeFilter(Builder $query, array $filters = []): Builder
-    {
-        return $query->when(!empty($filters['search']), function ($query) use($filters) {
-            if(is_int($filters['search'])) {
-                $query->where($this->getKey(), $filters['search']);
-            } else {
-
-            }
-        });
-    }
 
     /*
     |--------------------------------------------------------------------------
@@ -70,4 +56,36 @@ class $CLASS$ extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
+
+    public function scopeFilter(Builder $query, array $filters = []): Builder
+    {
+        return $query
+            ->when(!empty($filters['search']),
+                fn(Builder $query) => $query->whereAny($this->searchable, 'like', "%{$filters['search']}%")
+            })->when(
+                !empty($filters['created_at_from_date']),
+                fn(Builder $query) => $query->whereDate($this->getTable().'.created_at', '>=', $filters['created_at_from_date'])
+            )->when(
+                !empty($filters['created_at_to_date']),
+                fn(Builder $query) => $query->whereDate($this->getTable().'.created_at', '<=', $filters['created_at_to_date'])
+            )->when(
+                !empty($filters['updated_at_from_date']),
+                fn(Builder $query) => $query->whereDate($this->getTable().'.updated_at', '>=', $filters['updated_at_from_date'])
+            )->when(
+                !empty($filters['updated_at_to_date']),
+                fn(Builder $query) => $query->whereDate($this->getTable().'.updated_at', '<=', $filters['updated_at_to_date'])
+            )->when(
+                !empty($filters['limit']),
+                fn(Builder $query) => $query->limit($filters['limit'])
+            )->when(
+                !empty($filters['columns']),
+                fn(Builder $query) => $query->select($filters['columns'])
+            );
+    }
 }

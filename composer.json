@@ -10,7 +10,9 @@
         "marco",
         "restapi",
         "restful",
-        "openapi3"
+        "openapi3",
+        "xml",
+        "json"
     ],
     "homepage": "https://github.com/laraflow/crud",
     "license": "MIT",
@@ -40,10 +42,7 @@
     "autoload": {
         "psr-4": {
             "Laraflow\\Crud\\": "src/"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
@@ -72,6 +71,6 @@
         }
     },
     "suggest": {
-        "rakutentech/laravel-request-docs": "For Live Docs & OpenAPI 3 export Generation"
+        "rakutentech/laravel-request-docs": "For api auto ggeneration & openapi3 collection export"
     }
 }

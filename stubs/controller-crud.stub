@@ -40,15 +40,13 @@ class $CLASS$ extends Controller
         try {
             $inputs = $request->validated();
 
-            $$RESOURCE_VARIABLE$s = $RESOURCE$::filter($inputs)
+            $query = $RESOURCE$::filter($inputs)
             ->orderBy($request->input('sort', 'id'), $request->input('dir', 'asc'));
 
-           if($request->input('paginate', true)) {
-                $$RESOURCE_VARIABLE$s = $$RESOURCE_VARIABLE$s->paginate($request->input('per_page'));
-           } else {
-                $$RESOURCE_VARIABLE$s = $$RESOURCE_VARIABLE$s->get();
-           }
-
+           $$RESOURCE_VARIABLE$s = ($request->boolean('paginate', true))
+                ? $query->paginate($request->input('per_page'))
+                : $query->get();
+          
             return new $RESOURCE$Collection($$RESOURCE_VARIABLE$s);
 
         } catch (Exception $exception) {

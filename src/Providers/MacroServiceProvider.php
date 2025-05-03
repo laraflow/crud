@@ -2,9 +2,9 @@
 
 namespace Laraflow\Crud\Providers;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response as ResponseFacade;
 use Illuminate\Support\ServiceProvider;
+use Laraflow\Crud\Formatters\JsonFormatter;
 use Symfony\Component\HttpFoundation\Response;
 
 class MacroServiceProvider extends ServiceProvider
@@ -15,143 +15,172 @@ class MacroServiceProvider extends ServiceProvider
     public function boot(): void
     {
         /**
-         * return response with http 200 as deleted
-         * resource
+         * return response with http 200 as deleted resource
          *
          * @param  $data
-         * @param  array  $headers
-         * @return JsonResponse
+         * @param array $headers
+         * @return \Illuminate\Http\Response
          */
-        ResponseFacade::macro('deleted', function ($data, array $headers = []) {
-            return response()->json(response_format($data, Response::HTTP_OK), Response::HTTP_OK, $headers);
-        });
+        ResponseFacade::macro('deleted',
+            function ($content = '', array $headers = []) {
+                $formatter = config('crud.response_formatter', JsonFormatter::class);
+                return response($formatter($content, Response::HTTP_OK), Response::HTTP_OK, $headers);
+            });
 
         /**
-         * return response with http 200 as soft deleted
-         * resource restored
+         * return response with http 200 as soft deleted resource restored
          *
          * @param  $data
-         * @param  array  $headers
-         * @return JsonResponse
+         * @param array $headers
+         * @return \Illuminate\Http\Response
          */
-        ResponseFacade::macro('restored', function ($data, array $headers = []) {
-            return response()->json(response_format($data, Response::HTTP_OK), Response::HTTP_OK, $headers);
-        });
+        ResponseFacade::macro('restored',
+            function ($content = '', array $headers = []) {
+                $formatter = config('crud.response_formatter', JsonFormatter::class);
+                return response($formatter($content, Response::HTTP_OK), Response::HTTP_OK, $headers);
+            });
 
         /**
-         * return response with http 201 resource
-         * created on server
+         * return response with http 201 resource created on server
          *
-         * @param  $data
-         * @param  array  $headers
-         * @return JsonResponse
+         * @param  $content
+         * @param array $headers
+         * @return \Illuminate\Http\Response
          */
-        ResponseFacade::macro('created', function ($data, array $headers = []) {
-            return response()->json(response_format($data, Response::HTTP_CREATED), Response::HTTP_CREATED, $headers);
-        });
+        ResponseFacade::macro('created',
+            function ($content = '', array $headers = []) {
+                $formatter = config('crud.response_formatter', JsonFormatter::class);
+                return response($formatter($content, Response::HTTP_CREATED), Response::HTTP_CREATED, $headers);
+            });
 
         /**
-         * return response with http 200 update
-         * request accepted
+         * return response with http 200 update request accepted
          *
-         * @param  $data
-         * @param  array  $headers
-         * @return JsonResponse
+         * @param  $content
+         * @param array $headers
+         * @return \Illuminate\Http\Response
          */
-        ResponseFacade::macro('updated', function ($data, array $headers = []) {
-            return response()->json(response_format($data, Response::HTTP_OK), Response::HTTP_OK, $headers);
-        });
+        ResponseFacade::macro('updated',
+            function ($content = '', array $headers = []) {
+                $formatter = config('crud.response_formatter', JsonFormatter::class);
+                return response($formatter($content, Response::HTTP_OK), Response::HTTP_OK, $headers);
+            });
 
         /**
-         * return response with http 202 export
-         * request accepted
+         * return response with http 202 export request accepted
          *
-         * @param  $data
-         * @param  array  $headers
-         * @return JsonResponse
+         * @param  $content
+         * @param array $headers
+         * @return \Illuminate\Http\Response
          */
-        ResponseFacade::macro('exported', function ($data, array $headers = []) {
-            return response()->json(response_format($data, Response::HTTP_ACCEPTED), Response::HTTP_ACCEPTED, $headers);
-        });
+        ResponseFacade::macro('exported',
+            function ($content = '', array $headers = []) {
+                $formatter = config('crud.response_formatter', JsonFormatter::class);
+                return response($formatter($content, Response::HTTP_ACCEPTED), Response::HTTP_ACCEPTED, $headers);
+            });
 
         /**
-         * return response with http 400 if business
-         * logic exception
+         * return response with http 400 if business logic exception
          *
-         * @param  $data
-         * @param  array  $headers
-         * @return JsonResponse
+         * @param  $content
+         * @param array $headers
+         * @return \Illuminate\Http\Response
          */
-        ResponseFacade::macro('failed', function ($data, array $headers = []) {
-            return response()->json(response_format($data, Response::HTTP_BAD_REQUEST), Response::HTTP_BAD_REQUEST, $headers);
-        });
+        ResponseFacade::macro('failed',
+            function ($content = '', array $headers = []) {
+                $formatter = config('crud.response_formatter', JsonFormatter::class);
+                return response($formatter($content, Response::HTTP_BAD_REQUEST), Response::HTTP_BAD_REQUEST, $headers);
+            });
+
+        /**
+         * return response with http 500 if business logic exception
+         *
+         * @param  $content
+         * @param array $headers
+         * @return \Illuminate\Http\Response
+         */
+        ResponseFacade::macro('error',
+            function ($content = '', array $headers = []) {
+                $formatter = config('crud.response_formatter', JsonFormatter::class);
+                return response($formatter($content, Response::HTTP_INTERNAL_SERVER_ERROR), Response::HTTP_INTERNAL_SERVER_ERROR, $headers);
+            });
 
         /**
          * return response with http 200 for all success status
          *
-         * @param  $data
-         * @param  array  $headers
-         * @return JsonResponse
+         * @param  $content
+         * @param array $headers
+         * @return \Illuminate\Http\Response
          */
-        ResponseFacade::macro('success', function ($data, array $headers = []) {
-            return response()->json(response_format($data, Response::HTTP_OK), Response::HTTP_OK, $headers);
-        });
+        ResponseFacade::macro('success',
+            function ($content = '', array $headers = []) {
+                $formatter = config('crud.response_formatter', JsonFormatter::class);
+                return response($formatter($content, Response::HTTP_OK), Response::HTTP_OK, $headers);
+            });
 
         /**
-         * return response with http 401 if request
-         * token or ip banned
+         * return response with http 401 if request token or ip banned
          *
-         * @param  $data
-         * @param  array  $headers
-         * @return JsonResponse
+         * @param  $content
+         * @param array $headers
+         * @return \Illuminate\Http\Response
          */
-        ResponseFacade::macro('banned', function ($data, array $headers = []) {
-            return response()->json(response_format($data, Response::HTTP_UNAUTHORIZED), Response::HTTP_UNAUTHORIZED, $headers);
-        });
+        ResponseFacade::macro('banned',
+            function ($content = '', array $headers = []) {
+                $formatter = config('crud.response_formatter', JsonFormatter::class);
+                return response($formatter($content, Response::HTTP_UNAUTHORIZED), Response::HTTP_UNAUTHORIZED, $headers);
+            });
 
         /**
-         * return response with http 403 if access forbidden
-         * to that request
+         * return response with http 403 if access forbidden to that request
          *
-         * @param  $data
-         * @param  array  $headers
-         * @return JsonResponse
+         * @param  $content
+         * @param array $headers
+         * @return \Illuminate\Http\Response
          */
-        ResponseFacade::macro('forbidden', function ($data, array $headers = []) {
-            return response()->json(response_format($data, Response::HTTP_FORBIDDEN), Response::HTTP_FORBIDDEN, $headers);
-        });
+        ResponseFacade::macro('forbidden',
+            function ($content = '', array $headers = []) {
+                $formatter = config('crud.response_formatter', JsonFormatter::class);
+                return response($formatter($content, Response::HTTP_FORBIDDEN), Response::HTTP_FORBIDDEN, $headers);
+            });
 
         /**
          * return response with http 404 not found
          *
-         * @param  $data
-         * @param  array  $headers
-         * @return JsonResponse
+         * @param  $content
+         * @param array $headers
+         * @return \Illuminate\Http\Response
          */
-        ResponseFacade::macro('notfound', function ($data, array $headers = []) {
-            return response()->json(response_format($data, Response::HTTP_NOT_FOUND), Response::HTTP_NOT_FOUND, $headers);
-        });
+        ResponseFacade::macro('notfound',
+            function ($content = '', array $headers = []) {
+                $formatter = config('crud.response_formatter', JsonFormatter::class);
+                return response($formatter($content, Response::HTTP_NOT_FOUND), Response::HTTP_NOT_FOUND, $headers);
+            });
 
         /**
          * return response with http 423 attempt locked
          *
-         * @param  $data
-         * @param  array  $headers
-         * @return JsonResponse
+         * @param  $content
+         * @param array $headers
+         * @return \Illuminate\Http\Response
          */
-        ResponseFacade::macro('locked', function ($data, array $headers = []) {
-            return response()->json(response_format($data, Response::HTTP_LOCKED), Response::HTTP_LOCKED, $headers);
-        });
+        ResponseFacade::macro('locked',
+            function ($content = '', array $headers = []) {
+                $formatter = config('crud.response_formatter', JsonFormatter::class);
+                return response($formatter($content, Response::HTTP_LOCKED), Response::HTTP_LOCKED, $headers);
+            });
 
         /**
          * return response with http 429 too many requests code
          *
-         * @param  $data
-         * @param  array  $headers
-         * @return JsonResponse
+         * @param  $content
+         * @param array $headers
+         * @return \Illuminate\Http\Response
          */
-        ResponseFacade::macro('overflow', function ($data, array $headers = []) {
-            return response()->json(response_format($data, Response::HTTP_TOO_MANY_REQUESTS), Response::HTTP_TOO_MANY_REQUESTS, $headers);
-        });
+        ResponseFacade::macro('overflow',
+            function ($content = '', array $headers = []) {
+                $formatter = config('crud.response_formatter', JsonFormatter::class);
+                return response($formatter($content, Response::HTTP_TOO_MANY_REQUESTS), Response::HTTP_TOO_MANY_REQUESTS, $headers);
+            });
     }
 }

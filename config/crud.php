@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Controller;
-
 return [
 
     /*
@@ -31,8 +29,9 @@ return [
     |
     | This setting will be used to set which controller class that all api
     | controller will inherit.
+    | @example: \App\Http\Controllers\Controller::class
     */
-    'parent_controller' => Controller::class,
+    'parent_controller' => \Illuminate\Routing\Controller::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -142,15 +141,32 @@ HTML,
             'generate' => false,
             'namespace' => 'Policies',
         ],
+        // under development
         'unit-test' => [
             'path' => 'tests/Unit',
-            'generate' => true,
+            'generate' => false,
             'namespace' => 'Tests\Unit',
         ],
+        // under development
         'feature-test' => [
             'path' => 'tests/Feature',
-            'generate' => true,
+            'generate' => false,
             'namespace' => 'Tests\Feature',
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Response Formatter
+    |--------------------------------------------------------------------------
+    |
+    | Program will use these custom formater class to modify response
+    | System now only provide a default JSON formatter. Developer is allowed
+    | to customize or overwrite  the response according to their needs.
+    | The class has to implement '\Laraflow\Crud\Contracts\ResponseFormatter'
+    | interface.
+    |
+    */
+    'response_formatter' => \Laraflow\Crud\Formatters\JsonFormatter::class
 ];
+
