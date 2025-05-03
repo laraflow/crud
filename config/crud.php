@@ -167,6 +167,5 @@ HTML,
     | interface.
     |
     */
-    'response_formatter' => \Laraflow\Crud\Formatters\JsonFormatter::class
+    'response_formatter' => \Laraflow\Crud\Formatters\JsonFormatter::class,
 ];
-
