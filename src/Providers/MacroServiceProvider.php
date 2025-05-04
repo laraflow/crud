@@ -4,7 +4,6 @@ namespace Laraflow\Crud\Providers;
 
 use Illuminate\Support\Facades\Response as ResponseFacade;
 use Illuminate\Support\ServiceProvider;
-use Laraflow\Crud\Formatters\JsonFormatter;
 use Symfony\Component\HttpFoundation\Response;
 
 class MacroServiceProvider extends ServiceProvider
