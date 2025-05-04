@@ -106,11 +106,11 @@ class RequestMakeCommand extends GeneratorCommand
 
         $rulesString = json_encode($rules);
 
-        //wrap the outer layer
+        // wrap the outer layer
 
         $rulesString = preg_replace('/^\{(.*)}$/i', "[$1\n]", $rulesString);
 
-        //add newline on each field
+        // add newline on each field
         return preg_replace('/("[a-z0-9_.]+"):/i', "\n $1 => ", $rulesString);
 
     }

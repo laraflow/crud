@@ -54,7 +54,7 @@ class ControllerMakeCommand extends GeneratorCommand
             'LOWER_NAME' => Str::lower($this->getModuleName()),
             'MODULE_NAMESPACE' => config('crud.namespace'),
             'PARENT_CONTROLLER' => $this->getParentController(),
-            //CRUD Options
+            // CRUD Options
             'RESOURCE' => $this->getResourceName(),
             'RESOURCE_VARIABLE' => $this->getResourceVariableName(),
             'CONFIG_VARIABLE' => Str::snake($this->getResourceVariableName()),

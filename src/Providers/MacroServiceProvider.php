@@ -18,7 +18,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 200 as deleted resource
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return \Illuminate\Http\Response
          */
         ResponseFacade::macro('deleted',
@@ -30,7 +30,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 200 as soft deleted resource restored
          *
          * @param  $data
-         * @param array $headers
+         * @param  array  $headers
          * @return \Illuminate\Http\Response
          */
         ResponseFacade::macro('restored',
@@ -42,7 +42,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 201 resource created on server
          *
          * @param  $content
-         * @param array $headers
+         * @param  array  $headers
          * @return \Illuminate\Http\Response
          */
         ResponseFacade::macro('created',
@@ -54,7 +54,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 200 update request accepted
          *
          * @param  $content
-         * @param array $headers
+         * @param  array  $headers
          * @return \Illuminate\Http\Response
          */
         ResponseFacade::macro('updated',
@@ -66,7 +66,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 202 export request accepted
          *
          * @param  $content
-         * @param array $headers
+         * @param  array  $headers
          * @return \Illuminate\Http\Response
          */
         ResponseFacade::macro('exported',
@@ -78,7 +78,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 400 if business logic exception
          *
          * @param  $content
-         * @param array $headers
+         * @param  array  $headers
          * @return \Illuminate\Http\Response
          */
         ResponseFacade::macro('failed',
@@ -90,7 +90,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 500 if business logic exception
          *
          * @param  $content
-         * @param array $headers
+         * @param  array  $headers
          * @return \Illuminate\Http\Response
          */
         ResponseFacade::macro('error',
@@ -102,7 +102,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 200 for all success status
          *
          * @param  $content
-         * @param array $headers
+         * @param  array  $headers
          * @return \Illuminate\Http\Response
          */
         ResponseFacade::macro('success',
@@ -114,7 +114,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 401 if request token or ip banned
          *
          * @param  $content
-         * @param array $headers
+         * @param  array  $headers
          * @return \Illuminate\Http\Response
          */
         ResponseFacade::macro('banned',
@@ -126,7 +126,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 403 if access forbidden to that request
          *
          * @param  $content
-         * @param array $headers
+         * @param  array  $headers
          * @return \Illuminate\Http\Response
          */
         ResponseFacade::macro('forbidden',
@@ -138,7 +138,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 404 not found
          *
          * @param  $content
-         * @param array $headers
+         * @param  array  $headers
          * @return \Illuminate\Http\Response
          */
         ResponseFacade::macro('notfound',
@@ -150,7 +150,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 423 attempt locked
          *
          * @param  $content
-         * @param array $headers
+         * @param  array  $headers
          * @return \Illuminate\Http\Response
          */
         ResponseFacade::macro('locked',
@@ -162,7 +162,7 @@ class MacroServiceProvider extends ServiceProvider
          * return response with http 429 too many requests code
          *
          * @param  $content
-         * @param array $headers
+         * @param  array  $headers
          * @return \Illuminate\Http\Response
          */
         ResponseFacade::macro('overflow',
