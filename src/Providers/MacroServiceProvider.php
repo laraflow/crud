@@ -22,7 +22,7 @@ class MacroServiceProvider extends ServiceProvider
          */
         ResponseFacade::macro('deleted',
             function ($content = '', array $headers = []) {
-                return response(app('formatter')($content, Response::HTTP_OK), Response::HTTP_OK, $headers);
+                return response(app('formatter')($content, Response::HTTP_OK, $headers), Response::HTTP_OK, $headers);
             });
 
         /**
@@ -34,7 +34,7 @@ class MacroServiceProvider extends ServiceProvider
          */
         ResponseFacade::macro('restored',
             function ($content = '', array $headers = []) {
-                return response(app('formatter')($content, Response::HTTP_OK), Response::HTTP_OK, $headers);
+                return response(app('formatter')($content, Response::HTTP_OK, $headers), Response::HTTP_OK, $headers);
             });
 
         /**
@@ -46,7 +46,7 @@ class MacroServiceProvider extends ServiceProvider
          */
         ResponseFacade::macro('created',
             function ($content = '', array $headers = []) {
-                return response(app('formatter')($content, Response::HTTP_CREATED), Response::HTTP_CREATED, $headers);
+                return response(app('formatter')($content, Response::HTTP_CREATED, $headers), Response::HTTP_CREATED, $headers);
             });
 
         /**
@@ -58,7 +58,7 @@ class MacroServiceProvider extends ServiceProvider
          */
         ResponseFacade::macro('updated',
             function ($content = '', array $headers = []) {
-                return response(app('formatter')($content, Response::HTTP_OK), Response::HTTP_OK, $headers);
+                return response(app('formatter')($content, Response::HTTP_OK, $headers), Response::HTTP_OK, $headers);
             });
 
         /**
@@ -70,7 +70,7 @@ class MacroServiceProvider extends ServiceProvider
          */
         ResponseFacade::macro('exported',
             function ($content = '', array $headers = []) {
-                return response(app('formatter')($content, Response::HTTP_ACCEPTED), Response::HTTP_ACCEPTED, $headers);
+                return response(app('formatter')($content, Response::HTTP_ACCEPTED, $headers), Response::HTTP_ACCEPTED, $headers);
             });
 
         /**
@@ -82,7 +82,7 @@ class MacroServiceProvider extends ServiceProvider
          */
         ResponseFacade::macro('failed',
             function ($content = '', array $headers = []) {
-                return response(app('formatter')($content, Response::HTTP_BAD_REQUEST), Response::HTTP_BAD_REQUEST, $headers);
+                return response(app('formatter')($content, Response::HTTP_BAD_REQUEST, $headers), Response::HTTP_BAD_REQUEST, $headers);
             });
 
         /**
@@ -94,7 +94,7 @@ class MacroServiceProvider extends ServiceProvider
          */
         ResponseFacade::macro('error',
             function ($content = '', array $headers = []) {
-                return response(app('formatter')($content, Response::HTTP_INTERNAL_SERVER_ERROR), Response::HTTP_INTERNAL_SERVER_ERROR, $headers);
+                return response(app('formatter')($content, Response::HTTP_INTERNAL_SERVER_ERROR, $headers), Response::HTTP_INTERNAL_SERVER_ERROR, $headers);
             });
 
         /**
@@ -106,7 +106,7 @@ class MacroServiceProvider extends ServiceProvider
          */
         ResponseFacade::macro('success',
             function ($content = '', array $headers = []) {
-                return response(app('formatter')($content, Response::HTTP_OK), Response::HTTP_OK, $headers);
+                return response(app('formatter')($content, Response::HTTP_OK, $headers), Response::HTTP_OK, $headers);
             });
 
         /**
@@ -118,7 +118,7 @@ class MacroServiceProvider extends ServiceProvider
          */
         ResponseFacade::macro('banned',
             function ($content = '', array $headers = []) {
-                return response(app('formatter')($content, Response::HTTP_UNAUTHORIZED), Response::HTTP_UNAUTHORIZED, $headers);
+                return response(app('formatter')($content, Response::HTTP_UNAUTHORIZED, $headers), Response::HTTP_UNAUTHORIZED, $headers);
             });
 
         /**
@@ -130,7 +130,7 @@ class MacroServiceProvider extends ServiceProvider
          */
         ResponseFacade::macro('forbidden',
             function ($content = '', array $headers = []) {
-                return response(app('formatter')($content, Response::HTTP_FORBIDDEN), Response::HTTP_FORBIDDEN, $headers);
+                return response(app('formatter')($content, Response::HTTP_FORBIDDEN, $headers), Response::HTTP_FORBIDDEN, $headers);
             });
 
         /**
@@ -142,7 +142,7 @@ class MacroServiceProvider extends ServiceProvider
          */
         ResponseFacade::macro('notfound',
             function ($content = '', array $headers = []) {
-                return response(app('formatter')($content, Response::HTTP_NOT_FOUND), Response::HTTP_NOT_FOUND, $headers);
+                return response(app('formatter')($content, Response::HTTP_NOT_FOUND, $headers), Response::HTTP_NOT_FOUND, $headers);
             });
 
         /**
@@ -154,7 +154,7 @@ class MacroServiceProvider extends ServiceProvider
          */
         ResponseFacade::macro('locked',
             function ($content = '', array $headers = []) {
-                return response(app('formatter')($content, Response::HTTP_LOCKED), Response::HTTP_LOCKED, $headers);
+                return response(app('formatter')($content, Response::HTTP_LOCKED, $headers), Response::HTTP_LOCKED, $headers);
             });
 
         /**
@@ -166,7 +166,7 @@ class MacroServiceProvider extends ServiceProvider
          */
         ResponseFacade::macro('overflow',
             function ($content = '', array $headers = []) {
-                return response(app('formatter')($content, Response::HTTP_TOO_MANY_REQUESTS), Response::HTTP_TOO_MANY_REQUESTS, $headers);
+                return response(app('formatter')($content, Response::HTTP_TOO_MANY_REQUESTS, $headers), Response::HTTP_TOO_MANY_REQUESTS, $headers);
             });
     }
 }
