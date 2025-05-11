@@ -2,6 +2,10 @@
 
 All notable changes to `crud` will be documented in this file.
 
+## Added Content Type Header in Formatter - 2025-05-11
+
+**Full Changelog**: https://github.com/laraflow/crud/compare/0.9.0...0.9.1
+
 ## 0.9.0 - 2025-05-04
 
 ### What's Changed
