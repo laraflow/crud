@@ -15,7 +15,7 @@ class JsonFormatter implements ResponseFormatter
 
         }
 
-        $headers['Content-Type'] ='application/json';
+        $headers['Content-Type'] = 'application/json';
 
         return json_encode($content, JSON_UNESCAPED_UNICODE);
     }
