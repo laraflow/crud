@@ -2,6 +2,14 @@
 
 All notable changes to `crud` will be documented in this file.
 
+## Model Filter Scope Typo Fixed - 2025-05-25
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.3.0 to 2.4.0 by @dependabot in https://github.com/laraflow/crud/pull/10
+
+**Full Changelog**: https://github.com/laraflow/crud/compare/0.9.2...0.9.3
+
 ## Contract Typo Fixed - 2025-05-11
 
 **Full Changelog**: https://github.com/laraflow/crud/compare/0.9.1...0.9.2
