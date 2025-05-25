@@ -68,8 +68,8 @@ class $CLASS$ extends Model
         return $query
             ->when(!empty($filters['search']), function(Builder $query) use($filters) { 
                 return $query->where(function(Builder $query) use($filters) {
-                    return $query->whereAny($this->searchable, 'like', "%{$filters['search']}%")
-                })
+                    return $query->whereAny($this->searchable, 'like', "%{$filters['search']}%");
+                });
             })->when(
                 !empty($filters['created_at_from_date']),
                 fn(Builder $query) 
